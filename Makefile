@@ -1,3 +1,4 @@
+VERILATOR = verilator
 VERILATOR_FLAGS =
 # Generate C++ in executable form
 VERILATOR_FLAGS += -cc --exe
@@ -19,6 +20,10 @@ VERILATOR_FLAGS += --coverage
 #VERILATOR_FLAGS += --gdbbt
 
 ######################################################################
+compile:
+	@echo "Compile"
+	$(VERILATOR) $(VERILATOR_FLAGS)  src/top.sv
+
 default: run
 
 run:

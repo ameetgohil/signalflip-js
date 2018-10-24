@@ -13,6 +13,8 @@ double sc_time_stamp() {
 
 using namespace Napi;
 
+Vtop* top = new Vtop; // Or use a const unique_ptr, or the VL_UNIQUE_PTR wrapper
+
 NApiTest::NApiTest(const Napi::CallbackInfo& info) : ObjectWrap(info) {
     Napi::Env env = info.Env();
 
@@ -54,19 +56,20 @@ Napi::Value NApiTest::Greet(const Napi::CallbackInfo& info) {
     return Napi::String::New(env, this->_greeterName);
 }
 
-Napi::Value NApiTest::VerilatorInit(const::CallbackInfo& info) {
+Napi::Value NApiTest::VerilatorInit(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
-  Verilated::commandArgs(info[0], info[1]);
+  //Verilated::commandArgs(info[0], info[1]);
+  //  Verilated::commandArgs(info[0], &info[1]);
 
 
   // Set debug level, 0 is off, 9 is highest presetnly used
-  Veerilated::debug(0);
+  Verilated::debug(0);
 
   //Randomization reset policy
   Verilated::randReset(2);
 
   //Construct the Verilated model, from Vtop.h generated from Verilating "top.v"
-  Vtop* top = new Vtop; // Or use a const unique_ptr, or the VL_UNIQUE_PTR wrapper
+
 
   VerilatedVcdC* tfp = NULL;
   Verilated::traceEverOn(true);
@@ -82,40 +85,40 @@ Napi::Value NApiTest::VerilatorInit(const::CallbackInfo& info) {
   top->t0_valid = 0;
   top->i0_ready = 1;
 
-  return Napi::Value::Value();
+  //return Napi::Value::Value();
 }
 
 Napi::Value NApiTest::Tick(const Napi::CallbackInfo& info) {
   top->clk = !top->clk;
   top->eval();
-  return Napi::Value::Value();
+  //return Napi::Value::Value();
 }
 
 Napi::Value NApiTest::t0_data(const Napi::CallbackInfo& info) {
   if(info[0].IsNumber()) {
     top->t0_data;
   }
-  return Napi::Value::Value();
+  //return Napi::Value::Value();
 }
 
 Napi::Value NApiTest::t0_valid(const Napi::CallbackInfo& info) {
-  return Napi::Value::Value();
+    //return Napi::Value::Value();
 }
 
 Napi::Value NApiTest::t0_ready(const Napi::CallbackInfo& info) {
-  return Napi::Value::Value();
+    //return Napi::Value::Value();
 }
 
 Napi::Value NApiTest::i0_data(const Napi::CallbackInfo& info) {
-  return Napi::Value::Value();
+    //return Napi::Value::Value();
 }
 
 Napi::Value NApiTest::i0_valid(const Napi::CallbackInfo& info) {
-  return Napi::Value::Value();
+    //return Napi::Value::Value();
 }
 
 Napi::Value NApiTest::i0_ready(const Napi::CallbackInfo& info) {
-  return Napi::Value::Value();
+    //return Napi::Value::Value();
 }
 
 Napi::Function NApiTest::GetClass(Napi::Env env) {
