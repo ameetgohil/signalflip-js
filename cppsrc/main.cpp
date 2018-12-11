@@ -5,6 +5,9 @@
 //======================================================================
 
 // Include common routines
+#include <napi.h>
+#include "signals.h"
+
 #include <verilated.h>
 
 // Include model header, generated from Verilating "top.v"
@@ -15,6 +18,7 @@
 # include <verilated_vcd_c.h>
 #endif
 
+
 // Current simulation time (64-bit unsigned)
 vluint64_t main_time = 0;
 // Called by $time in Verilog
@@ -22,7 +26,9 @@ double sc_time_stamp() {
     return main_time;  // Note does conversion to real, to match SystemC
 }
 
-int main(int argc, char** argv, char** env) {
+
+/*
+int mainx(int argc, char** argv, char** env) {
     // This is a more complicated example, please also see the simpler examples/hello_world_c.
 
     // Prevent unused variable warnings
@@ -120,3 +126,10 @@ int main(int argc, char** argv, char** env) {
     // Fin
     exit(0);
 }
+*/
+Napi::Object InitAll(Napi::Env env, Napi::Object exports) {
+  return signals::Init(env, exports);
+}
+  
+
+NODE_API_MODULE(NODE_GYP_MODULE_NAME, InitAll)

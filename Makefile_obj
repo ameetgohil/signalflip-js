@@ -46,7 +46,7 @@ OPT_FAST = -O2 -fstrict-aliasing
 # Linking final exe -- presumes have a sim_main.cpp
 
 # Special compile rule
-sim_main.o: sim_main.cpp $(VM_PREFIX).h
+sim_main.o: cppsrc/main.cpp $(VM_PREFIX).h
 
 ######################################################################
 ######################################################################

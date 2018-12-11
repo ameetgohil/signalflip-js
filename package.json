@@ -1,17 +1,21 @@
 {
-   "main": "lib/binding.js",
-   "dependencies": {
-      "node-addon-api": "^1.1.0"
-   },
-   "scripts": {
-      "compile": "make compile",
-      "test": "node --napi-modules ./test/test_binding.js"
-   },
-   "gypfile": true,
-   "name": "n-api-test",
-   "version": "1.0.0",
-   "description": "test",
-   "devDependencies": {},
-   "author": "Ameet Gohil",
-   "license": "MIT"
+    "name": "veri-js",
+    "version": "1.0.0",
+    "main": "index.js",
+    "dependencies": {
+      "node-addon-api": "^1.6.2"
+    },
+    "scripts": {
+	"verilate": "make verilate",
+	"compile": "make compile",
+	"build": "node-gyp rebuild",
+	"clean": "node-gyp clean",
+	"test": "node index.js"
+    },
+    "gypfile": true,
+    "devDependencies": {
+	"node-gyp": "^3.8.0"
+    },
+    "author": "Ameet Gohil",
+    "license": "MIT"
 }
