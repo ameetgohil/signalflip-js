@@ -1,28 +1,42 @@
+// DESCRIPTION: Verilator: Verilog example module
+//
+// This file ONLY is placed into the Public Domain, for any use,
+// without warranty, 2003 by Wilson Snyder.
+// ======================================================================
+
+// This is intended to be a complex example of several features, please also
+// see the simpler examples/hello_world_c.
+
 module top
-  (input wire [31:0] t0_data,
-   input wire        t0_valid,
-   output wire       t0_ready,
-   output reg [31:0] i0_data,
-   output reg        i0_valid,
-   input wire        i0_ready,
-   input wire        clk, rstf
+  (
+   // Declare some signals so we can see how I/O works
+   input         clk,
+   input         fastclk,
+   input         reset_l,
+
+   output [1:0]  out_small,
+   output [39:0] out_quad,
+   output [69:0] out_wide,
+   input [1:0]   in_small,
+   input [39:0]  in_quad,
+   input [69:0]  in_wide
    );
-   
 
-   logic      data_en;
-   assign t0_ready = ~i0_valid | i0_ready;
+   // Connect up the outputs, using some trivial logic
+   wire [1:0]    out_small = ~reset_l ? '0 : (in_small + 2'b1);
+   wire [39:0]   out_quad  = ~reset_l ? '0 : (in_quad + 40'b1);
+   wire [69:0]   out_wide  = ~reset_l ? '0 : (in_wide + 70'b1);
 
-   assign data_en = t0_valid & t0_ready;
+   // And an example sub module. The submodule will print stuff.
+   sub sub (/*AUTOINST*/
+            // Inputs
+            .clk                        (clk),
+            .fastclk                    (fastclk),
+            .reset_l                    (reset_l));
 
-   always @(posedge clk or negedge rstf) begin
-      if(!rstf) begin
-         i0_data <= 0;
-         i0_valid <= 0;
-      end
-      begin
-         if(data_en)
-           i0_data <= t0_data<<2;
-         i0_valid <= ~t0_ready | t0_valid;
-      end
+   // Print some stuff as an example
+   initial begin
+      $display("[%0t] Model running...\n", $time);
    end
+
 endmodule
