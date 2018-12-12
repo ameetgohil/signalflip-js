@@ -70,7 +70,7 @@ verilate:
 
 	@echo
 	@echo "-- VERILATE ----------------"
-	$(VERILATOR) $(VERILATOR_FLAGS) -f src/input.vc src/top.sv cppsrc/main.cpp
+	$(VERILATOR) $(VERILATOR_FLAGS) -f src/input.vc src/top.sv 
 
 run:
 	@echo
