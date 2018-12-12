@@ -6,10 +6,9 @@
       "node-addon-api": "^1.6.2"
     },
     "scripts": {
-	"verilate": "make verilate",
-	"compile": "make compile",
+	"compile": "make verilate && cd obj_dir && make -f ../Makefile_obj createlib",
 	"build": "node-gyp rebuild",
-	"clean": "node-gyp clean",
+	"clean": "node-gyp clean && make clean",
 	"test": "node index.js"
     },
     "gypfile": true,

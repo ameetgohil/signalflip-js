@@ -15,7 +15,7 @@
       "/usr/local/share/verilator/include",
       "./obj_dir"
       ],
-     'libraries': ["/home/qubits/proj/veri-js/obj_dir/veri.a"],
+     'libraries': ["/home/qubits/proj/veri-js/obj_dir/verilator_global_libs.a"],
 #      'ld_flags': ["-L/home/qubits/proj/veri-js/obj_dir/"],
       'dependencies': ["<!(node -p \"require('node-addon-api').gyp\")"],
       'cflags!': [ '-fno-exceptions' ],
