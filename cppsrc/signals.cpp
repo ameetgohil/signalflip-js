@@ -1,5 +1,6 @@
 #include "signals.h"
 #include <verilated.h>
+
 // Include model header, generated from Verilating "top.v"
 #include "Vtop.h"
 
@@ -8,20 +9,21 @@
 # include <verilated_vcd_c.h>
 #endif
 
-
 // // Current simulation time (64-bit unsigned)
 // vluint64_t main_time = 0;
 // // Called by $time in Verilog
 // double sc_time_stamp() {
 //     return main_time;  // Note does conversion to real, to match SystemC
 // }
+//
 
 std::string signals::hello() {
   return "Hello World";
 }
 
+Vtop* top;
 void signals::init_top() {
-  vluint64_t main_time = 0;
+
   //Verilated::debug(0);
   // Set debug level, 0 is off, 9 is highest presently used
   Verilated::debug(0);
@@ -29,8 +31,8 @@ void signals::init_top() {
   Verilated::randReset(2);
 
   // Construct the Verilated model, from Vtop.h generated from Verilating "top.v"
-  Vtop* top = new Vtop; // Or use a const unique_ptr, or the VL_UNIQUE_PTR wrapper
-  
+  top = new Vtop; // Or use a const unique_ptr, or the VL_UNIQUE_PTR wrapper
+
 #if VM_TRACE
   // If verilator was invoked with --trace argument,
   // and if at run time passed the +trace argument, turn on tracing
@@ -55,7 +57,8 @@ void signals::init_top() {
   top->in_wide[0] = 0x11111111;
   top->in_wide[1] = 0x22222222;
   top->in_wide[2] = 0x3;
-
+}
+/*
   // Simulate until $finish
   while (!Verilated::gotFinish()) {
     main_time++;  // Time passes...
@@ -109,7 +112,32 @@ void signals::init_top() {
   // Destroy model
   delete top; top = NULL;
 
+  }*/
+
+int tick() {
+  static vluint64_t main_time = 0;
+  top->fastclk = !top->fastclk;
+  if ((main_time % 10) == 3) {
+    top->clk = 1;
+  }
+  if ((main_time % 10) == 8) {
+    top->clk = 0;
+  }
+  if (main_time > 1 && main_time < 10) {
+    top->reset_l = !1;  // Assert reset
+  } else {
+    top->reset_l = !0;  // Deassert reset
+  }
+
+  // Assign some other inputs
+  top->in_quad += 0x12;
+  
+  // Evaluate model
+  top->eval();
+  return 0;
 }
+
+
 
 Napi::String signals::HelloWrapped(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
@@ -117,10 +145,16 @@ Napi::String signals::HelloWrapped(const Napi::CallbackInfo& info) {
   return returnValue;
 }
 
+Napi::Number signals::TickWrapped(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+  Napi::Number returnValue = Napi::Number::New(env, signals::tick());
+  return returnValue;
+}
+
 Napi::Object signals::Init(Napi::Env env, Napi::Object exports) {
   init_top();
   exports.Set("hello", Napi::Function::New(env, signals::HelloWrapped));
-  
+  exports.Set("tick", Napi::Function::New(env, signals::TickWrapped));
   return exports;
 }
 

@@ -38,7 +38,6 @@ int mainx(int argc, char** argv, char** env) {
 
     // Set debug level, 0 is off, 9 is highest presently used
     Verilated::debug(0);
-
     // Randomization reset policy
     Verilated::randReset(2);
 
