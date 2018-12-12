@@ -132,7 +132,7 @@ int signals::tick() {
   }
 
   // Assign some other inputs
-  top->in_quad += 0x12;
+  //top->in_quad += 0x12;
   
   // Evaluate model
   top->eval();
@@ -146,6 +146,14 @@ int signals::tick() {
   return 0;
 }
 
+int signals::set_in_quad(int val) {
+  top->in_quad = val;
+  return top->in_quad;
+}
+
+int signals::get_in_quad() {
+  return top->in_quad;
+}
 
 
 Napi::String signals::HelloWrapped(const Napi::CallbackInfo& info) {
@@ -160,10 +168,31 @@ Napi::Number signals::TickWrapped(const Napi::CallbackInfo& info) {
   return returnValue;
 }
 
+Napi::Number signals::SetInQuadWrapped(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+  if(info.Length() != 1 || !info[0].IsNumber()) {
+    Napi::TypeError::New(env, "Number expected").ThrowAsJavaScriptException();
+  }
+
+  Napi::Number val = info[0].As<Napi::Number>();
+
+  Napi::Number returnValue = Napi::Number::New(env, signals::set_in_quad(val.Int32Value()));
+  return returnValue;
+}
+
+Napi::Number signals::GetInQuadWrapped(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+  Napi::Number returnValue = Napi::Number::New(env, signals::get_in_quad());
+
+  return returnValue;
+}
+
 Napi::Object signals::Init(Napi::Env env, Napi::Object exports) {
   signals::init_top();
   exports.Set("hello", Napi::Function::New(env, signals::HelloWrapped));
   exports.Set("tick", Napi::Function::New(env, signals::TickWrapped));
+  exports.Set("set_in_quad", Napi::Function::New(env, signals::SetInQuadWrapped));
+  exports.Set("get_in_quad", Napi::Function::New(env, signals::GetInQuadWrapped));
   return exports;
 }
 
