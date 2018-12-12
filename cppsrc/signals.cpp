@@ -29,7 +29,7 @@ void signals::init_top() {
   Verilated::randReset(2);
 
   // Construct the Verilated model, from Vtop.h generated from Verilating "top.v"
-      Vtop* top = new Vtop; // Or use a const unique_ptr, or the VL_UNIQUE_PTR wrapper
+  Vtop* top = new Vtop; // Or use a const unique_ptr, or the VL_UNIQUE_PTR wrapper
   
 #if VM_TRACE
   // If verilator was invoked with --trace argument,

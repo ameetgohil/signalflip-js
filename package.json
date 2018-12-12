@@ -9,6 +9,7 @@
 	"compile": "make verilate && cd obj_dir && make -f ../Makefile_obj createlib",
 	"build": "node-gyp rebuild",
 	"clean": "node-gyp clean && make clean",
+	"all": "npm run clean && npm run compile && npm run build && npm run test",
 	"test": "node index.js"
     },
     "gypfile": true,
