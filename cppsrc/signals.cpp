@@ -114,8 +114,9 @@ void signals::init_top() {
 
   }*/
 
-int tick() {
+int signals::tick() {
   static vluint64_t main_time = 0;
+  main_time++;
   top->fastclk = !top->fastclk;
   if ((main_time % 10) == 3) {
     top->clk = 1;
@@ -152,7 +153,7 @@ Napi::Number signals::TickWrapped(const Napi::CallbackInfo& info) {
 }
 
 Napi::Object signals::Init(Napi::Env env, Napi::Object exports) {
-  init_top();
+  signals::init_top();
   exports.Set("hello", Napi::Function::New(env, signals::HelloWrapped));
   exports.Set("tick", Napi::Function::New(env, signals::TickWrapped));
   return exports;
