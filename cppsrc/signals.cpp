@@ -5,9 +5,9 @@
 #include "Vtop.h"
 
 // If "verilator --trace" is used, include the tracing class
-#if VM_TRACE
+//#if VM_TRACE
 # include <verilated_vcd_c.h>
-#endif
+//#endif
 
 // // Current simulation time (64-bit unsigned)
 // vluint64_t main_time = 0;
@@ -22,6 +22,7 @@ std::string signals::hello() {
 }
 
 Vtop* top;
+VerilatedVcdC* tfp;
 void signals::init_top() {
 
   //Verilated::debug(0);
@@ -33,20 +34,20 @@ void signals::init_top() {
   // Construct the Verilated model, from Vtop.h generated from Verilating "top.v"
   top = new Vtop; // Or use a const unique_ptr, or the VL_UNIQUE_PTR wrapper
 
-#if VM_TRACE
+  //#if VM_TRACE
   // If verilator was invoked with --trace argument,
   // and if at run time passed the +trace argument, turn on tracing
-  VerilatedVcdC* tfp = NULL;
-  const char* flag = Verilated::commandArgsPlusMatch("trace");
-  if (flag && 0==strcmp(flag, "+trace")) {
+  tfp = NULL;
+  //  const char* flag = Verilated::commandArgsPlusMatch("trace");
+  //  if (flag && 0==strcmp(flag, "+trace")) {
     Verilated::traceEverOn(true);  // Verilator must compute traced signals
     VL_PRINTF("Enabling waves into logs/vlt_dump.vcd...\n");
     tfp = new VerilatedVcdC;
     top->trace(tfp, 99);  // Trace 99 levels of hierarchy
     Verilated::mkdir("logs");
     tfp->open("logs/vlt_dump.vcd");  // Open the dump file
-  }
-#endif
+    //  }
+  //#endif
 
   // Set some inputs
   top->reset_l = !0;
@@ -135,6 +136,13 @@ int signals::tick() {
   
   // Evaluate model
   top->eval();
+  tfp->dump (main_time);
+  // Read outputs
+  VL_PRINTF ("[%" VL_PRI64 "d] clk=%x rstl=%x iquad=%" VL_PRI64 "x"
+	     " -> oquad=%" VL_PRI64"x owide=%x_%08x_%08x\n",
+	     main_time, top->clk, top->reset_l, top->in_quad,
+	     top->out_quad, top->out_wide[2], top->out_wide[1], top->out_wide[0]);
+  
   return 0;
 }
 
