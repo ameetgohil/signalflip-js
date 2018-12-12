@@ -1,12 +1,12 @@
 # veri-js
 verilator testbench w/ Javascript using N-API
 
-##Dependencies
--> Verilator
--> nvm
+## Dependencies
+- Verilator
+- nvm
 
-##Instructions to run
--> Clone repository
+## Instructions to run
+- Clone repository
 ```
 > cd veri-js
 > nvm i 10
