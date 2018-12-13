@@ -155,6 +155,32 @@ int signals::get_in_quad() {
   return top->in_quad;
 }
 
+int signals::fastclk(int val) {
+  top->fastclk = val;
+  return top->fastclk;
+}
+
+int signals::clk(int val) {
+  top->clk = val;
+  return top->clk;
+}
+
+int signals::reset_l(int val) {
+  top->reset_l = val;
+  return top->reset_l;
+}
+
+int signals::eval() {
+  static vluint64_t main_time = 0;
+  main_time++;
+  top->eval();
+  tfp->dump (main_time);
+  VL_PRINTF ("[%" VL_PRI64 "d] clk=%x rstl=%x iquad=%" VL_PRI64 "x"
+	     " -> oquad=%" VL_PRI64"x owide=%x_%08x_%08x\n",
+	     main_time, top->clk, top->reset_l, top->in_quad,
+	     top->out_quad, top->out_wide[2], top->out_wide[1], top->out_wide[0]);
+  return 0;
+}
 
 Napi::String signals::HelloWrapped(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
@@ -187,12 +213,76 @@ Napi::Number signals::GetInQuadWrapped(const Napi::CallbackInfo& info) {
   return returnValue;
 }
 
+Napi::Number signals::fastclkWrapped(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+  if(info.Length() > 1 || (info.Length() == 1 && !info[0].IsNumber())) {
+    Napi::TypeError::New(env, "Number expected").ThrowAsJavaScriptException();
+  }
+
+  Napi::Number returnValue;
+  if(info.Length() == 1) {
+    Napi::Number val = info[0].As<Napi::Number>();
+    returnValue = Napi::Number::New(env, signals::fastclk(val.Int32Value()));
+  } else {
+    returnValue = Napi::Number::New(env, top->fastclk);
+  }
+
+  return returnValue;
+  
+}
+Napi::Number signals::clkWrapped(const Napi::CallbackInfo& info){
+  Napi::Env env = info.Env();
+  if(info.Length() > 1 || (info.Length() == 1 && !info[0].IsNumber())) {
+    Napi::TypeError::New(env, "Number expected").ThrowAsJavaScriptException();
+  }
+
+  Napi::Number returnValue;
+  if(info.Length() == 1) {
+    Napi::Number val = info[0].As<Napi::Number>();
+    returnValue = Napi::Number::New(env, signals::clk(val.Int32Value()));
+  } else {
+    returnValue = Napi::Number::New(env, top->clk);
+  }
+
+  return returnValue;
+  
+}
+Napi::Number signals::reset_lWrapped(const Napi::CallbackInfo& info){
+  Napi::Env env = info.Env();
+  if(info.Length() > 1 || (info.Length() == 1 && !info[0].IsNumber())) {
+    Napi::TypeError::New(env, "Number expected").ThrowAsJavaScriptException();
+  }
+
+  Napi::Number returnValue;
+  if(info.Length() == 1) {
+    Napi::Number val = info[0].As<Napi::Number>();
+    returnValue = Napi::Number::New(env, signals::reset_l(val.Int32Value()));
+  } else {
+    returnValue = Napi::Number::New(env, top->reset_l);
+  }
+
+  return returnValue;
+  
+}
+
+Napi::Number signals::evalWrapped(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+
+  Napi::Number returnValue = Napi::Number::New(env, signals::eval());
+  return returnValue;
+  
+}
+
 Napi::Object signals::Init(Napi::Env env, Napi::Object exports) {
   signals::init_top();
   exports.Set("hello", Napi::Function::New(env, signals::HelloWrapped));
   exports.Set("tick", Napi::Function::New(env, signals::TickWrapped));
   exports.Set("set_in_quad", Napi::Function::New(env, signals::SetInQuadWrapped));
   exports.Set("get_in_quad", Napi::Function::New(env, signals::GetInQuadWrapped));
+  exports.Set("fastclk", Napi::Function::New(env, signals::fastclkWrapped));
+  exports.Set("clk", Napi::Function::New(env, signals::clkWrapped));
+  exports.Set("reset_l", Napi::Function::New(env, signals::reset_lWrapped));
+  exports.Set("eval", Napi::Function::New(env, signals::evalWrapped));
   return exports;
 }
 
