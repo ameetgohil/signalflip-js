@@ -146,12 +146,8 @@ int signals::tick() {
   return 0;
 }
 
-int signals::set_in_quad(int val) {
+int signals::in_quad(int val) {
   top->in_quad = val;
-  return top->in_quad;
-}
-
-int signals::get_in_quad() {
   return top->in_quad;
 }
 
@@ -194,23 +190,22 @@ Napi::Number signals::TickWrapped(const Napi::CallbackInfo& info) {
   return returnValue;
 }
 
-Napi::Number signals::SetInQuadWrapped(const Napi::CallbackInfo& info) {
+Napi::Number signals::in_quadWrapped(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
-  if(info.Length() != 1 || !info[0].IsNumber()) {
+  if(info.Length() > 1 || (info.Length() == 1 && !info[0].IsNumber())) {
     Napi::TypeError::New(env, "Number expected").ThrowAsJavaScriptException();
   }
 
-  Napi::Number val = info[0].As<Napi::Number>();
-
-  Napi::Number returnValue = Napi::Number::New(env, signals::set_in_quad(val.Int32Value()));
-  return returnValue;
-}
-
-Napi::Number signals::GetInQuadWrapped(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();
-  Napi::Number returnValue = Napi::Number::New(env, signals::get_in_quad());
+  Napi::Number returnValue;
+  if(info.Length() == 1) {
+    Napi::Number val = info[0].As<Napi::Number>();
+    returnValue = Napi::Number::New(env, signals::in_quad(val.Int32Value()));
+  } else {
+    returnValue = Napi::Number::New(env, top->in_quad);
+  }
 
   return returnValue;
+  
 }
 
 Napi::Number signals::fastclkWrapped(const Napi::CallbackInfo& info) {
@@ -277,8 +272,7 @@ Napi::Object signals::Init(Napi::Env env, Napi::Object exports) {
   signals::init_top();
   exports.Set("hello", Napi::Function::New(env, signals::HelloWrapped));
   exports.Set("tick", Napi::Function::New(env, signals::TickWrapped));
-  exports.Set("set_in_quad", Napi::Function::New(env, signals::SetInQuadWrapped));
-  exports.Set("get_in_quad", Napi::Function::New(env, signals::GetInQuadWrapped));
+  exports.Set("in_quad", Napi::Function::New(env, signals::in_quadWrapped));
   exports.Set("fastclk", Napi::Function::New(env, signals::fastclkWrapped));
   exports.Set("clk", Napi::Function::New(env, signals::clkWrapped));
   exports.Set("reset_l", Napi::Function::New(env, signals::reset_lWrapped));
