@@ -12,7 +12,7 @@ function clock(signal, eval) {
 	for(i = 0; i < iter; i++) {
 	    this.tick();
 	    this.emit('tickevent', 'clockevent');
-	    this.eval();
+	    eval();
 	}
     };
 }
