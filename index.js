@@ -1,7 +1,7 @@
 const dut = require('./build/Release/dut.node');
 const clock = require('./clock.js');
 
-const fastclk = new clock(dut.fastclk);
+const fastclk = new clock(dut.fastclk, dut.eval);
 console.log('dut: ', dut);
 console.log(dut.hello());
 //fastclk.run(1000);
@@ -48,7 +48,7 @@ fastclk.on('tickevent',  (props) => {
 	dut.reset_l(1);
     }
 
-    dut.eval();
+//    dut.eval();
 });
 
 fastclk.run(1000);

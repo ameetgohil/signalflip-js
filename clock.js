@@ -1,7 +1,7 @@
 const EventEmitter = require('events').EventEmitter;
 const util = require('util');
 
-function clock(signal) {
+function clock(signal, eval) {
     EventEmitter.call(this);
     this.setMaxListeners(Infinity);
     this.signal = signal;
@@ -12,6 +12,7 @@ function clock(signal) {
 	for(i = 0; i < iter; i++) {
 	    this.tick();
 	    this.emit('tickevent', 'clockevent');
+	    this.eval();
 	}
     };
 }
