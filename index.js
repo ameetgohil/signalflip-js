@@ -51,6 +51,10 @@ fastclk.on('tickevent',  (props) => {
 //    dut.eval();
 });
 
+
+/*fastclk.on('tickevent', (props) => {
+    console.log('here');
+});*/
 fastclk.run(1000);
 		   
 		   
