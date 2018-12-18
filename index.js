@@ -4,7 +4,7 @@ const clock = require('./clock.js');
 const fastclk = new clock(dut.fastclk);
 console.log('dut: ', dut);
 console.log(dut.hello());
-fastclk.run(1000);
+//fastclk.run(1000);
 console.log(clock);
 /*clock.on('tickevent', (props) => {
     console.log(props);
@@ -32,7 +32,7 @@ console.log(clock);
 }*/
 
 var i = 0;
-fastclk.on('tickevent', async (props) => {
+fastclk.on('tickevent',  (props) => {
 //    console.log(props);
     dut.in_quad(dut.in_quad() + 0x12);
     i++;
@@ -54,30 +54,4 @@ fastclk.on('tickevent', async (props) => {
 fastclk.run(1000);
 		   
 		   
-
-
-/*var EventEmitter = require('events').EventEmitter,
-    puts = require('sys').puts;
-
-var Ticker = function( interval ){
-  var self = this,
-      nextTick = function(){
-    self.emit('tick', Math.random() * 1000);
-    setTimeout(nextTick, interval);
-  }
-
-  nextTick();
-};
-
-// Extend from EventEmitter 'addListener' and 'emit' methods
-Ticker.prototype = new EventEmitter;
-
-// A ticker instance with an interval of 5 seconds
-var ticktock = new Ticker( 5000 );
-
-// Bind an event handler to the 'tick' event
-ticktock.addListener('tick', function( number ) {
-  puts('number emitted: '+ number);
-});*/
-
 module.exports = dut;
