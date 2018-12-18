@@ -19,6 +19,4 @@ function clock(signal, eval) {
 
 util.inherits(clock, EventEmitter);
 
-//clock
-
 module.exports = clock;
