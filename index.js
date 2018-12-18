@@ -1,11 +1,15 @@
 const dut = require('./build/Release/dut.node');
+const clock = require('./clock.js');
+
+const fastclk = new clock(dut.fastclk);
 console.log('dut: ', dut);
 console.log(dut.hello());
 for(var i=1; i<1000; i++) {
     dut.in_quad(dut.in_quad() + 0x12);
     //dut.tick();
 //    i
-    dut.fastclk(dut.fastclk() ? 0:1);
+    //dut.fastclk(dut.fastclk() ? 0:1);
+    fastclk.tick();
     if(i%10 == 3) {
 	dut.clk(1);
     }
