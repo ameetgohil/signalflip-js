@@ -55,8 +55,8 @@ function replace(path) {
         let foundOut = aslower.search("output") !== -1;
 
 
-        console.log('-------');
-        console.log("val: " + val);
+        // console.log('-------');
+        // console.log("val: " + val);
         // console.log("   " + foundIn);
 
 
@@ -72,12 +72,22 @@ function replace(path) {
         var findProps = new RegExp(' .*'+obj["dir"]+'[^\\[].*(\\[[^\\]].*\\]) *([^ ]*) *', 'g');
 
         var findPropsResult = findProps.exec(aslower);
-        console.log(JSON.stringify(findPropsResult));
+        // console.log(JSON.stringify(findPropsResult));
 
 
         if( findPropsResult === null ) {
-            obj["dimensions"] = {'from':'','to':''};
+            obj["dimension"] = {'from':'','to':''};
+
+            var findName = new RegExp(' .*'+obj["dir"]+' *([^ ]*) *', 'g');
+            var findNameResult = findName.exec(aslower);
+
+            obj["name"] = findNameResult[1];
+
+            // console.log(JSON.stringify(findNameResult));
+
         } else {
+
+            obj["name"] = findPropsResult[2];
             let dimString = findPropsResult[1];
 
             // console.log(dimString);
@@ -86,7 +96,7 @@ function replace(path) {
             var findDimResult = findDim.exec(dimString);
             // console.log(JSON.stringify(findDimResult));
 
-            obj["dimensions"] = {'from':findDimResult[1], 'to':findDimResult[2]};
+            obj["dimension"] = {'from':findDimResult[1], 'to':findDimResult[2]};
 
         }
         
