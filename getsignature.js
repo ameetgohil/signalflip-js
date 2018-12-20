@@ -25,6 +25,7 @@ function replace(path) {
     goodre = /module *([^ ]*) *\(([^\)]*)\)/g;
 
     signature = "";
+    topname = "";
 
 	fileContent = fileContent.replace(goodre, function replacer(match, p1, p2, p3) {
         // load and return the replacement file
@@ -34,16 +35,83 @@ function replace(path) {
         // console.log(p2);
         // console.log(p3);
         // console.log(match);
-
+        topname = p1;
         signature = p2;
         return match;
     });
 
-    console.log("");
-    console.log("");
-    console.log("");
+    let inputs = signature.split(",");
 
-    console.log(signature);
+    var first = true;
+
+    var final = [];
+
+    for(k in inputs) {
+        let val = inputs[k];
+        let aslower = val.toLowerCase();
+        // console.log(val);
+
+        let foundIn = aslower.search("input") !== -1;
+        let foundOut = aslower.search("output") !== -1;
+
+
+        console.log('-------');
+        console.log("val: " + val);
+        // console.log("   " + foundIn);
+
+
+        var obj = {};
+        if(foundIn) {
+            obj["dir"] = "input";
+        } else if (foundOut) {
+            obj["dir"] = "output";
+        } else {
+            throw('fixme');
+        }
+
+        var findProps = new RegExp(' .*'+obj["dir"]+'[^\\[].*(\\[[^\\]].*\\]) *([^ ]*) *', 'g');
+
+        var findPropsResult = findProps.exec(aslower);
+        console.log(JSON.stringify(findPropsResult));
+
+
+        if( findPropsResult === null ) {
+            obj["dimensions"] = {'from':'','to':''};
+        } else {
+            let dimString = findPropsResult[1];
+
+            // console.log(dimString);
+
+            var findDim = new RegExp(' *(\\d*) *: *(\\d*)');
+            var findDimResult = findDim.exec(dimString);
+            // console.log(JSON.stringify(findDimResult));
+
+            obj["dimensions"] = {'from':findDimResult[1], 'to':findDimResult[2]};
+
+        }
+        
+        // console.log(JSON.stringify(obj));
+
+        final.push(obj);
+
+        // console.log("");
+        // console.log("");
+
+
+
+        first = false;
+    }
+
+
+    // console.log("");
+    // console.log("");
+    // console.log("");
+    
+    console.log(JSON.stringify(final));
+    // console.log("");
+    // console.log("");
+
+    // console.log(signature);
     // console.log(fileContent);
 }
 
