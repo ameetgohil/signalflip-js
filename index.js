@@ -33,22 +33,20 @@ console.log(clock);
 
 var i = 0;
 fastclk.on('tickevent',  (props) => {
-//    console.log(props);
-    dut.in_quad(dut.in_quad() + 0x12);
-    i++;
-    if(i%10 == 3) {
-	dut.clk(1);
-    }
-    if(i%10 == 8) {
-	dut.clk(0);
-    }
-    if(i > 1 && i < 10) {
-	dut.reset_l(0);
-    } else {
-	dut.reset_l(1);
-    }
+	dut.in_quad(dut.in_quad() + 0x12);
+	i++;
+	if(i%10 == 3) {
+	    dut.clk(1);
+	}
+	if(i%10 == 8) {
+	    dut.clk(0);
+	}
+	if(i > 1 && i < 10) {
+	    dut.reset_l(0);
+	} else {
+	    dut.reset_l(1);
+	}
 
-//    dut.eval();
 });
 
 fastclk.run(1000);

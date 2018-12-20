@@ -53,7 +53,7 @@ VERILATOR_FLAGS += --coverage
 #VERILATOR_FLAGS += --gdbbt
 
 ######################################################################
-default: run
+default: verilate
 
 
 
