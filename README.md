@@ -4,6 +4,7 @@ verilator testbench w/ Javascript using N-API
 ## Dependencies
 - Verilator
 - nvm
+- gtkwave (optional)
 
 ## Instructions to run
 - Clone repository
@@ -13,4 +14,9 @@ verilator testbench w/ Javascript using N-API
 > npm run compile
 > npm i
 > npm run all
+```
+
+## Show graph
+```
+gtkwave logs/vlt_dump.vcd
 ```
