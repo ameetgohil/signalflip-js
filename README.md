@@ -21,7 +21,7 @@ verilator testbench w/ Javascript using N-API
 ```
 gtkwave logs/vlt_dump.vcd
 ```
-##TODO
+## TODO
 
 - [ ] Add support for signals wider than 63 bits (BigInt)
 - [ ] Add events to wait for signal toggle
