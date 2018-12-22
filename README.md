@@ -13,6 +13,7 @@ verilator testbench w/ Javascript using N-API
 > nvm i 10
 > npm run compile
 > npm i
+> npm run gen
 > npm run all
 ```
 
