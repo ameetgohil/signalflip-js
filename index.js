@@ -1,9 +1,10 @@
 const dut = require('./build/Release/dut.node');
 const clock = require('./clock.js');
+const _ = require('lodash');
 
 const fastclk = new clock(dut.fastclk, dut.eval);
 console.log('dut: ', dut);
-console.log(dut.hello());
+//console.log(dut.hello());
 //fastclk.run(1000);
 console.log(clock);
 /*clock.on('tickevent', (props) => {
@@ -32,6 +33,7 @@ console.log(clock);
 }*/
 
 var i = 0;
+dut.clk(0);
 fastclk.on('tickevent',  (props) => {
 	dut.in_quad(dut.in_quad() + 0x12);
 	i++;

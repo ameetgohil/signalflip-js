@@ -44,7 +44,7 @@ function replace(path) {
 
     var first = true;
 
-    var final = [];
+    var returnObj = [];
 
     for(k in inputs) {
         let val = inputs[k];
@@ -77,7 +77,7 @@ function replace(path) {
 
         if( findPropsResult === null ) {
             obj["dimension"] = {'from':'','to':''};
-
+	    obj['width'] = 1;
             var findName = new RegExp(' .*'+obj["dir"]+' *([^ ]*) *', 'g');
             var findNameResult = findName.exec(aslower);
 
@@ -94,15 +94,15 @@ function replace(path) {
 
             var findDim = new RegExp(' *(\\d*) *: *(\\d*)');
             var findDimResult = findDim.exec(dimString);
-            // console.log(JSON.stringify(findDimResult));
+//            console.log(JSON.stringify(findDimResult));
 
             obj["dimension"] = {'from':findDimResult[1], 'to':findDimResult[2]};
-
+	    obj['width'] = parseInt(findDimResult[1])-parseInt(findDimResult[2])+1;
         }
         
         // console.log(JSON.stringify(obj));
 
-        final.push(obj);
+        returnObj.push(obj);
 
         // console.log("");
         // console.log("");
@@ -117,12 +117,13 @@ function replace(path) {
     // console.log("");
     // console.log("");
     
-    console.log(JSON.stringify(final));
+    // console.log(JSON.stringify(returnObj));
     // console.log("");
     // console.log("");
 
     // console.log(signature);
     // console.log(fileContent);
+    return returnObj;
 }
 
-replace('./src/top.sv');
+module.exports = replace;
