@@ -23,7 +23,7 @@ union WideSignal {
   };
 
 
-V<%= dutName %>* <%= dutName %>;
+V<%= dutName %>* top;
 VerilatedVcdC* tfp;
 void signals::init_top() {
 
@@ -96,10 +96,10 @@ int signals::eval() {
   top->eval();
   tfp->dump (main_time);
   // Read outputs
-  VL_PRINTF ("[%" VL_PRI64 "d] clk=%x rstl=%x iquad=%" VL_PRI64 "x"
+  /*  VL_PRINTF ("[%" VL_PRI64 "d] clk=%x rstl=%x iquad=%" VL_PRI64 "x"
 	     " -> oquad=%" VL_PRI64"x owide=%x_%08x_%08x\n",
 	     main_time, top->clk, top->reset_l, top->in_quad,
-	     top->out_quad, top->out_wide[2], top->out_wide[1], top->out_wide[0]);
+	     top->out_quad, top->out_wide[2], top->out_wide[1], top->out_wide[0]);*/
   return 0;
 }
 

@@ -80,9 +80,9 @@ function replace(path) {
 	    obj['width'] = 1;
             var findName = new RegExp(' .*'+obj["dir"]+' *([^ ]*) *', 'g');
             var findNameResult = findName.exec(aslower);
-
+//	    console.log(obj, val);
             obj["name"] = findNameResult[1];
-
+	    
             // console.log(JSON.stringify(findNameResult));
 
         } else {
@@ -117,7 +117,7 @@ function replace(path) {
     // console.log("");
     // console.log("");
     
-    // console.log(JSON.stringify(returnObj));
+    console.log(JSON.stringify(returnObj));
     // console.log("");
     // console.log("");
 

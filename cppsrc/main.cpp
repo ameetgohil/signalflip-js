@@ -11,7 +11,7 @@
 #include <verilated.h>
 
 // Include model header, generated from Verilating "top.v"
-#include "Vtop.h"
+#include "Vtop_elastic.h"
 
 // If "verilator --trace" is used, include the tracing class
 #if VM_TRACE

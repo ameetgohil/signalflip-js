@@ -70,7 +70,7 @@ verilate:
 
 	@echo
 	@echo "-- VERILATE ----------------"
-	$(VERILATOR) $(VERILATOR_FLAGS) -f src/input.vc src/top.sv 
+	$(VERILATOR) $(VERILATOR_FLAGS) -f src/input.vc src/top_elastic.sv 
 
 run:
 	@echo

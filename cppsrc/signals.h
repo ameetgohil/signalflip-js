@@ -9,55 +9,49 @@ namespace signals {
   
       
 	
+  uint32_t t0_data(uint32_t val);
+	
+      
+  
+      
+	
+  uint32_t t0_valid(uint32_t val);
+	
+      
+  
+      
+	
+  uint32_t t0_ready();
+	
+      
+  
+      
+	
+  uint32_t i0_data();
+	
+      
+  
+      
+	
+  uint32_t i0_valid();
+	
+      
+  
+      
+	
+  uint32_t i0_ready(uint32_t val);
+	
+      
+  
+      
+	
   uint32_t clk(uint32_t val);
 	
       
   
       
 	
-  uint32_t fastclk(uint32_t val);
-	
-      
-  
-      
-	
-  uint32_t reset_l(uint32_t val);
-	
-      
-  
-      
-	
-  uint32_t out_small();
-	
-      
-  
-      
-	
-  uint64_t out_quad();
-	
-      
-  
-      
-	
-  uint32_t* out_wide();
-	
-      
-  
-      
-	
-  uint32_t in_small(uint32_t val);
-	
-      
-  
-      
-	
-  uint64_t in_quad(uint64_t val);
-	
-      
-  
-      
-	
-  uint32_t* in_wide(uint32_t* val, int len);
+  uint32_t rstf(uint32_t val);
 	
       
   
@@ -66,39 +60,35 @@ namespace signals {
   Napi::Number TickWrapped(const Napi::CallbackInfo& info);
   
       
+  Napi::Number t0_dataWrapped(const Napi::CallbackInfo& info);
+      
+  
+      
+  Napi::Number t0_validWrapped(const Napi::CallbackInfo& info);
+      
+  
+      
+  Napi::Number t0_readyWrapped(const Napi::CallbackInfo& info);
+      
+  
+      
+  Napi::Number i0_dataWrapped(const Napi::CallbackInfo& info);
+      
+  
+      
+  Napi::Number i0_validWrapped(const Napi::CallbackInfo& info);
+      
+  
+      
+  Napi::Number i0_readyWrapped(const Napi::CallbackInfo& info);
+      
+  
+      
   Napi::Number clkWrapped(const Napi::CallbackInfo& info);
       
   
       
-  Napi::Number fastclkWrapped(const Napi::CallbackInfo& info);
-      
-  
-      
-  Napi::Number reset_lWrapped(const Napi::CallbackInfo& info);
-      
-  
-      
-  Napi::Number out_smallWrapped(const Napi::CallbackInfo& info);
-      
-  
-      
-  Napi::Number out_quadWrapped(const Napi::CallbackInfo& info);
-      
-  
-      
-  //Napi::BigInt out_wideWrapped(const Napi::CallbackInfo& info);
-      
-  
-      
-  Napi::Number in_smallWrapped(const Napi::CallbackInfo& info);
-      
-  
-      
-  Napi::Number in_quadWrapped(const Napi::CallbackInfo& info);
-      
-  
-      
-  //Napi::BigInt in_wideWrapped(const Napi::CallbackInfo& info);
+  Napi::Number rstfWrapped(const Napi::CallbackInfo& info);
       
   
   Napi::Number evalWrapped(const Napi::CallbackInfo& info);

@@ -5,10 +5,10 @@
       'sources': [
       		 'cppsrc/main.cpp',
 		 'cppsrc/signals.cpp',
-		 'obj_dir/Vtop.cpp',
-		 'obj_dir/Vtop__Syms.cpp',
-		 'obj_dir/Vtop__Trace.cpp',
-		 'obj_dir/Vtop__Trace__Slow.cpp'
+		 'obj_dir/Vtop_elastic.cpp',
+		 'obj_dir/Vtop_elastic__Syms.cpp',
+		 'obj_dir/Vtop_elastic__Trace.cpp',
+		 'obj_dir/Vtop_elastic__Trace__Slow.cpp'
 #		 '/usr/local/share/verilator/include/verilated.cpp'
       		 ],
       'include_dirs': ["<!@(node -p \"require('node-addon-api').include\")",
