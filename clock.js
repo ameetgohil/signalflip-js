@@ -19,6 +19,7 @@ function clock(signal, eval) {
 	    this.emit('negedge');
 	    eval();
 	}
+	
     };
 
     this.posedge = () => {

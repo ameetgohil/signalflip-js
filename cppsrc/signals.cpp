@@ -130,13 +130,19 @@ int signals::eval() {
   static vluint64_t main_time = 0;
   main_time++;
   top->eval();
-  tfp->dump (main_time);
+  tfp->dump(main_time);
   // Read outputs
   /*  VL_PRINTF ("[%" VL_PRI64 "d] clk=%x rstl=%x iquad=%" VL_PRI64 "x"
 	     " -> oquad=%" VL_PRI64"x owide=%x_%08x_%08x\n",
 	     main_time, top->clk, top->reset_l, top->in_quad,
 	     top->out_quad, top->out_wide[2], top->out_wide[1], top->out_wide[0]);*/
   return 0;
+}
+
+int signals::finish {
+    tfp->close();
+    tfp = NULL;
+    top.final();
 }
 
 
@@ -296,6 +302,13 @@ Napi::Number signals::evalWrapped(const Napi::CallbackInfo& info) {
   
 }
 
+Napi::Number signals::finishWrapped(const Napi::CalllbackInfo& info) {
+    Napi::Env env = info.Env();
+
+    Napi::Number returnValue = Napi::Number::New(env, signals::eval());
+    return returnValue;
+}
+
 Napi::Object signals::Init(Napi::Env env, Napi::Object exports) {
   signals::init_top();
 
@@ -332,6 +345,7 @@ Napi::Object signals::Init(Napi::Env env, Napi::Object exports) {
   
 
   exports.Set("eval", Napi::Function::New(env, signals::evalWrapped));
+  exports.Set("finish", Napi::Function::New(env, signals::finishWrapped));
   
   return exports;
 }

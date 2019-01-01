@@ -62,7 +62,7 @@ clk.on('posedge', (props) => {
 });
 
 clk.run(200);
-       
+
 
        
 		   

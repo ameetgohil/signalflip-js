@@ -26,7 +26,7 @@ fs.writeFile('cppsrc/signals.h',sigs_header_compiled, (err) => {
 fs.writeFile('cppsrc/signals.cpp',sigs_src_compiled, (err) => {
     if(err) {
 	return console.log(err);
-    }to
+    }
 });
 
 console.log('--------------------Done--------------------------------');

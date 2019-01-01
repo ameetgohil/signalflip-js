@@ -56,6 +56,7 @@ namespace signals {
       
   
   int eval();
+  int finish();
   
   Napi::Number TickWrapped(const Napi::CallbackInfo& info);
   
@@ -92,5 +93,6 @@ namespace signals {
       
   
   Napi::Number evalWrapped(const Napi::CallbackInfo& info);
+  Napi::Number finishWrapped(const Napi::CallbackInfo& info);
   Napi::Object Init(Napi::Env env, Napi::Object exports);
 };
