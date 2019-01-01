@@ -1,14 +1,19 @@
 const EventEmitter = require('events').EventEmitter;
 const util = require('util');
 
-function clock(signal, eval) {
+function clock(dut, signal, eval) {
     EventEmitter.call(this);
     this.setMaxListeners(Infinity);
     this.signal = signal;
     
     this.tick  = () => { signal(signal() ? 0 : 1) };
 
+    this.taskmanager = () => {
+	
+    };
+    
     this.run = (iter) => {
+	this.taskmanager();
 	for(i = 0; i < iter; i++) {
 	    this.tick();
 	    this.emit('tickevent', 'clockevent');
@@ -19,7 +24,8 @@ function clock(signal, eval) {
 	    this.emit('negedge');
 	    eval();
 	}
-	
+	console.log("finish");
+	dut.finish();
     };
 
     this.posedge = () => {

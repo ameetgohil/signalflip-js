@@ -36,7 +36,7 @@ x();
 fastclk.run(1000);
 */
 
-const clk = new clock(dut.clk, dut.eval);
+const clk = new clock(dut, dut.clk, dut.eval);
 console.log('dut: ', dut);
 console.log(clk);
 
@@ -55,10 +55,11 @@ clk.on('posedge', (props) => {
 	dut.rstf(0);
     } else {
 	dut.rstf(1);
-	dut.t0_data(dut.t0_data + 2);
+	dut.t0_data(dut.t0_data() + 2);
 	dut.t0_valid(1);
     }
     console.log('i0_data: ', dut.t0_data(), ' i0_valid: ', dut.i0_valid(), ' rstf: ', dut.rstf());
+    i++;
 });
 
 clk.run(200);

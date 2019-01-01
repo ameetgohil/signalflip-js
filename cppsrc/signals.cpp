@@ -139,10 +139,11 @@ int signals::eval() {
   return 0;
 }
 
-int signals::finish {
-    tfp->close();
-    tfp = NULL;
-    top.final();
+int signals::finish() {
+  top->final();
+  tfp->close();
+  tfp = NULL;
+  return 0;
 }
 
 
@@ -302,10 +303,10 @@ Napi::Number signals::evalWrapped(const Napi::CallbackInfo& info) {
   
 }
 
-Napi::Number signals::finishWrapped(const Napi::CalllbackInfo& info) {
+Napi::Number signals::finishWrapped(const Napi::CallbackInfo& info) {
     Napi::Env env = info.Env();
 
-    Napi::Number returnValue = Napi::Number::New(env, signals::eval());
+    Napi::Number returnValue = Napi::Number::New(env, signals::finish());
     return returnValue;
 }
 
