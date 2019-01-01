@@ -55,14 +55,23 @@ clk.on('posedge', (props) => {
 	dut.rstf(0);
     } else {
 	dut.rstf(1);
-	dut.t0_data(dut.t0_data() + 2);
-	dut.t0_valid(1);
+//	dut.t0_data(dut.t0_data() + 2);
+//	dut.t0_valid(1);
     }
-    console.log('i0_data: ', dut.t0_data(), ' i0_valid: ', dut.i0_valid(), ' rstf: ', dut.rstf());
+    console.log('i0_data: ', dut.i0_data(), ' i0_valid: ', dut.i0_valid(), ' rstf: ', dut.rstf());
     i++;
 });
 
-clk.run(200);
+function* drive_t0() {
+    while(true) {
+	yield function() {return dut.rstf() == 1};
+	dut.t0_data(dut.t0_data() + 2);
+	dut.t0_valid(1);
+    }
+}
+
+clk.addTask(drive_t0);
+clk.run(20);
 
 
        
