@@ -2,7 +2,7 @@
 verilator testbench w/ Javascript using N-API
 
 ## Dependencies
-- Verilator
+- Verilator (version 4.0 or above)
 - nvm
 - gtkwave (optional)
 
