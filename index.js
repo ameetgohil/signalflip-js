@@ -1,40 +1,6 @@
 const dut = require('./build/Release/dut.node');
 const clock = require('./clock.js');
 
-/*const fastclk = new clock(dut.fastclk, dut.eval);
-console.log('dut: ', dut);
-console.log(clock);
-var i = 0;
-dut.clk(0);
-dut.in_quad(0);
-fastclk.on('tickevent',  (props) => {
-	dut.in_quad(dut.in_quad() + 0x12);
-	i++;
-	if(i%10 == 3) {
-	    dut.clk(1);
-	}
-	if(i%10 == 8) {
-	    dut.clk(0);
-	}
-	if(i > 1 && i < 10) {
-	    dut.reset_l(0);
-	} else {
-	    dut.reset_l(1);
-	}
-
-});
-
-function x(){
-    for(var i = 0; i < 10; i++) {
-	fastclk.posedge();
-	console.log("here");
-    }
-}
-
-x();
-
-fastclk.run(1000);
-*/
 
 const clk = new clock(dut, dut.clk, dut.eval);
 console.log('dut: ', dut);
