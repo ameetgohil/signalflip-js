@@ -24,6 +24,7 @@ function clock(dut, signal, eval) {
     };
 
     this.addTask = (task) => {
+	console.log(task);
 	let t = task();
 	this.tasks.push(t);
 	this.taskreturn.push(t.next());
