@@ -14,8 +14,8 @@ function elastic(sim, type, data, valid, ready) {
     this.ready = ready;
     this.sim = sim;
     
-    function* driver(intf) {
-	console.log('type: ', intf.TYPE);
+    this.driver = function* () {
+	console.log('type: ', this.TYPE);
 	if(this.TYPE == this.TARGET) {
 	    while(true) {
 		yield () => { console.log("here: ", this.txArray); return this.txArray.length > 0; };
@@ -32,7 +32,7 @@ function elastic(sim, type, data, valid, ready) {
 	}
     }
 
-    function* monitor() {
+    this.monitor = function* () {
 	while(true) {
 	    yield () => { return valid() == 1 && ready() == 1 };
 	    this.rxArray.push(data());
@@ -43,8 +43,8 @@ function elastic(sim, type, data, valid, ready) {
 	this.txArray = [];
 	this.rxArray = [];
 	console.log('init: ',this.txArray.length, this.rxArray);
-	this.sim.addTask(driver(this));
-	this.sim.addTask(monitor(this));
+	this.sim.addTask(this.driver);
+	this.sim.addTask(this.monitor);
     }
 }
 
