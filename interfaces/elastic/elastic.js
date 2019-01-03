@@ -8,7 +8,7 @@ function elastic(sim, type, data, valid, ready) {
 
     this.txArray = [];
     this.rxArray = [];
-    this.TYPE = this.TARGET;
+    this.TYPE = type;
     this.data = data;
     this.valid = valid;
     this.ready = ready;
@@ -18,9 +18,9 @@ function elastic(sim, type, data, valid, ready) {
 	console.log('type: ', this.TYPE);
 	if(this.TYPE == this.TARGET) {
 	    while(true) {
-		yield () => { console.log("here: ", this.txArray); return this.txArray.length > 0; };
+		yield () => { return this.txArray.length > 0; };
 		let txn = this.txArray[0];
-		txArray.shift();
+		this.txArray.shift();
 		data(txn);
 		valid(1);
 		yield () => { return ready() };
@@ -42,9 +42,9 @@ function elastic(sim, type, data, valid, ready) {
     this.init = () => {
 	this.txArray = [];
 	this.rxArray = [];
-	console.log('init: ',this.txArray.length, this.rxArray);
-	this.sim.addTask(this.driver);
-	this.sim.addTask(this.monitor);
+	//console.log('init: ',this.txArray.length, this.rxArray);
+	sim.addTask(this.driver());
+	sim.addTask(this.monitor());
     }
 }
 
