@@ -1,5 +1,5 @@
 const dut = require('./build/Release/dut.node');
-const clock = require('./clock.js');
+const clock = require('./clock.js').clock;
 const elastic = require('./interfaces/elastic/elastic.js');
 
 
@@ -35,7 +35,7 @@ function* drive_t0() {
     }
     }*/
 
-const target = new elastic(clk, 0, dut.t0_data, dut.t0_valid, dut.t0_ready);
+const target = new elastic(clk, 0, dut.clk, dut.t0_data, dut.t0_valid, dut.t0_ready);
 target.init();
 
 for(let j = 0; j < 50; j = j+2) {
@@ -44,7 +44,4 @@ for(let j = 0; j < 50; j = j+2) {
 //clk.addTask(drive_t0);
 clk.run(20);
 
-
-       
-		   
 module.exports = dut;

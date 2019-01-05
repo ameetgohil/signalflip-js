@@ -1,8 +1,9 @@
+const RisingEdge = require('../../clock.js').RisingEdge;
 const TARGET = 0;
 const INITIATOR = 1;
 
 
-function elastic(sim, type, data, valid, ready) {
+function elastic(sim, type, clk, data, valid, ready) {
     this.TARGET = 0;
     this.INITIATOR = 1;
 
@@ -18,6 +19,9 @@ function elastic(sim, type, data, valid, ready) {
 	console.log('type: ', this.TYPE);
 	if(this.TYPE == this.TARGET) {
 	    while(true) {
+		//console.log('start');
+		yield* RisingEdge(clk);
+		//console.log('here');
 		yield () => { return this.txArray.length > 0; };
 		let txn = this.txArray[0];
 		this.txArray.shift();
@@ -34,6 +38,7 @@ function elastic(sim, type, data, valid, ready) {
 
     this.monitor = function* () {
 	while(true) {
+	    yield* RisingEdge(clk);
 	    yield () => { return valid() == 1 && ready() == 1 };
 	    this.rxArray.push(data());
 	}

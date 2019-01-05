@@ -1,6 +1,13 @@
 const EventEmitter = require('events').EventEmitter;
 const util = require('util');
 
+function* RisingEdge(sig) {
+    //console.log('clk: ',sig());
+    yield () => { return sig() == 0 };
+    //console.log('clk: ',sig());
+    yield () => { return sig() == 1 };
+}
+
 function clock(dut, signal, eval) {
     EventEmitter.call(this);
     this.setMaxListeners(Infinity);
@@ -15,11 +22,17 @@ function clock(dut, signal, eval) {
 	this.tasks.forEach((task, i) => {
 	    //	    console.log(task.next);
 //	    console.log(this.taskreturn[i].done);
-//	    console.log(this.taskreturn[i].value);
-	    if(!this.taskreturn[i].done && this.taskreturn[i].value()) {
-		
+	    //	    console.log(this.taskreturn[i].value);
+	    while(!this.taskreturn[i].done && this.taskreturn[i].value()) {
+		if(!this.taskreturn[i].done && this.taskreturn[i].value()) {
+		    //console.log('----------------');
+		    //console.log(this.taskreturn[i].value());
+		    //console.log(this.taskreturn[i].value);
+		    //console.log(this.taskreturn[i].done);
+		    //console.log('----------------');
 		this.taskreturn[i] = task.next();
 	    }
+	}
 	});
     };
 
@@ -42,6 +55,7 @@ function clock(dut, signal, eval) {
 	    this.emit('tickevent', 'clockevent');
 	    this.emit('negedge');
 	    eval();
+	    this.taskmanager();
 	}
 	console.log("finish");
 	dut.finish();
@@ -54,4 +68,4 @@ function clock(dut, signal, eval) {
 };
 util.inherits(clock, EventEmitter);
 
-module.exports = clock;
+module.exports = {RisingEdge, clock};
