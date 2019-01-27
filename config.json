@@ -1,0 +1,18 @@
+{
+    "dut_file": "src/top_elastic.sv",
+    "dut_name": "top_elastic",
+
+    "probe": [ "sig1", "sig2", "sig3"],
+    "sources": [ 
+      		 "cppsrc/main.cpp",
+		 "cppsrc/signals.cpp",
+		 "obj_dir/Vtop_elastic.cpp",
+		 "obj_dir/Vtop_elastic__Syms.cpp",
+		 "obj_dir/Vtop_elastic__Trace.cpp",
+		 "obj_dir/Vtop_elastic__Trace__Slow.cpp"
+    ],
+    "libraries": [ "/usr/local/share/verilator/include",
+		   "./obj_dir"
+		   ]
+
+}
