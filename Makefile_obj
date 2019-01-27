@@ -15,7 +15,10 @@
 #default: Vtop
 
 # Include the rules made by Verilator
-include Vtop_elastic.mk
+TOP_INC = V$(shell node -p "require('../config.json').dut_name").mk
+#TOP_INC = Vtop_elastic.mk
+include $(TOP_INC)
+#include Vtop_elastic.mk
 
 # Use OBJCACHE (ccache) if using gmake and its installed
 COMPILE.cc = $(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(TARGET_ARCH) -c
@@ -49,7 +52,9 @@ OPT_FAST = -O2 -fstrict-aliasing
 sim_main.o: cppsrc/main.cpp $(VM_PREFIX).h
 
 createlib: $(VK_GLOBAL_OBJS)
+#	@make -f $(TOP_INC) $(VK_GLOBAL_OBJS)
 	@echo "created lib"
+	@echo $(TOP_INC)
 	@echo $(VK_USER_OBJS)
 	@echo "archiving to verilator_global_libs.a"
 	ar r verilator_global_libs.a *.o
