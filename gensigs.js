@@ -2,11 +2,13 @@ const fs = require('fs');
 const _ = require('lodash');
 const replace = require('./getsignature.js');
 
-const getsig = replace('./src/top_elastic.sv');
+const dut_file = require('./config.json').dut_file;
+const dut_name = require('./config.json').dut_name;
+const getsig = replace(dut_file);
 
 
 const val = {'sigs': getsig, //['in_quad', 'fastclk', 'clk', 'reset_l'],
-	     'dutName': 'top_elastic'};
+	     'dutName': dut_name };
 
 
 var sigs_header_file = fs.readFileSync('./templates/signals.h');
