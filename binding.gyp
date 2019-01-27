@@ -2,18 +2,21 @@
   'targets': [
     {
       'target_name': 'dut',
-      'sources': [
-      		 'cppsrc/main.cpp',
-		 'cppsrc/signals.cpp',
-		 'obj_dir/Vtop_elastic.cpp',
-		 'obj_dir/Vtop_elastic__Syms.cpp',
-		 'obj_dir/Vtop_elastic__Trace.cpp',
-		 'obj_dir/Vtop_elastic__Trace__Slow.cpp'
+#      'sources': [
+#      		 'cppsrc/main.cpp',
+#		 'cppsrc/signals.cpp',
+#		 'obj_dir/Vtop_elastic.cpp',
+#		 'obj_dir/Vtop_elastic__Syms.cpp',
+#		 'obj_dir/Vtop_elastic__Trace.cpp',
+#		 'obj_dir/Vtop_elastic__Trace__Slow.cpp'
 #		 '/usr/local/share/verilator/include/verilated.cpp'
-      		 ],
+#     		 ],
+      'sources': ["<!@(node -p \"require('./getconfig.js').sources\")"],
+#      'sources': '<!(["node", ])',
       'include_dirs': ["<!@(node -p \"require('node-addon-api').include\")",
-      "/usr/local/share/verilator/include",
-      "./obj_dir"
+      "<!@(node -p \"require('./getconfig.js').libraries\")"
+#      "/usr/local/share/verilator/include",
+#      "./obj_dir"
       ],
      'libraries': ["../obj_dir/verilator_global_libs.a"],
 #      'ld_flags': ["-L/home/qubits/proj/veri-js/obj_dir/"],
