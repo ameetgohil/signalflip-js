@@ -52,6 +52,8 @@ VERILATOR_FLAGS += --coverage
 # Add this trace to get a backtrace in gdb
 #VERILATOR_FLAGS += --gdbbt
 
+TOP = $(shell node -p "require('./config.json').dut_file")
+
 ######################################################################
 default: verilate
 
@@ -70,7 +72,7 @@ verilate:
 
 	@echo
 	@echo "-- VERILATE ----------------"
-	$(VERILATOR) $(VERILATOR_FLAGS) -f src/input.vc src/top_elastic.sv 
+	$(VERILATOR) $(VERILATOR_FLAGS) -f src/input.vc $(TOP)
 
 run:
 	@echo
