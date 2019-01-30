@@ -4,7 +4,7 @@ const TARGET = 0;
 const INITIATOR = 1;
 
 
-function elastic(sim, type, clk, data, valid, ready, last) {
+function elastic(sim, type, clk, data, valid, ready, last = null) {
     this.TARGET = 0;
     this.INITIATOR = 1;
 
@@ -35,7 +35,8 @@ function elastic(sim, type, clk, data, valid, ready, last) {
 			yield* RisingEdge(clk);
 		}
 		valid(1);
-		last(this.txArray.length == 0 ? 1:0);
+		if (last != null)
+		    last(this.txArray.length == 0 ? 1:0);
 		while(ready() != 1) {
 		    yield* FallingEdge(clk);
 		}
