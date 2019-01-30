@@ -1,9 +1,10 @@
 const RisingEdge = require('../../clock.js').RisingEdge;
+const FallingEdge = require('../../clock.js').FallingEdge;
 const TARGET = 0;
 const INITIATOR = 1;
 
 
-function elastic(sim, type, clk, data, valid, ready) {
+function elastic(sim, type, clk, data, valid, ready, last) {
     this.TARGET = 0;
     this.INITIATOR = 1;
 
@@ -14,33 +15,51 @@ function elastic(sim, type, clk, data, valid, ready) {
     this.valid = valid;
     this.ready = ready;
     this.sim = sim;
+    this.randomize = 0;
     
     this.driver = function* () {
-	console.log('type: ', this.TYPE);
+	///console.log('TYPE::: ', this.TYPE);
 	if(this.TYPE == this.TARGET) {
+	    console.log('TYPE:::', this.TYPE, 'RANDOMIZE::: ', this.randomize == 1 ? true:false);
 	    while(true) {
 		//console.log('start');
 		yield* RisingEdge(clk);
 		//console.log('here');
+		valid(0);//this.txArray.length > 0 ? 1:0);
 		yield () => { return this.txArray.length > 0; };
 		let txn = this.txArray[0];
 		this.txArray.shift();
 		data(txn);
+		if(this.randomize ) {
+		    while(Math.round(Math.random()*15) != 0)
+			yield* RisingEdge(clk);
+		}
 		valid(1);
-		yield () => { return ready() };
-		valid(this.txArray.length > 0 ? 1:0);
+		last(this.txArray.length == 0 ? 1:0);
+		while(ready() != 1) {
+		    yield* FallingEdge(clk);
+		}
 	    }
 	}
 	else {
-	    ready(1);
+	    console.log('TYPE:::', this.TYPE, 'RANDOMIZE::: ', this.randomize == 1 ? true:false);
+	    while(true) {
+		if(this.randomize) {
+		    ready(Math.round(Math.random()));
+		} else {
+		    ready(1);
+		}
+		//console.log('ready: ', ready());
+		yield* RisingEdge(clk);
+	    }
 	}
     }
 
     this.monitor = function* () {
 	while(true) {
 	    yield* RisingEdge(clk);
-	    yield () => { return valid() == 1 && ready() == 1 };
-	    this.rxArray.push(data());
+	    if(valid() == 1 && ready() == 1)
+		this.rxArray.push(data());
 	}
     }
 

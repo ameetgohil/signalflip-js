@@ -8,6 +8,11 @@ function* RisingEdge(sig) {
     yield () => { return sig() == 1 };
 }
 
+function* FallingEdge(sig) {
+    yield () => { return sig() == 1 };
+    yield () => { return sig() == 0 };
+}
+
 function clock(dut, signal, eval) {
     EventEmitter.call(this);
     this.setMaxListeners(Infinity);
@@ -68,4 +73,4 @@ function clock(dut, signal, eval) {
 };
 util.inherits(clock, EventEmitter);
 
-module.exports = {RisingEdge, clock};
+module.exports = {RisingEdge, FallingEdge, clock};
