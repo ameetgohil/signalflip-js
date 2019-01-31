@@ -11,9 +11,9 @@ verilator testbench w/ Javascript using N-API
 ```
 > cd veri-js
 > nvm i 10
-> npm run compile
-> npm i
+> npm i --ignore-scripts
 > npm run gen
+> npm run compile
 > npm run all
 ```
 
