@@ -23,6 +23,8 @@ function clock(dut, signal, eval) {
     this.tasks = [];
     this.taskreturn = [];
 
+    this.finishTasks = [];
+
     this.taskmanager = () => {
 	this.tasks.forEach((task, i) => {
 	    //	    console.log(task.next);
@@ -47,6 +49,11 @@ function clock(dut, signal, eval) {
 	this.tasks.push(task);
 	this.taskreturn.push(task.next());
     }
+
+    this.finishTask = (task) => {
+	console.log(task);
+	this.finishTasks.push(task);
+    }
     
     this.run = (iter) => {
 	for(i = 0; i < iter; i++) {
@@ -62,7 +69,11 @@ function clock(dut, signal, eval) {
 	    eval();
 	    this.taskmanager();
 	}
-	console.log("finish");
+	console.log("Runing finish tasks");
+	this.finishTasks.forEach((task) => {
+	    task();
+	});
+	console.log("DUT finish");
 	dut.finish();
     };
 
