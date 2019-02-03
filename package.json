@@ -1,6 +1,6 @@
 { 
    "name": "SignalFlip-js",
-   "version": "1.0.0",
+   "version": "0.1.0",
    "main": "index.js",
    "dependencies": {
       "node-addon-api": "latest",
