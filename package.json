@@ -19,5 +19,5 @@
       "node-gyp": "^3.8.0"
    },
    "author": "Ameet Gohil",
-   "license": "GPL-3.0"
+   "license": "MIT"
 }
