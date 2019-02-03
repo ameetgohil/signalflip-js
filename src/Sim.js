@@ -13,18 +13,18 @@ function* FallingEdge(sig) {
     yield () => { return sig() == 0 };
 }
 
-function clock(dut, signal, eval) {
+function Sim(dut, eval, clk = null) {
     EventEmitter.call(this);
     this.setMaxListeners(Infinity);
-    this.signal = signal;
+    this.clk = (clk == null) ? (val) => { return val }:clk;
     
-    this.tick  = () => { signal(signal() ? 0 : 1) };
+    this.tick  = () => { this.clk(this.clk() ? 0 : 1) };
 
     this.tasks = [];
     this.taskreturn = [];
 
     this.finishTasks = [];
-
+    
     this.taskmanager = () => {
 	this.tasks.forEach((task, i) => {
 	    //	    console.log(task.next);
@@ -82,6 +82,6 @@ function clock(dut, signal, eval) {
     };
 
 };
-util.inherits(clock, EventEmitter);
+util.inherits(Sim, EventEmitter);
 
-module.exports = {RisingEdge, FallingEdge, clock};
+module.exports = {RisingEdge, FallingEdge, Sim};
