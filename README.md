@@ -1,4 +1,4 @@
-# SignalFlip-js
+# signalflip-js
 verilator testbench w/ Javascript using N-API
 
 ## Dependencies
