@@ -4,8 +4,7 @@
    "main": "index.js",
    "dependencies": {
       "node-addon-api": "latest",
-      "lodash": "latest",
-      "mustache": "latest"
+      "lodash": "latest"
    },
    "scripts": {
       "compile": "make verilate && cd obj_dir && make -f ../Makefile_obj createlib",
