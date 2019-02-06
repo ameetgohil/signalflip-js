@@ -9,13 +9,12 @@ verilator testbench w/ Javascript using N-API
 - gtkwave (optional)
 
 ## Instructions to run
-- Clone repository
+- git clone https://github.com/ameetgohil/create-signalflip-js-tb.git testbench_name && rm -rf testbench_name/.git
 ```
-> cd veri-js
+> cd testbench_name
 > nvm i 10
 > npm i --ignore-scripts
 > npm run gen
-> npm run compile
 > npm run all
 ```
 
