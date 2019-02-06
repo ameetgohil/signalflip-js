@@ -18,7 +18,7 @@ module top_elastic
    
 
    logic      data_en;
-   assign t0_ready = ~i0_valid | i0_ready;
+   assign t0_ready = ~rstf ? 0:~i0_valid | i0_ready;
 
    assign data_en = t0_valid & t0_ready;
 
