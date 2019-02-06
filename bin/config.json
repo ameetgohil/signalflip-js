@@ -1,5 +1,5 @@
 {
-    "dut_file": "src/top_elastic.sv",
+    "dut_file": "./node_modules/signalflip-js/verilog_src/top_elastic.sv",
     "dut_name": "top_elastic",
 
     "probe": [ "sig1", "sig2", "sig3"],

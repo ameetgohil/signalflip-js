@@ -10,10 +10,10 @@ const mkdirSync = function (dirPath) {
 
 const name = process.argv[2];
 
-const copy = (src) => {
-    fs.copyFile(src, name + '/' + src, (err) => {
+const copy = (src_dir,src,dest_dir) => {
+    fs.copyFile(src_dir + src, name + '/' + dest_dir + src, (err) => {
 	if (err) throw err;
-	console.log(src, ' was copied to ', name + '/' + src);
+	console.log(src_dir + src, ' was copied to ', name + '/' + dest_dir + src);
     });
 };
 
@@ -26,14 +26,22 @@ const copy = (src) => {
 console.log(name);
 mkdirSync(name);
 
-const files = [ 'Makefile',
-		'Makefile_obj',
-		'package.json',
-		'binding.gyp',
-		'config.json',
-		'input.vc'
-	      ];
-		
-files.map((e) => {
-    copy(e);
+const bin_files = [ 'Makefile',
+		    'Makefile_obj',
+		    'package.json',
+		    'binding.gyp',
+		    'getsignature.js',
+		    'gensigs.js',
+		    'config.json',
+		    'input.vc',
+		    'index.js'
+		  ];
+
+bin_files.map((e) => {
+    console.log(e);
+    copy('bin/',e, '');
 });
+
+mkdirSync(name + '/cppsrc');
+copy('cppsrc/', 'main.cpp', 'cppsrc/');
+copy('src/','getconfig.js', '');

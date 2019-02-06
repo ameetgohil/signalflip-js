@@ -1,5 +1,5 @@
-//const RisingEdge = require('../../Sim.js').RisingEdge;
-//const FallingEdge = require('../../Sim.js').FallingEdge;
+const RisingEdge = require('../../Sim.js').RisingEdge;
+const FallingEdge = require('../../Sim.js').FallingEdge;
 const TARGET = 0;
 const INITIATOR = 1;
 
