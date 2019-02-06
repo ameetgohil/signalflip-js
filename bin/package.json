@@ -1,10 +1,11 @@
 { 
-   "name": "signalflip-js",
+   "name": "test",
    "version": "0.1.0",
    "main": "index.js",
    "dependencies": {
       "node-addon-api": "latest",
-      "lodash": "latest"
+       "lodash": "latest",
+       "signalflip-js": "latest"
    },
     "scripts": {
 	"create-tb": "node src/create-tb.js",
