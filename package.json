@@ -3,8 +3,9 @@
    "version": "0.1.4",
    "main": "index.js",
    "dependencies": {
+      "lodash": "latest",
       "node-addon-api": "latest",
-      "lodash": "latest"
+      "pinlist": "^0.8.0"
    },
    "scripts": {
       "create-tb": "node src/create-tb.js",
