@@ -44,14 +44,14 @@ function Sim(dut, eval, clk = null) {
     };
 
     this.addTask = (task) => {
-	console.log(task);
+	//console.log(task);
 	//let t = task();
 	this.tasks.push(task);
 	this.taskreturn.push(task.next());
     }
 
     this.finishTask = (task) => {
-	console.log(task);
+	//console.log(task);
 	this.finishTasks.push(task);
     }
     
@@ -69,11 +69,11 @@ function Sim(dut, eval, clk = null) {
 	    eval();
 	    this.taskmanager();
 	}
-	console.log("Runing finish tasks");
+	//console.log("Runing finish tasks");
 	this.finishTasks.forEach((task) => {
 	    task();
 	});
-	console.log("DUT finish");
+	//console.log("DUT finish");
 	dut.finish();
     };
 
