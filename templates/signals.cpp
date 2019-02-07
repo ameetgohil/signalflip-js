@@ -47,9 +47,9 @@ void signals::init_top() {
     //VL_PRINTF("Enabling waves into logs/vlt_dump.vcd...\n");
     tfp = new VerilatedVcdC;
     top->trace(tfp, 99);  // Trace 99 levels of hierarchy
-    // Verilated::mkdir("logs");
+    Verilated::mkdir("logs");
 
-    mkdir("logs",0x775);
+    //mkdir("logs",0x775);
 
     tfp->open("logs/vlt_dump.vcd");  // Open the dump file
     //  }
