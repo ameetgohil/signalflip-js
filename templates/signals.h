@@ -36,7 +36,8 @@ namespace signals {
   //Napi::BigInt <%= sig.name %>Wrapped(const Napi::CallbackInfo& info);
       <% } %>
   <% }) %>
-  Napi::Number evalWrapped(const Napi::CallbackInfo& info);
-  Napi::Number finishWrapped(const Napi::CallbackInfo& info);
+  void evalWrapped(const Napi::CallbackInfo& info);
+  void finishWrapped(const Napi::CallbackInfo& info);
+  void initWrapped(const Napi::CallbackInfo& info);
   Napi::Object Init(Napi::Env env, Napi::Object exports);
 };

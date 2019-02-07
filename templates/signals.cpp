@@ -1,5 +1,6 @@
 #include "signals.h"
 #include <verilated.h>
+#include <sys/stat.h>
 
 // Include model header, generated from Verilating "top.v"
 #include "V<%= dutName %>.h"
@@ -46,7 +47,10 @@ void signals::init_top() {
     VL_PRINTF("Enabling waves into logs/vlt_dump.vcd...\n");
     tfp = new VerilatedVcdC;
     top->trace(tfp, 99);  // Trace 99 levels of hierarchy
-    Verilated::mkdir("logs");
+    // Verilated::mkdir("logs");
+
+    mkdir("logs",0x775);
+
     tfp->open("logs/vlt_dump.vcd");  // Open the dump file
     //  }
   //#endif
@@ -201,23 +205,30 @@ Napi::Number signals::<%= e.name %>Wrapped(const Napi::CallbackInfo& info) {
 
 
 
-Napi::Number signals::evalWrapped(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();
+void signals::evalWrapped(const Napi::CallbackInfo& info) {
+    signals::eval();
+  // Napi::Env env = info.Env();
 
-  Napi::Number returnValue = Napi::Number::New(env, signals::eval());
-  return returnValue;
+  // Napi::Number returnValue = Napi::Number::New(env, signals::eval());
+  // return returnValue;
   
 }
 
-Napi::Number signals::finishWrapped(const Napi::CallbackInfo& info) {
-    Napi::Env env = info.Env();
+void signals::finishWrapped(const Napi::CallbackInfo& info) {
+    signals::finish();
+    // Napi::Env env = info.Env();
 
-    Napi::Number returnValue = Napi::Number::New(env, signals::finish());
-    return returnValue;
+    // Napi::Number returnValue = Napi::Number::New(env, signals::finish());
+    // return returnValue;
+}
+
+void signals::initWrapped(const Napi::CallbackInfo& info) {
+    // Napi::Env env = info.Env();
+    signals::init_top();
 }
 
 Napi::Object signals::Init(Napi::Env env, Napi::Object exports) {
-  signals::init_top();
+
 <% sigs.map(e => { %>
     <% if (e.width < 64) { %>
   exports.Set("<%= e.name %>", Napi::Function::New(env, signals::<%= e.name %>Wrapped));
@@ -225,6 +236,7 @@ Napi::Object signals::Init(Napi::Env env, Napi::Object exports) {
 <% }) %>
   exports.Set("eval", Napi::Function::New(env, signals::evalWrapped));
   exports.Set("finish", Napi::Function::New(env, signals::finishWrapped));
+  exports.Set("init", Napi::Function::New(env, signals::initWrapped));
   
   return exports;
 }
