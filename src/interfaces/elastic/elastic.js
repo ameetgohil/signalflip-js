@@ -16,11 +16,16 @@ function elastic(sim, type, clk, data, valid, ready, last = null) {
     this.ready = ready;
     this.sim = sim;
     this.randomize = 0;
+    this.print = false;
+    this.randomizeValid = ()=>{return Math.round(Math.random()*15) };
+    this.randomizeReady = ()=>{return Math.round(Math.random()) };
     
     this.driver = function* () {
 	///console.log('TYPE::: ', this.TYPE);
 	if(this.TYPE == this.TARGET) {
-	    console.log('TYPE:::', this.TYPE, 'RANDOMIZE::: ', this.randomize == 1 ? true:false);
+	    if(this.print) {
+            console.log('TYPE:::', this.TYPE, 'RANDOMIZE::: ', this.randomize == 1 ? true:false);
+        }
 	    while(true) {
 		//console.log('start');
 		yield* RisingEdge(clk);
@@ -31,7 +36,7 @@ function elastic(sim, type, clk, data, valid, ready, last = null) {
 		this.txArray.shift();
 		data(txn);
 		if(this.randomize ) {
-		    while(Math.round(Math.random()*15) != 0)
+		    while(this.randomizeValid() != 0)
 			yield* RisingEdge(clk);
 		}
 		valid(1);
@@ -43,10 +48,12 @@ function elastic(sim, type, clk, data, valid, ready, last = null) {
 	    }
 	}
 	else {
-	    console.log('TYPE:::', this.TYPE, 'RANDOMIZE::: ', this.randomize == 1 ? true:false);
+        if( this.print ) {
+    	    console.log('TYPE:::', this.TYPE, 'RANDOMIZE::: ', this.randomize == 1 ? true:false);
+        }
 	    while(true) {
 		if(this.randomize) {
-		    ready(Math.round(Math.random()));
+		    ready(this.randomizeReady());
 		} else {
 		    ready(1);
 		}
