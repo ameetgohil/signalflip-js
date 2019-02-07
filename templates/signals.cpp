@@ -44,7 +44,7 @@ void signals::init_top() {
   //  const char* flag = Verilated::commandArgsPlusMatch("trace");
   //  if (flag && 0==strcmp(flag, "+trace")) {
     Verilated::traceEverOn(true);  // Verilator must compute traced signals
-    VL_PRINTF("Enabling waves into logs/vlt_dump.vcd...\n");
+    //VL_PRINTF("Enabling waves into logs/vlt_dump.vcd...\n");
     tfp = new VerilatedVcdC;
     top->trace(tfp, 99);  // Trace 99 levels of hierarchy
     // Verilated::mkdir("logs");
