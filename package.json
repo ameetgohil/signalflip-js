@@ -35,7 +35,7 @@
     "bugs": {
 	"url": "https://github.com/ameetgohil/signalflip-js/issues"
     },
-    "homepage": "https://github.com/ameetgohil/signalflip-js#readme"
+    "homepage": "https://github.com/ameetgohil/signalflip-js#readme",
     "author": "Ameet Gohil",
     "license": "MIT"
 }
