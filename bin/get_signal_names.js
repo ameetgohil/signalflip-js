@@ -69,14 +69,8 @@ function get_signal_names(str) {
 		let vector = brackets.exec(e)[1];
 		let vector_array = vector.match(get_width);
 		width = parseInt(vector_array[0])-parseInt(vector_array[1]) + 1;
-		//console.log(vector_array[0]);
-		//console.log(parseInt(vector_array[0]));
 	    }
 	    name = e.trim().match(last_word)[0];
-	    /*console.log(':::last: ', (e.trim()).match(last_word));
-	      console.log(" output reg[31.0] sig2");
-	      console.log('width: ', width);*/
-	    console.log(name, width, dir);
 	    obj['name'] = name;
 	    obj['width'] = width;
 	    obj['dir'] = dir;
