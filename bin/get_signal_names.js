@@ -1,5 +1,7 @@
+const _ = require('lodash');
 var test_str = `
-module test(
+module test
+  (
 input wire[7:0] data,
 input wire valid,
 input wire ready,
@@ -7,6 +9,45 @@ output wire sig1,
 output reg[31.0] sig2,
 input clk, rst
 );
+`;
+
+var test_str2 = `
+module top_elastic
+  (
+   input [31:0] t0_data,
+   input        t0_valid,
+   output       t0_ready,
+   output [31:0] i0_data,
+   output        i0_valid,
+   input        i0_ready,
+   input        clk,
+   input        rstf
+   );
+
+   wire         t0_ready;
+   
+   reg [31:0]   i0_data;
+   
+   reg          i0_valid;
+   
+
+   logic      data_en;
+   assign t0_ready = ~rstf ? 0:~i0_valid | i0_ready;
+
+   assign data_en = t0_valid & t0_ready;
+
+   always @(posedge clk or negedge rstf) begin
+      if(!rstf) begin
+         i0_data <= 0;
+         i0_valid <= 0;
+      end
+      else begin
+         if(data_en)
+           i0_data <= t0_data<<2;
+         i0_valid <= ~t0_ready | t0_valid;
+      end
+   end
+endmodule
 `;
 
 //let str2 = `[ sdlk ]`;
@@ -40,8 +81,15 @@ function get_signal_names(str) {
     let remove_new_line = /\n/g;
 
     let returnObj = [];
-    if(str.search(modulere) > 0) {
-	let module = modulere.exec(str)[0];
+    //console.log(modulere.exec(str));
+    //console.log(_.isEqual(str, test_str2));
+    //console.log(_.differenceWith(str, test_str2, _.isEqual));
+    //console.log(str.search(between_parentheses));
+    //console.log(str.search(modulere));
+    
+    let module_arr = modulere.exec(str);
+    if(module_arr !=null) {
+	let module = module_arr[0];
 	let port_str = between_parentheses.exec(module)[1];
 
 	//console.log(module);
@@ -76,11 +124,12 @@ function get_signal_names(str) {
 	    obj['dir'] = dir;
 	    returnObj.push(obj);
 	});
+	//console.log(returnObj);
 	return returnObj;
 
     }
 }
 
-console.log(get_signal_names(test_str));
+//console.log(get_signal_names(test_str2));
 
 module.exports = get_signal_names;
