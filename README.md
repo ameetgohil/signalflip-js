@@ -21,7 +21,7 @@ verilator testbench w/ Javascript using N-API
 ### Example sim init
 
 The code below shows how to initialize dut and import useful function such as Rising Edge, Falling Edge, Sim, and interfaces.
-```
+```javascript
 const dut = require('./build/Release/dut.node');
 const {Sim, RisingEdge, FallingEdge, Interfaces} = require('signalflip-js');
 const {Elastic} = Interfaces;
@@ -33,13 +33,13 @@ dut.init();
 ```
 
 ### Access and manipulate signals
-```
+```javascript
 const rdata = dut.t0_data(); //Reads data on t0_data signal
 dut.t0_data(30); //Writes the value 30 to t0_data
 ```
 
 ### Example Task
-```
+```javascript
 // Task reads t0_data when t0_valid is high on falling edge of the clock
 function* read_t0_data() {
     yield* FallingEdge(dut.clk)
@@ -51,7 +51,7 @@ sim.addTask(read_t0_data()); //initializes task
 ```
 
 ### Example Task waits until t0_data is equal to 64
-```
+```javascript
 function* wait_for_64() {
     yield () => {return dut.t0_data == 64 };
     console.log('t0_data reached the value 64');
@@ -60,10 +60,10 @@ function* wait_for_64() {
 sim.addTask(wait_for64()); //initializes task
 ```
 
-NOTE: function* means that it is generator. yield* is used when you want to call another task within a task. yield is used when it you are calling a function that returns a boolean; yield will stop the task until that boolean condition is met.
+NOTE: function* means that it is a generator. yield* is used when you want to call another task within a task. yield is used when it you are calling a function that returns a boolean; yield will stop the task until that boolean condition is met.
 
 ### Run simulation
-```
+```javascript
 sim.run(1000); // runs simulation for 1000 clock cycles
 ```
 
