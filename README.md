@@ -51,6 +51,7 @@ sim.addTask(read_t0_data()); //initializes task
 ```
 
 ### Example Task waits until t0_data is equal to 64
+```
 function* wait_for_64() {
     yield () => {return dut.t0_data == 64 };
     console.log('t0_data reached the value 64');
