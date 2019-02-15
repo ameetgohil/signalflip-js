@@ -62,6 +62,10 @@ sim.addTask(wait_for64()); //initializes task
 
 NOTE: function* means that it is generator. yield* is used when you want to call another task within a task. yield is used when it you are calling a function that returns a boolean; yield will stop the task until that boolean condition is met.
 
+### Run simulation
+```
+sim.run(1000); // runs simulation for 1000 clock cycles
+```
 
 ## Show graph
 ```
