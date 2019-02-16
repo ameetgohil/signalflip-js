@@ -1,0 +1,74 @@
+#=========================================================================
+# Travis CI Configuration
+#=========================================================================
+# This file configures Travis CI to automatically run tests for this RTL
+# project everytime a commit is made.
+
+# Prefer use of container-based environment as they start up faster and
+# provide more RAM and CPU cores.
+
+sudo: false
+
+node_js:
+  - 10
+# Install the build requirements
+addons:
+  apt:
+   sources:
+    # For gcc-4.8
+    - ubuntu-toolchain-r-test
+   packages:
+    # Dependencies from tutorial
+    - autoconf
+    - automake
+    - autotools-dev
+    - curl
+    - libmpc-dev
+    - libmpfr-dev
+    - libgmp-dev
+    - gawk
+    - build-essential
+    - bison
+    - flex
+    - texinfo
+    - gperf
+    - libncurses5-dev
+    - libusb-1.0-0
+    - libboost-dev
+    # Need gcc-4.8
+    - gcc
+    - g++
+    - gtkwave
+
+# No Git operations will be performed. Best to fetch only the latest commit.
+git:
+  depth: 1
+
+# TODO: Verify that this setting is optimal.
+env:
+  - JOBS=2
+
+# Don't need email notifications for now.
+notifications:
+  email: false
+
+install:
+ # Build Verilator.
+ - git clone http://git.veripool.org/git/verilator
+ - cd verilator
+ - autoconf && ./configure && make
+ - export VERILATOR_ROOT=${PWD}
+ - export PATH=${VERILATOR_ROOT}/bin:$PATH
+ - verilator -V
+ - cd ..
+
+
+
+script:
+ # Run the simulation.
+ - git clone https://github.com/ameetgohil/create-signalflip-js-tb.git newtb && rm -rf newtb/.git
+ - cd newtb
+ - npm i --ignore-scripts
+ - npm run gen
+ - npm run all
+
