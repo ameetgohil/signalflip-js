@@ -1,4 +1,5 @@
 [![npm version](https://badge.fury.io/js/signalflip-js.svg)](https://badge.fury.io/js/signalflip-js)
+[![Build Status](https://travis-ci.com/ameetgohil/signalflip-js.svg?branch=master)](https://travis-ci.com/ameetgohil/signalflip-js)
 
 # signalflip-js
 verilator testbench w/ Javascript using N-API
