@@ -1,19 +1,27 @@
-{ 
+{
    "name": "test",
    "version": "0.1.0",
    "main": "index.js",
    "dependencies": {
+      "cmake-js": "^5.1.0",
+      "jsverify": "^0.8.4",
+      "lodash": "latest",
+      "mocha": "^5.2.0",
       "node-addon-api": "latest",
-       "lodash": "latest",
-       "signalflip-js": "latest"
+      "signalflip-js": "latest"
    },
-    "scripts": {
-	"create-tb": "node src/create-tb.js",
+   "cmake-js": {
+      "runtime": "node"
+   },
+   "scripts": {
+      "create-tb": "node src/create-tb.js",
       "compile": "make verilate && cd obj_dir && make -f ../Makefile_obj createlib",
-      "build": "node-gyp rebuild",
-      "clean": "node-gyp clean && make clean",
-      "all": "npm run clean && npm run compile && npm run build && npm run test",
-      "test": "node index.js",
+      "rebuild": "cmake-js rebuild",
+      "build": "cmake-js compile",
+      "clean": "cmake-js clean && make clean",
+      "all": "npm run compile && npm run build && npm run mocha",
+       "test": "node index.js",
+       "mocha": "mocha",
       "gen": "node gensigs.js"
    },
    "gypfile": true,

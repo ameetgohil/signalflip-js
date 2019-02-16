@@ -41,7 +41,7 @@ endif
 # SystemC takes minutes to optimize, thus it is off by default.
 OPT_SLOW =
 # Fast path optimizations.  Most time is spent in these classes.
-OPT_FAST = -O2 -fstrict-aliasing
+OPT_FAST = -O3 -fstrict-aliasing
 #OPT_FAST = -O
 #OPT_FAST =
 
@@ -51,13 +51,18 @@ OPT_FAST = -O2 -fstrict-aliasing
 # Special compile rule
 sim_main.o: cppsrc/main.cpp $(VM_PREFIX).h
 
-createlib: $(VK_GLOBAL_OBJS)
+
+
+createlib: $(VK_GLOBAL_OBJS) $(VM_PREFIX)__ALL.a
 #	@make -f $(TOP_INC) $(VK_GLOBAL_OBJS)
 	@echo "created lib"
 	@echo $(TOP_INC)
 	@echo $(VK_USER_OBJS)
 	@echo "archiving to verilator_global_libs.a"
 	ar r verilator_global_libs.a *.o
+
+create_top_lib: $(VK_USER_OBJS) $(VK_GLOBAL_OBJS) $(VM_PREFIX)__ALL.a
+	$(LINK) $(LDFLAGS) $^ $(LOADLIBES) $(LDLIBS) -o $@ $(LIBS) $(SC_LIBS)
 
 
 ######################################################################

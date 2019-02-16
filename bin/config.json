@@ -5,13 +5,11 @@
     "probe": [ "sig1", "sig2", "sig3"],
     "sources": [ 
       		 "cppsrc/main.cpp",
-		 "cppsrc/signals.cpp",
-		 "obj_dir/Vtop_elastic.cpp",
-		 "obj_dir/Vtop_elastic__Syms.cpp",
-		 "obj_dir/Vtop_elastic__Trace.cpp",
-		 "obj_dir/Vtop_elastic__Trace__Slow.cpp"
+	"cppsrc/signals.cpp"
     ],
     "libraries": [ "/usr/local/share/verilator/include",
+		   "/usr/local/share/verilator/include/vltstd",
+		   "/usr/local/share/verilator/include/gtkwave",
 		   "./obj_dir"
 		   ]
 

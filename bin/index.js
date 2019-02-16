@@ -5,7 +5,7 @@ const _ = require('lodash');
 
 
 const clk = new Sim(dut, dut.eval, dut.clk);
-
+dut.init();
 
 const init = () => {
     dut.t0_data(0);
