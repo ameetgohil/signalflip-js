@@ -21,7 +21,7 @@ verilator testbench w/ Javascript using N-API
 
 ### Example sim init
 
-The code below shows how to initialize dut and import useful function such as Rising Edge, Falling Edge, Sim, and interfaces.
+The code below shows how to initialize dut and import useful functions such as RisingEdge, FallingEdge, Sim, and interfaces.
 ```javascript
 const dut = require('./build/Release/dut.node');
 const {Sim, RisingEdge, FallingEdge, Interfaces} = require('signalflip-js');
@@ -29,7 +29,7 @@ const {Elastic} = Interfaces;
 const _ = require('lodash');
 
 
-const sim = new Sim(dut, dut.eval, dut.clk);
+const sim = new Sim(dut, dut.eval, dut.clk); //dut.clk argument creates a clock on clk signal
 dut.init();
 ```
 
