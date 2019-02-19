@@ -15,7 +15,7 @@ npm i --ignore-scripts
 ```
 
 ## Create the counter.sv file
-This file can saved anywhere but for this tutorial we will create a new folder called verilogsrc and save it there (counter_tb->verilogsrc->counter.sv)
+The counter.sv file can saved anywhere, but for this tutorial, we will create a new folder called verilogsrc and save it there (counter_tb->verilogsrc->counter.sv)
 ```systemverilog
 module counter
   (input wire en,
@@ -129,7 +129,7 @@ sim.run(100);
 ```
 
 ## Run the simulation
-Any time the port definitions change for the top-level dut, the following command needs to be run generate new a new wrapper for the dut.
+Any time the port definitions change for the top-level dut, the following command needs to be run to generate a new wrapper for the dut.
 ```
 npm run gen
 ```
