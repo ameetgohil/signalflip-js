@@ -1,9 +1,9 @@
 # Basic Testbench Tutorial
-	This tutorial goes over how to setup a signalflip testbench for a counter.
-	First you need to install the prerequisites: 
-	[Verilator (4.0 or above)](https://www.veripool.org/projects/verilator/wiki/Installing)
-	[nvm (node)](https://github.com/creationix/nvm)
-	gtkwave (for viewing waveforms)
+This tutorial goes over how to setup a signalflip testbench for a counter.
+First you need to install the prerequisites: 
+[Verilator (4.0 or above)](https://www.veripool.org/projects/verilator/wiki/Installing)
+[nvm (node)](https://github.com/creationix/nvm)
+gtkwave (for viewing waveforms)
 	
 ## Setup a testbench template
 ```
