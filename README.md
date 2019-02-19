@@ -18,6 +18,9 @@ verilator testbench w/ Javascript using N-API
 > npm run gen
 > npm run all
 ```
+### Examples
+[Basic testbench example](./BasicTestbench.md)
+
 ### Example sim init
 
 The code below shows how to initialize dut and import useful functions such as RisingEdge, FallingEdge, Sim, and interfaces.
