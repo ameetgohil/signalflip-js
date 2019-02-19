@@ -1,6 +1,9 @@
 # Basic Testbench Tutorial
 	This tutorial goes over how to setup a signalflip testbench for a counter.
-	First you need to install the prerequisites: [Verilator (4.0 or above)](https://www.veripool.org/projects/verilator/wiki/Installing), [nvm (node)](https://github.com/creationix/nvm), gtkwave (for viewing waveforms)
+	First you need to install the prerequisites: 
+	[Verilator (4.0 or above)](https://www.veripool.org/projects/verilator/wiki/Installing)
+	[nvm (node)](https://github.com/creationix/nvm)
+	gtkwave (for viewing waveforms)
 	
 ## Setup a testbench template
 ```
@@ -89,7 +92,7 @@ sim.run(100);
 
 Final index.js
 ```javascript
-/imports dut that was compiled with verilator wrapped with N-API. All top level signals are accessible via this import
+//imports dut that was compiled with verilator wrapped with N-API. All top level signals are accessible via this import
 const dut = require('./build/Release/dut.node');
 //Sim manages tasks and advances time
 //RisingEdge/FallingEdge - wait under rising/falling edge detect on a given signal
