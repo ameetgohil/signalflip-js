@@ -36,7 +36,7 @@ endmodule
 ## Modify config.json
 Point to the .sv file you want simulate and set dut name.
 ```json
-    "dut_file": "./verilog_src/counter.sv",
+    "dut_file": "./verilogsrc/counter.sv",
     "dut_name": "counter",
 ```
 
