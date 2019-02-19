@@ -1,9 +1,9 @@
 # Basic Testbench Tutorial
-This tutorial goes over how to setup a signalflip testbench for a counter.
-First you need to install the prerequisites: 
-[Verilator (4.0 or above)](https://www.veripool.org/projects/verilator/wiki/Installing)
-[nvm (node)](https://github.com/creationix/nvm)
-gtkwave (for viewing waveforms)
+This tutorial goes over how to setup a signalflip testbench for a counter. <br />
+First you need to install the prerequisites <br />
+[Verilator (4.0 or above)](https://www.veripool.org/projects/verilator/wiki/Installing) <br />
+[nvm (node)](https://github.com/creationix/nvm) <br />
+gtkwave (for viewing waveforms) <br />
 	
 ## Setup a testbench template
 ```
@@ -40,8 +40,8 @@ Point to the .sv file you want simulate and set dut name.
 ```
 
 ## Create the test
-The index.js file in the template already contains code to run the top_elastic (valid-ready) test. We will empty out the file for this tutorial.
-
+The index.js file in the template already contains code to run the top_elastic (valid-ready) test. We will empty out the file for this tutorial. <br />
+<br />
 Add the following to index.js import useful functions such as RisingEdge, FallingEdge, Sim
 ```javascript
 //imports dut that was compiled with verilator wrapped with N-API. All top level signals are accessible via this import
