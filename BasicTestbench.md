@@ -9,7 +9,7 @@ First you need to install the prerequisites <br />
 ## Setup a testbench template
 ```
 git clone https://github.com/ameetgohil/create-signalflip-js-tb.git counter_tb && rm -rf counter_tb/.git
-cd testbench_name
+cd counter_tb
 nvm use || nvm install
 npm i --ignore-scripts
 ```
