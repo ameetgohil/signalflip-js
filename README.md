@@ -7,6 +7,7 @@ verilator testbench w/ Javascript using N-API
 ## Dependencies
 - [Verilator (version 4.0 or above)](https://www.veripool.org/projects/verilator/wiki/Installing)
 - [nvm](https://github.com/creationix/nvm)
+- cmake
 - gtkwave (optional)
 
 ## Instructions to run
