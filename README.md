@@ -75,7 +75,3 @@ sim.run(1000); // runs simulation for 1000 clock cycles
 ```
 gtkwave logs/vlt_dump.vcd
 ```
-## TODO
-
-- [ ] Add support for signals wider than 63 bits (BigInt)
-- [ ] Testbench framework
