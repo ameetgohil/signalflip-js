@@ -23,7 +23,7 @@ module counter
    input            clk, rstf
    );
 
-   always @(posedge clk or negedge) begin
+   always @(posedge clk or negedge rstf) begin
       if(~rstf)
         count <= 0;
       else
