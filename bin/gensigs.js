@@ -8,6 +8,7 @@ const get_signal_names = require('./get_signal_names');
 
 const dut_file = require('./config.json').dut_file;
 const dut_name = require('./config.json').dut_name;
+const waveform_format = require('./config.json').waveform_format;
 
 async function get_pinlist(options={}) {
     const { topfile } = options;
@@ -21,7 +22,8 @@ async function  gen() {
     let sigs = await get_pinlist({ topfile: dut_file });
     console.log(sigs);
     const val = {'sigs': sigs, //['in_quad', 'fastclk', 'clk', 'reset_l'],
-		 'dutName': dut_name };
+		 'dutName': dut_name,
+		 'waveform_format': waveform_format};
 
     const mkdirSync = function (dirPath) {
 	try {
