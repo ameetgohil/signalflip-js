@@ -7,7 +7,13 @@
 
 // If "verilator --trace" is used, include the tracing class
 //#if VM_TRACE
+<% if(waveform_format == "fst") { %>
+#include <verilated_fst_c.h>
+VerilatedFstC* tfp;
+<% } else { %>
 # include <verilated_vcd_c.h>
+VerilatedVcdC* tfp;
+<% } %>
 //#endif
 
 // // Current simulation time (64-bit unsigned)
@@ -25,7 +31,6 @@ union WideSignal {
 
 
 V<%= dutName %>* top;
-VerilatedVcdC* tfp;
 void signals::init_top() {
 
   //Verilated::debug(0);
@@ -45,13 +50,22 @@ void signals::init_top() {
   //  if (flag && 0==strcmp(flag, "+trace")) {
     Verilated::traceEverOn(true);  // Verilator must compute traced signals
     //VL_PRINTF("Enabling waves into logs/vlt_dump.vcd...\n");
-    tfp = new VerilatedVcdC;
+<% if(waveform_format == "fst") { %>
+    tfp = new VerilatedFstC;
+<% } else { %>
+    tfp = new VerilatedFstC;
+<% } %>
     top->trace(tfp, 99);  // Trace 99 levels of hierarchy
     Verilated::mkdir("logs");
 
     //mkdir("logs",0x775);
+<% if(waveform_format == "fst") { %>
+    tfp->open("logs/vlt_dump.fst");  // Open the dump file
+<% } else { %>
+    tfp->open("logs/vlt_dump.vcd");  // Open the dump file    tfp = new VerilatedFstC;
+<% } %>
 
-    tfp->open("logs/vlt_dump.vcd");  // Open the dump file
+
     //  }
   //#endif
 
