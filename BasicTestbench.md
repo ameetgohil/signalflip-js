@@ -129,7 +129,7 @@ sim.run(100);
 ```
 
 ## Modify package.json
-Since we haven't developed are test using mocha(we will do so in the next tutorial), package.json needs to modified to run index.js and not mocha. Search for "all" and modify that line as shown below
+Since we haven't developed the test using mocha(we will do so in the next tutorial), package.json needs to modified to run index.js and not mocha. Search for "all" and modify that line as shown below
 ```json
 	"all": "npm run compile && npm run build && npm run test"
 ```
