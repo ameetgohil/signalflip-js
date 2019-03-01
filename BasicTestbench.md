@@ -99,7 +99,7 @@ const dut = require('./build/Release/dut.node');
 //RisingEdge/FallingEdge - wait under rising/falling edge detect on a given signal
 const {Sim, RisingEdge, FallingEdge} = require('signalflip-js');
 //A nice to have utililty to deal with arrays
-const _ = require('lodash';
+const _ = require('lodash');
 
 //first two arguments are standard to pass dut instance and a function to advance time
 // the dut.clk argument is a way to generate a clock on the dut.clk signal
