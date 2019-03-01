@@ -53,7 +53,7 @@ void signals::init_top() {
 <% if(waveform_format == "fst") { %>
     tfp = new VerilatedFstC;
 <% } else { %>
-    tfp = new VerilatedFstC;
+    tfp = new VerilatedVcdC;
 <% } %>
     top->trace(tfp, 99);  // Trace 99 levels of hierarchy
     Verilated::mkdir("logs");
