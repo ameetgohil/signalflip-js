@@ -10,15 +10,15 @@ namespace signals {
       <% if(sig.dir == 'input') { %>
 	<% if(sig.width < 33) { %>
   uint32_t <%= sig.name %>(uint32_t val);
-	<% } else if (sig.width < 64) {%>
+	<% } else if (sig.width < 65) {%>
   uint64_t <%= sig.name %>(uint64_t val);
 	<% } else { %>
-  uint32_t* <%= sig.name %>(uint32_t* val, int len);
+  uint32_t* <%= sig.name %>(uint32_t* val);
 	<% } %>
       <% } else { %>
 	<% if(sig.width < 33) { %>
   uint32_t <%= sig.name %>();
-	<% } else if (sig.width < 64) {%>
+	<% } else if (sig.width < 65) {%>
   uint64_t <%= sig.name %>();
 	<% } else { %>
   uint32_t* <%= sig.name %>();
@@ -30,10 +30,10 @@ namespace signals {
   
   Napi::Number TickWrapped(const Napi::CallbackInfo& info);
   <% sigs.map(sig => { %>
-      <% if(sig.width < 64) { %>
+      <% if(sig.width < 65) { %>
   Napi::Number <%= sig.name %>Wrapped(const Napi::CallbackInfo& info);
       <% } else  {%>
-  //Napi::BigInt <%= sig.name %>Wrapped(const Napi::CallbackInfo& info);
+  Napi::BigInt <%= sig.name %>Wrapped(const Napi::CallbackInfo& info);
       <% } %>
   <% }) %>
   void evalWrapped(const Napi::CallbackInfo& info);
