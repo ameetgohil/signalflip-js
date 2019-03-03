@@ -1,41 +1,41 @@
 {
-    "name": "signalflip-js",
-    "version": "0.2.3",
-    "main": "index.js",
-    "dependencies": {
-	"lodash": "latest",
-	"node-addon-api": "latest"
-    },
-    "scripts": {
-	"create-tb": "node src/create-tb.js",
-	"compile": "make verilate && cd obj_dir && make -f ../Makefile_obj createlib",
-	"build": "node-gyp rebuild",
-	"clean": "node-gyp clean && make clean",
-	"all": "npm run clean && npm run compile && npm run build && npm run test",
-	"test": "node index.js",
-	"gen": "node gensigs.js"
-    },
-    "gypfile": true,
-    "devDependencies": {
-	"node-gyp": "^3.8.0"
-    },
-    "repository": {
-	"type": "git",
-	"url": "git+https://github.com/ameetgohil/signalflip-js.git"
-    },
-    "keywords": [
-	"verilog",
-	"verilog-js",
-	"testbench",
-	"tb",
-	"hdl",
-	"simulator",
-	"verilator"
-    ],
-    "bugs": {
-	"url": "https://github.com/ameetgohil/signalflip-js/issues"
-    },
-    "homepage": "https://github.com/ameetgohil/signalflip-js#readme",
-    "author": "Ameet Gohil",
-    "license": "MIT"
+			"name": "signalflip-js",
+			"version": "0.2.4",
+			"main": "index.js",
+			"dependencies": {
+						"lodash": "latest",
+						"node-addon-api": "latest"
+			},
+			"scripts": {
+						"create-tb": "node src/create-tb.js",
+						"compile": "make verilate && cd obj_dir && make -f ../Makefile_obj createlib",
+						"build": "node-gyp rebuild",
+						"clean": "node-gyp clean && make clean",
+						"all": "npm run clean && npm run compile && npm run build && npm run test",
+						"test": "node index.js",
+						"gen": "node gensigs.js"
+			},
+			"gypfile": true,
+			"devDependencies": {
+						"node-gyp": "^3.8.0"
+			},
+			"repository": {
+						"type": "git",
+						"url": "git+https://github.com/ameetgohil/signalflip-js.git"
+			},
+			"keywords": [
+						"verilog",
+						"verilog-js",
+						"testbench",
+						"tb",
+						"hdl",
+						"simulator",
+						"verilator"
+			],
+			"bugs": {
+						"url": "https://github.com/ameetgohil/signalflip-js/issues"
+			},
+			"homepage": "https://github.com/ameetgohil/signalflip-js#readme",
+			"author": "Ameet Gohil",
+			"license": "MIT"
 }
