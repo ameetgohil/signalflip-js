@@ -1,7 +1,7 @@
 {
-<<<<<<< HEAD
 			"name": "signalflip-js",
-			"version": "0.2.2",
+			"version": "0.2.4",
+
 			"main": "index.js",
 			"dependencies": {
 						"lodash": "latest",
@@ -39,6 +39,7 @@
 			"homepage": "https://github.com/ameetgohil/signalflip-js#readme",
 			"author": "Ameet Gohil",
 			"license": "MIT"
+<<<<<<< HEAD
 =======
     "name": "signalflip-js",
     "version": "0.2.3",
@@ -79,5 +80,7 @@
     "homepage": "https://github.com/ameetgohil/signalflip-js#readme",
     "author": "Ameet Gohil",
     "license": "MIT"
+>>>>>>> ameet/salmon
+=======
 >>>>>>> ameet/salmon
 }
