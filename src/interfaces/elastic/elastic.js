@@ -53,7 +53,7 @@ function elastic(sim, type, clk, data, valid, ready, last = null) {
         }
 	    while(true) {
 		if(this.randomize) {
-		    ready(this.randomizeReady());
+		    ready(this.randomizeReady() ? 1:0);
 		} else {
 		    ready(1);
 		}

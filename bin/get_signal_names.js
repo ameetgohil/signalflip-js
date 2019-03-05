@@ -77,7 +77,11 @@ function get_signal_names(str) {
     let brackets = /\[([^\]]+)]/;
     let between_parentheses = / *\(([^\)]*)\)/;
     let get_width = /\d+/g;///^[0-9]+(,[0-9]+)*$/;
-    let modulere = /module *([^ ]*) *\(([^\)]*)\)/g;
+    let modulere       = /module *([^ ]*) *\(([^\)]*)\)/g;
+    let modulereParams = /module *([^ ]*)\s*#\s*\(([^\)]*)\)\s*\(([^\)]*)\)/g;
+
+
+    
     let remove_new_line = /\n/g;
 
     let returnObj = [];
@@ -88,9 +92,18 @@ function get_signal_names(str) {
     //console.log(str.search(modulere));
     
     let module_arr = modulere.exec(str);
-    if(module_arr !=null) {
-	let module = module_arr[0];
-	let port_str = between_parentheses.exec(module)[1];
+    // let module_name_index = 0;
+
+    if(module_arr === null) {
+      console.log('Trying params version');
+      module_arr = modulereParams.exec(str);
+      // console.log(module_arr);
+      // module_name_index = 3;
+    }
+
+    if(module_arr !== null) {
+	let port_str = module_arr[module_arr.length-1];
+	// let port_str = between_parentheses.exec(module)[1];
 
 	//console.log(module);
 	//console.log(port_str);
@@ -127,9 +140,11 @@ function get_signal_names(str) {
 	//console.log(returnObj);
 	return returnObj;
 
+    } else {
+    	console.log("problem parsing module name, are you using parameters?");
     }
 }
 
-//console.log(get_signal_names(test_str2));
+// console.log(get_signal_names(test_str2));
 
 module.exports = get_signal_names;
