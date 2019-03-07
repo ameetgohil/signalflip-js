@@ -7,7 +7,13 @@ function uart(options={}){
     this.baudClockTicks = baudClockTicks;
 
     function* waitBaudBitPeriod() {
-	for(i of _.range(this.baudClockticks)) {
+	for(i of _.range(this.baudClockTicks)) {
+	    yield* RisingEdge(clk);
+	}
+    }
+
+    function* waitHalfBaudBitPeriod() {
+	for(i of _.range(this.baudClockTicks)) {
 	    yield* RisingEdge(clk);
 	}
     }
@@ -41,7 +47,7 @@ function uart(options={}){
 	    }
 	    //parity
 	    if(parity != null) {
-		tx(get_parity());
+		tx(get_parity(txn));
 		yield* waitBaudBitPeriod();
 	    }
 	    tx(1); //stop bit
@@ -50,6 +56,25 @@ function uart(options={}){
     };
 
     this.monitor = function* () {
+	while(true) {
+	    let txn = 0;
+	    yield* FallingEdge(rx()); // Wait for start bit
+	    yield* waitHalfBaudBitPeriod();
+	    for(i of _.range(8)) {
+		yield* waitBaudBitPeriod();
+		txn = (rx() << i) | txn;
+	    }
+	    if(parity != null) {
+		yield* waitBaudBitPeriod();
+		if(rx() != get_parity(txn))
+		    console.log("ERROR: ", "Parity bit didn't match Expected: ", get_parity(txn), "actual: ", rx());
+	    }
+	    yield* waitBaudBitPeriod;
+	    if(rx() != 1) {
+		console.log("ERROR: ", "Stop bit not received -- Acutal:", rx());
+	    }
+	    this.rxArray.push(data());
+	}
     };
 
     this.init = () => {
