@@ -21,6 +21,7 @@ verilator testbench w/ Javascript using N-API
 ```
 ### Examples
 [Basic testbench example](./BasicTestbench.md)
+[Mocha testbench example](./MochaTestbench.md)
 
 ### Example sim init
 

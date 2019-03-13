@@ -1,5 +1,5 @@
 # Basic Testbench Tutorial
-This tutorial goes over how to setup a signalflip testbench for a counter. <br />
+This tutorial goes over how to setup a signalflip testbench for a valid-ready design that shifts the input data by 2. <br />
 First you need to install the prerequisites <br />
 - [Verilator (4.0 or above)](https://www.veripool.org/projects/verilator/wiki/Installing) <br />
 - [nvm (node)](https://github.com/creationix/nvm) <br />
@@ -71,7 +71,9 @@ Add the following to index.js import useful functions such as RisingEdge, Fallin
 const dut = require('./build/Release/dut.node');
 //Sim manages tasks and advances time
 //RisingEdge/FallingEdge - wait under rising/falling edge detect on a given signal
-const {Sim, RisingEdge, FallingEdge} = require('signalflip-js');
+const {Sim, RisingEdge, FallingEdge, Interfaces} = require('signalflip-js');
+// Elastic is a valid-ready driver in the signalflip package (see src/interfaces/elastic/elastic.js in signalflip-js github repo)
+const {Elastic} = Interfaces;
 //A nice to have utililty to deal with arrays
 const _ = require('lodash');
 const jsc = require("jsverify");
@@ -102,7 +104,7 @@ describe('Basic Group', function () {
           }catch(e){reject(e)}});
         }); // promise
       }); // forall
-  
+	// number of times the test is run
       const props = {tests: 100}; // , rngState:"0084da9315c6bfe072"
       jsc.check(t, props).then( r => r === true ? done() : done(new Error(JSON.stringify(r))));
     }); // it
