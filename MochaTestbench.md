@@ -239,6 +239,3 @@ To view the waveform
 ```
 gtkwave logs/vlt_dump.vcd
 ```
-
-
-NOTE: For this simulation we wrote a single test index.js. The next tutorial we go over how to create multiple tests using a test framework called mocha. This will enable regression testing and randomization using jsverify.
