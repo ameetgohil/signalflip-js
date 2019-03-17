@@ -216,25 +216,10 @@ describe('Basic Group', function () {
 ```
 
 ## Run the simulation
-Any time the port definitions change for the top-level dut, the following command needs to be run to generate a new wrapper for the dut.
+To run simulation
 ```
-npm run gen
+make
 ```
-To run the the simulation
-```
-npm run all
-```
-
-To re-run the test without compiling the dut
-```
-npm run test
-```
-
-To build the dut
-```
-npm run build
-```
-
 To view the waveform
 ```
 gtkwave logs/vlt_dump.vcd

@@ -128,32 +128,30 @@ sim.addTask(DriveSignals());
 sim.run(100);
 ```
 
-## Modify package.json
+## Modify Makefile
 Since we haven't developed the test using mocha(we will do so in the next tutorial), package.json needs to modified to run index.js and not mocha. Search for "all" and modify that line as shown below
-```json
-	"all": "npm run compile && npm run build && npm run test"
+```Makefile
+	test:
+		npm run test
 ```
 
 ## Run the simulation
 Any time the port definitions change for the top-level dut, the following command needs to be run to generate a new wrapper for the dut.
 ```
-npm run gen
+make verilate lib gen
+```
+To build N-API wrapper
+```
+make build
 ```
 To run the the simulation
 ```
-npm run all
+make test
 ```
-
-To re-run the test without compiling the dut
+To run through all the steps - generate wrapper, build N-API, and run test
 ```
-npm run test
+make
 ```
-
-To build the dut
-```
-npm run build
-```
-
 To view the waveform
 ```
 gtkwave logs/vlt_dump.vcd
