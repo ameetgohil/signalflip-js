@@ -70,8 +70,8 @@ script:
  - cd newtb
  - nvm use || nvm install
  - npm i --ignore-scripts
- - npm run gen
- - npm run all
+ - make
+
 
 branches:
   only:
