@@ -42,13 +42,13 @@ function getsignals(str) {
     return sigs;
 }
 
-function GenerateWrapper(file) {
+function GenerateWrapper(file, dut_name, waveform_format) {
     var fileStr = fs.readFileSync(file,'utf8');
     //console.log(fileStr.split('\n'));
     let sigs = getsignals(fileStr);
     console.log(sigs);
-    let dut_name = 'top';
-    let waveform_format = 'vcd';
+    //let dut_name = dut_name;
+    //let waveform_format = waveform_format;
     const val = {'sigs': sigs, //['in_quad', 'fastclk', 'clk', 'reset_l'],
 		 'dutName': dut_name,
 		 'waveform_format': waveform_format};
@@ -61,26 +61,27 @@ function GenerateWrapper(file) {
 	}
     };
 
-    let sigs_header_file = fs.readFileSync('../templates/signals.h');
+    let sigs_header_file = fs.readFileSync('./node_modules/signalflip-js/templates/signals.h');
     let sigs_header_compiled = _.template(sigs_header_file)(val);
 
-    let sigs_src_file = fs.readFileSync('../templates/signals.cpp');
+    let sigs_src_file = fs.readFileSync('./node_modules/signalflip-js/templates/signals.cpp');
     let sigs_src_compiled = _.template(sigs_src_file)(val);
 
     console.log('----------Creating signals.cpp and signals.h------------');
-    fs.writeFile('../cppsrc/signals.h',sigs_header_compiled, (err) => {
+    fs.writeFile('./cppsrc/signals.h',sigs_header_compiled, (err) => {
 	if(err) {
 	    return console.log(err);
 	}
     });
 
-    fs.writeFile('../cppsrc/signals.cpp',sigs_src_compiled, (err) => {
+    fs.writeFile('./cppsrc/signals.cpp',sigs_src_compiled, (err) => {
 	if(err) {
 	    return console.log(err);
 	}
     });
 
     console.log('--------------------Done--------------------------------');
+    return 0;
 }
 
 //console.log(get_signal_names(testString));
