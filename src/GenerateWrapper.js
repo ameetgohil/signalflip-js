@@ -4,7 +4,7 @@ const fs = require('fs');
 const testString = `
     // Begin mtask footprint  all: 
     VL_INOUT8(y,2,0);
-    VL_IN16(meow,10,0);
+    VL_IN16(abc,10,0);
     VL_OUTW(x,127,0,4);
 
 `;
