@@ -34,7 +34,7 @@ function Sim(dut, eval, clk = null) {
 
     this.clocks = [];
     
-    this.addClock(clock) {
+    this.addClock = (clock) => {
 	this.clocks.push(clock.clk());
     };
 
