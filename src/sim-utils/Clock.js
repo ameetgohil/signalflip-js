@@ -1,3 +1,6 @@
+const _ = require('lodash');
+const Tick = require('./Tick');
+
 function Clock(sig, halfPeriod) {
     this.enable = 1;
     this.clk = function* () {
@@ -7,7 +10,7 @@ function Clock(sig, halfPeriod) {
 	    for(i of _.range(halfPeriod)) {
 		yield* Tick();
 		value = !value;
-		if(enable) {
+		if(this.enable) {
 		    sig(value ? 1:0);
 		}
 	    }
