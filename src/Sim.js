@@ -1,7 +1,7 @@
 //const EventEmitter = require('events').EventEmitter;
 //const util = require('util');
 const _ = require('lodash');
-const { Clock } = require('./sim-utils');
+const { Clock, Tick } = require('./sim-utils');
 
 function* RisingEdge(sig) {
     //console.log('clk: ',sig());
@@ -13,11 +13,6 @@ function* RisingEdge(sig) {
 function* FallingEdge(sig) {
     yield () => { return sig() == 1 };
     yield () => { return sig() == 0 };
-}
-
-function* Tick() {
-    yield () => { return false };
-    yield () => { return true };
 }
 
 function* Fork(tasks) {
