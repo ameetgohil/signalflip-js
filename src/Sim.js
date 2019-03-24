@@ -1,5 +1,7 @@
-const EventEmitter = require('events').EventEmitter;
-const util = require('util');
+//const EventEmitter = require('events').EventEmitter;
+//const util = require('util');
+const _ = require('lodash');
+const { Clock, Tick } = require('./sim-utils');
 
 function* RisingEdge(sig) {
     //console.log('clk: ',sig());
@@ -13,13 +15,30 @@ function* FallingEdge(sig) {
     yield () => { return sig() == 0 };
 }
 
-function Sim(dut, eval, clk = null) {
-    EventEmitter.call(this);
-    this.setMaxListeners(Infinity);
-    this.clk = (clk == null) ? (val) => { return val }:clk;
+function* Fork(tasks) {
+    
+}
+
+
+function Sim(dut, eval) { //, clk = null) {
+//    EventEmitter.call(this);
+//    this.setMaxListeners(Infinity);
+    //this.clk = (clk == null) ? (val) => { return val }:clk;
     
     this.tick  = () => { this.clk(this.clk() ? 0 : 1) };
 
+    this.clocks = [];
+    
+    this.addClock = (clock) => {
+	this.clocks.push(clock.clk());
+    };
+
+    this.clockmanager = () => {
+	this.clocks.forEach((clock, i) => {
+	    clock.next();
+	});
+    };
+    
     this.tasks = [];
     this.taskreturn = [];
 
@@ -56,18 +75,19 @@ function Sim(dut, eval, clk = null) {
     }
     
     this.run = (iter) => {
-	for(i = 0; i < iter; i++) {
-
-	    this.tick();
-	    this.emit('tickevent', 'clockevent');
-	    this.emit('posedge');
+	for(let i = 0; i < iter; i++) {
+	    //console.log(i,iter);
+	    //this.tick();
+	    //this.emit('tickevent', 'clockevent');
+	    //this.emit('posedge');
+	    this.clockmanager();
 	    eval();
 	    this.taskmanager();
-	    this.tick();
-	    this.emit('tickevent', 'clockevent');
-	    this.emit('negedge');
-	    eval();
-	    this.taskmanager();
+	    //this.tick();
+	    //this.emit('tickevent', 'clockevent');
+	    //this.emit('negedge');
+	    //eval();
+	    //this.taskmanager();
 	}
 	//console.log("Runing finish tasks");
 	this.finishTasks.forEach((task) => {
@@ -77,11 +97,11 @@ function Sim(dut, eval, clk = null) {
 	dut.finish();
     };
 
-    this.posedge = () => {
+    /*this.posedge = () => {
 	this.on('tickevent', () => {});
-    };
+    };*/
 
 };
-util.inherits(Sim, EventEmitter);
+//util.inherits(Sim, EventEmitter);
 
 module.exports = {RisingEdge, FallingEdge, Sim};

@@ -1,0 +1,13 @@
+{
+    "dut_file": "./verilog_src/top_elastic.sv",
+    "dut_name": "top_elastic",
+    "waveform_format": "vcd",
+
+    "probe": [ "sig1", "sig2", "sig3"],
+    "libraries": [ "/usr/local/share/verilator/include",
+		   "/usr/local/share/verilator/include/vltstd",
+		   "/usr/local/share/verilator/include/gtkwave",
+		   "./obj_dir"
+		   ]
+
+}

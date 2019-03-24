@@ -1,12 +1,16 @@
 #include "signals.h"
 #include <verilated.h>
+#include <sys/stat.h>
 
 // Include model header, generated from Verilating "top.v"
 #include "Vtop_elastic.h"
 
 // If "verilator --trace" is used, include the tracing class
 //#if VM_TRACE
+
 # include <verilated_vcd_c.h>
+VerilatedVcdC* tfp;
+
 //#endif
 
 // // Current simulation time (64-bit unsigned)
@@ -24,7 +28,6 @@ union WideSignal {
 
 
 Vtop_elastic* top;
-VerilatedVcdC* tfp;
 void signals::init_top() {
 
   //Verilated::debug(0);
@@ -43,11 +46,19 @@ void signals::init_top() {
   //  const char* flag = Verilated::commandArgsPlusMatch("trace");
   //  if (flag && 0==strcmp(flag, "+trace")) {
     Verilated::traceEverOn(true);  // Verilator must compute traced signals
-    VL_PRINTF("Enabling waves into logs/vlt_dump.vcd...\n");
+    //VL_PRINTF("Enabling waves into logs/vlt_dump.vcd...\n");
+
     tfp = new VerilatedVcdC;
+
     top->trace(tfp, 99);  // Trace 99 levels of hierarchy
     Verilated::mkdir("logs");
-    tfp->open("logs/vlt_dump.vcd");  // Open the dump file
+
+    //mkdir("logs",0x775);
+
+    tfp->open("logs/vlt_dump.vcd");  // Open the dump file    tfp = new VerilatedFstC;
+
+
+
     //  }
   //#endif
 
@@ -57,9 +68,18 @@ void signals::init_top() {
   
       
 	
-uint32_t signals::t0_data(uint32_t val) {
-  top->t0_data = val;
-  return top->t0_data;
+uint32_t signals::clk(uint32_t val) {
+  top->clk = val;
+  return top->clk;
+}
+	
+      
+  
+      
+	
+uint32_t signals::rstf(uint32_t val) {
+  top->rstf = val;
+  return top->rstf;
 }
 	
       
@@ -83,14 +103,6 @@ uint32_t signals::t0_ready() {
   
       
 	
-uint32_t signals::i0_data() {
-  return top->i0_data;
-}
-	
-      
-  
-      
-	
 uint32_t signals::i0_valid() {
   return top->i0_valid;
 }
@@ -108,18 +120,17 @@ uint32_t signals::i0_ready(uint32_t val) {
   
       
 	
-uint32_t signals::clk(uint32_t val) {
-  top->clk = val;
-  return top->clk;
+uint32_t signals::t0_data(uint32_t val) {
+  top->t0_data = val;
+  return top->t0_data;
 }
 	
       
   
       
 	
-uint32_t signals::rstf(uint32_t val) {
-  top->rstf = val;
-  return top->rstf;
+uint32_t signals::i0_data() {
+  return top->i0_data;
 }
 	
       
@@ -149,7 +160,7 @@ int signals::finish() {
 
     
       
-Napi::Number signals::t0_dataWrapped(const Napi::CallbackInfo& info) {
+Napi::Number signals::clkWrapped(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
   if(info.Length() > 1 || (info.Length() == 1 && !info[0].IsNumber())) {
     Napi::TypeError::New(env, "Number expected").ThrowAsJavaScriptException();
@@ -158,9 +169,29 @@ Napi::Number signals::t0_dataWrapped(const Napi::CallbackInfo& info) {
   Napi::Number returnValue;
   if(info.Length() == 1) {
     Napi::Number val = info[0].As<Napi::Number>();
-    returnValue = Napi::Number::New(env, signals::t0_data(val.Int32Value()));
+    returnValue = Napi::Number::New(env, signals::clk(val.Int32Value()));
   } else {
-    returnValue = Napi::Number::New(env, top->t0_data);
+    returnValue = Napi::Number::New(env, top->clk);
+  }
+  return returnValue;
+}
+      
+    
+
+    
+      
+Napi::Number signals::rstfWrapped(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+  if(info.Length() > 1 || (info.Length() == 1 && !info[0].IsNumber())) {
+    Napi::TypeError::New(env, "Number expected").ThrowAsJavaScriptException();
+  }
+    
+  Napi::Number returnValue;
+  if(info.Length() == 1) {
+    Napi::Number val = info[0].As<Napi::Number>();
+    returnValue = Napi::Number::New(env, signals::rstf(val.Int32Value()));
+  } else {
+    returnValue = Napi::Number::New(env, top->rstf);
   }
   return returnValue;
 }
@@ -204,21 +235,6 @@ Napi::Number signals::t0_readyWrapped(const Napi::CallbackInfo& info) {
 
     
       
-Napi::Number signals::i0_dataWrapped(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();
-  if(info.Length() > 0) {
-    Napi::TypeError::New(env, "Number expected").ThrowAsJavaScriptException();
-  }
-    
-  Napi::Number returnValue;
-  returnValue = Napi::Number::New(env, top->i0_data);
-  return returnValue;
-}
-      
-    
-
-    
-      
 Napi::Number signals::i0_validWrapped(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
   if(info.Length() > 0) {
@@ -254,7 +270,7 @@ Napi::Number signals::i0_readyWrapped(const Napi::CallbackInfo& info) {
 
     
       
-Napi::Number signals::clkWrapped(const Napi::CallbackInfo& info) {
+Napi::Number signals::t0_dataWrapped(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
   if(info.Length() > 1 || (info.Length() == 1 && !info[0].IsNumber())) {
     Napi::TypeError::New(env, "Number expected").ThrowAsJavaScriptException();
@@ -263,9 +279,9 @@ Napi::Number signals::clkWrapped(const Napi::CallbackInfo& info) {
   Napi::Number returnValue;
   if(info.Length() == 1) {
     Napi::Number val = info[0].As<Napi::Number>();
-    returnValue = Napi::Number::New(env, signals::clk(val.Int32Value()));
+    returnValue = Napi::Number::New(env, signals::t0_data(val.Int32Value()));
   } else {
-    returnValue = Napi::Number::New(env, top->clk);
+    returnValue = Napi::Number::New(env, top->t0_data);
   }
   return returnValue;
 }
@@ -274,19 +290,14 @@ Napi::Number signals::clkWrapped(const Napi::CallbackInfo& info) {
 
     
       
-Napi::Number signals::rstfWrapped(const Napi::CallbackInfo& info) {
+Napi::Number signals::i0_dataWrapped(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
-  if(info.Length() > 1 || (info.Length() == 1 && !info[0].IsNumber())) {
+  if(info.Length() > 0) {
     Napi::TypeError::New(env, "Number expected").ThrowAsJavaScriptException();
   }
     
   Napi::Number returnValue;
-  if(info.Length() == 1) {
-    Napi::Number val = info[0].As<Napi::Number>();
-    returnValue = Napi::Number::New(env, signals::rstf(val.Int32Value()));
-  } else {
-    returnValue = Napi::Number::New(env, top->rstf);
-  }
+  returnValue = Napi::Number::New(env, top->i0_data);
   return returnValue;
 }
       
@@ -295,58 +306,66 @@ Napi::Number signals::rstfWrapped(const Napi::CallbackInfo& info) {
 
 
 
-Napi::Number signals::evalWrapped(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();
+void signals::evalWrapped(const Napi::CallbackInfo& info) {
+    signals::eval();
+  // Napi::Env env = info.Env();
 
-  Napi::Number returnValue = Napi::Number::New(env, signals::eval());
-  return returnValue;
+  // Napi::Number returnValue = Napi::Number::New(env, signals::eval());
+  // return returnValue;
   
 }
 
-Napi::Number signals::finishWrapped(const Napi::CallbackInfo& info) {
-    Napi::Env env = info.Env();
+void signals::finishWrapped(const Napi::CallbackInfo& info) {
+    signals::finish();
+    // Napi::Env env = info.Env();
 
-    Napi::Number returnValue = Napi::Number::New(env, signals::finish());
-    return returnValue;
+    // Napi::Number returnValue = Napi::Number::New(env, signals::finish());
+    // return returnValue;
+}
+
+void signals::initWrapped(const Napi::CallbackInfo& info) {
+    // Napi::Env env = info.Env();
+    signals::init_top();
 }
 
 Napi::Object signals::Init(Napi::Env env, Napi::Object exports) {
-  signals::init_top();
 
-    
-  exports.Set("t0_data", Napi::Function::New(env, signals::t0_dataWrapped));
-  
 
-    
-  exports.Set("t0_valid", Napi::Function::New(env, signals::t0_validWrapped));
-  
 
-    
-  exports.Set("t0_ready", Napi::Function::New(env, signals::t0_readyWrapped));
-  
-
-    
-  exports.Set("i0_data", Napi::Function::New(env, signals::i0_dataWrapped));
-  
-
-    
-  exports.Set("i0_valid", Napi::Function::New(env, signals::i0_validWrapped));
-  
-
-    
-  exports.Set("i0_ready", Napi::Function::New(env, signals::i0_readyWrapped));
-  
-
-    
   exports.Set("clk", Napi::Function::New(env, signals::clkWrapped));
-  
 
-    
+
+
   exports.Set("rstf", Napi::Function::New(env, signals::rstfWrapped));
-  
+
+
+
+  exports.Set("t0_valid", Napi::Function::New(env, signals::t0_validWrapped));
+
+
+
+  exports.Set("t0_ready", Napi::Function::New(env, signals::t0_readyWrapped));
+
+
+
+  exports.Set("i0_valid", Napi::Function::New(env, signals::i0_validWrapped));
+
+
+
+  exports.Set("i0_ready", Napi::Function::New(env, signals::i0_readyWrapped));
+
+
+
+  exports.Set("t0_data", Napi::Function::New(env, signals::t0_dataWrapped));
+
+
+
+  exports.Set("i0_data", Napi::Function::New(env, signals::i0_dataWrapped));
+
 
   exports.Set("eval", Napi::Function::New(env, signals::evalWrapped));
   exports.Set("finish", Napi::Function::New(env, signals::finishWrapped));
+  exports.Set("init", Napi::Function::New(env, signals::initWrapped));
   
   return exports;
 }
