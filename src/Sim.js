@@ -1,6 +1,7 @@
-const EventEmitter = require('events').EventEmitter;
-const util = require('util');
+//const EventEmitter = require('events').EventEmitter;
+//const util = require('util');
 const _ = require('lodash');
+const { Clock } = require('./sim-utils');
 
 function* RisingEdge(sig) {
     //console.log('clk: ',sig());
@@ -23,26 +24,10 @@ function* Fork(tasks) {
     
 }
 
-function Clock(sig, halfPeriod) {
-    this.enable = 1;
-    this.clk = function* () {
-	let value = false
-	sig(value ? 1:0);
-	while(true) {
-	    for(i of _.range(halfPeriod)) {
-		yield* Tick();
-		value = !value;
-		if(enable) {
-		    sig(value ? 1:0);
-		}
-	    }
-	}
-    }
-}
 
 function Sim(dut, eval, clk = null) {
-    EventEmitter.call(this);
-    this.setMaxListeners(Infinity);
+//    EventEmitter.call(this);
+//    this.setMaxListeners(Infinity);
     //this.clk = (clk == null) ? (val) => { return val }:clk;
     
     this.tick  = () => { this.clk(this.clk() ? 0 : 1) };
@@ -51,9 +36,13 @@ function Sim(dut, eval, clk = null) {
     
     this.addClock(clock) {
 	this.clocks.push(clock.clk());
-    }
+    };
 
-    
+    this.clockmanager = () => {
+	this.clocks.forEach((clock, i) => {
+	    clock.next();
+	});
+    };
     
     this.tasks = [];
     this.taskreturn = [];
@@ -118,6 +107,6 @@ function Sim(dut, eval, clk = null) {
     };*/
 
 };
-util.inherits(Sim, EventEmitter);
+//util.inherits(Sim, EventEmitter);
 
 module.exports = {RisingEdge, FallingEdge, Sim};
