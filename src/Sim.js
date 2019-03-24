@@ -25,7 +25,7 @@ function* Fork(tasks) {
 }
 
 
-function Sim(dut, eval, clk = null) {
+function Sim(dut, eval) { //, clk = null) {
 //    EventEmitter.call(this);
 //    this.setMaxListeners(Infinity);
     //this.clk = (clk == null) ? (val) => { return val }:clk;
@@ -80,8 +80,8 @@ function Sim(dut, eval, clk = null) {
     }
     
     this.run = (iter) => {
-	for(i = 0; i < iter; i++) {
-
+	for(let i = 0; i < iter; i++) {
+	    //console.log(i,iter);
 	    //this.tick();
 	    //this.emit('tickevent', 'clockevent');
 	    //this.emit('posedge');
