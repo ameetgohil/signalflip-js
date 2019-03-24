@@ -15,4 +15,4 @@ function Clock(sig, halfPeriod) {
     }
 }
 
-export.modules = Clock;
+module.exports = Clock;
