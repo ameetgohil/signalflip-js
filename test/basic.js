@@ -1,6 +1,6 @@
 const dut = require('../build/Release/dut.node');
-const {Sim, sim-utils, RisingEdge, FallingEdge, Interface} = require('../');
-const { Clock } = sim-utils;
+const {Sim, SimUtils, RisingEdge, FallingEdge, Interfaces} = require('../');
+const { Clock } = SimUtils;
 const {Elastic} = Interfaces;
 const _ = require('lodash');
 //const chai = require('chai');
@@ -31,24 +31,39 @@ describe('Basic Group', () => {
 
 	init();
 
+	function* reset() {
+	    dut.rstf(0);
+	    for(let i of _.range(5)) {
+		yield* RisingEdge(dut.clk);
+	    }
+	    dut.rstf(1);
+	}
+	sim.addTask(reset());
+
 	let clk = new Clock(dut.clk, 1);
 	sim.addClock(clk);
-	const target = new Elastic(clk, 0, dut.clk, dut.t0_data, dut.t0_valid, dut.t0_ready, null);
-	const initiator = new Elastic(clk, 1, dut.clk, dut.i0_data, dut.i0_valid, dut.i0_ready, null);
-
+	const target = new Elastic(sim, 0, dut.clk, dut.t0_data, dut.t0_valid, dut.t0_ready, null);
+	const initiator = new Elastic(sim, 1, dut.clk, dut.i0_data, dut.i0_valid, dut.i0_ready, null);
+	target.randomizeValid = ()=>{ return jsc.random(0,5); };
+	initiator.randomizeReady = ()=>{ return jsc.random(0,5); };
 	initiator.randomize = 0;
 	target.randomize = 0;
 
-	let din = range(50).map(x => BigInt(x));
+	target.init();
+	initiator.init();
+
+	let din = _.range(10).map(x => x);
 	target.txArray = din.slice();
 
-	clk.finishTask(() => {
+	sim.finishTask(() => {
 	    let dout = model(din.slice());
 	    //		    assert(_.isEqual(dout, initiator.rxArray));
 	    try{
 		assert.deepEqual(dout, initiator.rxArray);
 	    } catch(e){
+		//console.log(e);
 		dut.finish();
+		throw(e);
 	    }
 	    
 	    dout.map((x,i) => {
@@ -57,7 +72,7 @@ describe('Basic Group', () => {
 	    });
 	});
 
-	clk.run(1000);
+	sim.run(100);
     });
 });
 
