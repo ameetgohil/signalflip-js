@@ -1,3 +1,4 @@
 module.exports = {
-    Clock: require('./Clock')
+    Clock: require('./Clock'),
+    Tick: require('./Tick')
 };
