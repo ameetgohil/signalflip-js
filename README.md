@@ -20,8 +20,8 @@ verilator testbench w/ Javascript using N-API
 > npm run all
 ```
 ### Examples
-[Basic testbench example](./BasicTestbench.md)  
-[Mocha testbench example](./MochaTestbench.md)
+[Basic testbench example](./docs/BasicTestbench.md)  
+[Mocha testbench example](./docs/MochaTestbench.md)
 
 ### Example sim init
 
