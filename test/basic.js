@@ -19,7 +19,7 @@ const model = (din_array) => {
 
 describe('Basic Group', () => {
     it('Constant valid-ready', () => {
-	dut.init(); // Iniit dut
+	dut.init(); // Init dut
 	const sim = new Sim(dut, dut.eval);
 
 	const init = () => {
