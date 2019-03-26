@@ -1,6 +1,7 @@
 #include "signals.h"
 #include <verilated.h>
 #include <sys/stat.h>
+#include <string>
 
 // Include model header, generated from Verilating "top.v"
 #include "V<%= dutName %>.h"
@@ -31,7 +32,7 @@ union WideSignal {
 
 
 V<%= dutName %>* top;
-void signals::init_top() {
+void signals::init_top(std::string name) {
 
   //Verilated::debug(0);
   // Set debug level, 0 is off, 9 is highest presently used
@@ -60,11 +61,11 @@ void signals::init_top() {
 
     //mkdir("logs",0x775);
 <% if(waveform_format == "fst") { %>
-    tfp->open("logs/vlt_dump.fst");  // Open the dump file
+	std::string f = "logs/" + name + ".fst";
 <% } else { %>
-    tfp->open("logs/vlt_dump.vcd");  // Open the dump file    tfp = new VerilatedFstC;
+	std::string f = "logs/" + name + ".vcd";
 <% } %>
-
+       tfp->open(f.c_str());
 
     //  }
   //#endif
@@ -263,8 +264,16 @@ void signals::finishWrapped(const Napi::CallbackInfo& info) {
 }
 
 void signals::initWrapped(const Napi::CallbackInfo& info) {
-    // Napi::Env env = info.Env();
-    signals::init_top();
+    std::string name = "waveform";
+    Napi::Env env = info.Env();
+    if(info.Length() > 0 ) {
+	if(!info[0].IsString()) {
+	    Napi::TypeError::New(env, "String expected").ThrowAsJavaScriptException();
+	}
+	Napi::String val = info[0].As<Napi::String>();
+	name = val.Utf8Value();
+    }
+    signals::init_top(name);
 }
 
 Napi::Object signals::Init(Napi::Env env, Napi::Object exports) {
@@ -277,7 +286,7 @@ Napi::Object signals::Init(Napi::Env env, Napi::Object exports) {
   exports.Set("eval", Napi::Function::New(env, signals::evalWrapped));
   exports.Set("finish", Napi::Function::New(env, signals::finishWrapped));
   exports.Set("init", Napi::Function::New(env, signals::initWrapped));
-  
   return exports;
+
 }
 

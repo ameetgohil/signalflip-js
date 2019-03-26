@@ -8,11 +8,11 @@ function Clock(sig, halfPeriod) {
 	sig(value ? 1:0);
 	while(true) {
 	    for(i of _.range(halfPeriod)) {
-		yield* Tick();
-		value = !value;
-		if(this.enable) {
-		    sig(value ? 1:0);
-		}
+		yield 0;
+	    }
+	    value = !value;
+	    if(this.enable) {
+		sig(value ? 1:0);
 	    }
 	}
     }
