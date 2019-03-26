@@ -1,9 +1,9 @@
 #include "napi.h"
-
+#include <string>
 
 namespace signals {
 
-  void init_top();
+    void init_top(std::string name);
   
   int tick();
   
