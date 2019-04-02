@@ -16,8 +16,8 @@ verilator testbench w/ Javascript using N-API
 > cd testbench_name
 > nvm use || nvm install
 > npm i --ignore-scripts
-> npm run gen
-> npm run all
+> make
+
 ```
 ### Examples
 [Basic testbench example](./docs/BasicTestbench.md)  
@@ -28,13 +28,19 @@ verilator testbench w/ Javascript using N-API
 The code below shows how to initialize dut and import useful functions such as RisingEdge, FallingEdge, Sim, and interfaces.
 ```javascript
 const dut = require('./build/Release/dut.node');
-const {Sim, RisingEdge, FallingEdge, Interfaces} = require('signalflip-js');
+const {Sim, simutils, Interfaces} = require('signalflip-js');
+const {Clock, RisingEdge, FallingEdge} = simu
 const {Elastic} = Interfaces;
 const _ = require('lodash');
 
 
-const sim = new Sim(dut, dut.eval, dut.clk); //dut.clk argument creates a clock on clk signal
+const sim = new Sim(dut, dut.eval); //dut.clk argument creates a clock on clk signal
 dut.init();
+```
+
+### Create clock
+```javascript
+let clk = new Clock(dut.clk, 1);
 ```
 
 ### Access and manipulate signals

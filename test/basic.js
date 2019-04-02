@@ -62,7 +62,7 @@ describe('Basic Group', () => {
 	    });
 
 	    try{
-		//assert.deepEqual(dout, initiator.rxArray);
+		assert.deepEqual(dout, initiator.rxArray);
 	    } catch(e){
 		//console.log(e);
 		dut.finish();
@@ -116,6 +116,8 @@ describe('Basic Group', () => {
     });
 
     it('Randomized valid - Randomized ready', () => {
+	let t = jsc.forall(jsc.constant(0), function () {
+	    
 	//this.timeout(6000); // test timeout in milliseconds
 	dut.init("top_rr");
 	target.randomizeValid = ()=>{ return jsc.random(0,5); };
@@ -126,7 +128,10 @@ describe('Basic Group', () => {
 	target.init();
 	initiator.init();
 
-	sim.run(1000);
+	    sim.run(1000);
+	});
+	const props = {tests: 1 , rngState:"0084da9315c6bfe072"};
+	jsc.check(t, props);//.then( r => r === true ? done() : done(new Error(JSON.stringify(r))));
     });
     
 });
