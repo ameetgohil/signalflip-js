@@ -116,7 +116,7 @@ describe('Basic Group', () => {
     });
 
     it('Randomized valid - Randomized ready', () => {
-	let t = jsc.forall(jsc.constant(0), function () {
+//	let t = jsc.forall(jsc.constant(0), function () {
 	    
 	//this.timeout(6000); // test timeout in milliseconds
 	dut.init("top_rr");
@@ -129,9 +129,9 @@ describe('Basic Group', () => {
 	initiator.init();
 
 	    sim.run(1000);
-	});
-	const props = {tests: 1 , rngState:"0084da9315c6bfe072"};
-	jsc.check(t, props);//.then( r => r === true ? done() : done(new Error(JSON.stringify(r))));
+//	});
+//	const props = {tests: 1 , rngState:"0084da9315c6bfe072"};
+//	jsc.check(t, props);//.then( r => r === true ? done() : done(new Error(JSON.stringify(r))));
     });
     
 });
