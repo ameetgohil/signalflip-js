@@ -27,12 +27,12 @@ describe('Basic Group', () => {
 	sim = new Sim(dut, dut.eval);
 
 	/*const init = () => {
-	    dut.t0_data(0);
-	    dut.t0_valid(0);
-	    dut.clk(0);
-	    dut.rstf(0);
-	};
-	init();*/
+	  dut.t0_data(0);
+	  dut.t0_valid(0);
+	  dut.clk(0);
+	  dut.rstf(0);
+	  };
+	  init();*/
 
 	function* reset() {
 	    dut.rstf(0);
@@ -48,6 +48,9 @@ describe('Basic Group', () => {
 
 	target = new Elastic(sim, 0, dut.clk, dut.t0_data, dut.t0_valid, dut.t0_ready, null);
 	initiator = new Elastic(sim, 1, dut.clk, dut.i0_data, dut.i0_valid, dut.i0_ready, null);
+	target.randomizeValid = ()=>{ return jsc.random(0,5); };
+	initiator.randomizeReady = ()=>{ return jsc.random(0,5); };
+
 	//target.print = true;
 	let din = _.range(10).map(x => x);
 	target.txArray = din.slice();
@@ -72,29 +75,19 @@ describe('Basic Group', () => {
 	
     });
     it('Constant valid - Constant ready', () => {
-	//this.timeout(6000); // test timeout in milliseconds
 	dut.init("top_cc");
-	target.randomizeValid = ()=>{ return jsc.random(0,5); };
-	initiator.randomizeReady = ()=>{ return jsc.random(0,5); };
 	initiator.randomize = 0;
 	target.randomize = 0;
-
 	target.init();
-	//console.log(target.txArray);
 	initiator.init();
 
 	sim.run(100);
     });
     
     it('Randomized valid - Constant Ready', () => {
-	//this.timeout(6000); // test timeout in milliseconds
 	dut.init("top_rc");
-	target.randomizeValid = ()=>{ return jsc.random(0,5); };
-	initiator.randomizeReady = ()=>{ return jsc.random(0,5); };
 	initiator.randomize = 0;
 	target.randomize = 1;
-	//initiator.print = true;
-	//target.print = true;
 	target.init();
 	initiator.init();
 
@@ -102,10 +95,7 @@ describe('Basic Group', () => {
     });
     
     it('Constant valid - Randomized ready', () => {
-	//this.timeout(6000); // test timeout in milliseconds
 	dut.init("top_cr");
-	target.randomizeValid = ()=>{ return jsc.random(0,5); };
-	initiator.randomizeReady = ()=>{ return jsc.random(0,5); };
 	initiator.randomize = 1;
 	target.randomize = 0;
 
@@ -116,22 +106,19 @@ describe('Basic Group', () => {
     });
 
     it('Randomized valid - Randomized ready', () => {
-//	let t = jsc.forall(jsc.constant(0), function () {
-	    
+	//	let t = jsc.forall(jsc.constant(0), function () {
+	
 	//this.timeout(6000); // test timeout in milliseconds
 	dut.init("top_rr");
-	target.randomizeValid = ()=>{ return jsc.random(0,5); };
-	initiator.randomizeReady = ()=>{ return jsc.random(0,5); };
 	initiator.randomize = 1;
 	target.randomize = 1;
-
 	target.init();
 	initiator.init();
 
-	    sim.run(1000);
-//	});
-//	const props = {tests: 1 , rngState:"0084da9315c6bfe072"};
-//	jsc.check(t, props);//.then( r => r === true ? done() : done(new Error(JSON.stringify(r))));
+	sim.run(1000);
+	//	});
+	//	const props = {tests: 1 , rngState:"0084da9315c6bfe072"};
+	//	jsc.check(t, props);//.then( r => r === true ? done() : done(new Error(JSON.stringify(r))));
     });
     
 });
