@@ -35,11 +35,11 @@ describe('Basic Group', () => {
 	  init();*/
 
 	function* reset() {
-	    dut.rstf(0);
+	    dut.rstf = 0;
 	    for(let i of _.range(5)) {
 		yield* RisingEdge(dut.clk);
 	    }
-	    dut.rstf(1);
+	    dut.rstf = 1;
 	}
 	sim.addTask(reset());
 
@@ -76,6 +76,7 @@ describe('Basic Group', () => {
     });
     it('Constant valid - Constant ready', () => {
 	dut.init("top_cc");
+
 	initiator.randomize = 0;
 	target.randomize = 0;
 	target.init();
