@@ -5,14 +5,14 @@ const { Clock, Tick } = require('./sim-utils');
 
 function* RisingEdge(sig) {
     //console.log('clk: ',sig());
-    yield () => { return sig() == 0 };
+    yield () => { return sig == 0 };
     //console.log('clk: ',sig());
-    yield () => { return sig() == 1 };
+    yield () => { return sig == 1 };
 }
 
 function* FallingEdge(sig) {
-    yield () => { return sig() == 1 };
-    yield () => { return sig() == 0 };
+    yield () => { return sig == 1 };
+    yield () => { return sig == 0 };
 }
 
 function* Fork(tasks) {
@@ -24,8 +24,10 @@ function Sim(dut, eval) { //, clk = null) {
 //    EventEmitter.call(this);
 //    this.setMaxListeners(Infinity);
     //this.clk = (clk == null) ? (val) => { return val }:clk;
+
+    this.phases = ['pre','run','post'];
     
-    this.tick  = () => { this.clk(this.clk() ? 0 : 1) };
+    //this.tick  = () => { this.clk(this.clk() ? 0 : 1) };
 
     this.clocks = [];
     
