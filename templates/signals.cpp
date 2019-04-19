@@ -298,6 +298,10 @@ Napi::Object signals::Init(Napi::Env env, Napi::Object exports) {
 	                                       <% } %>
 
 <% }) %>
+
+<% let pd = sigs.map(e => {return e.name + '_pd'}); %>
+
+    exports.DefineProperties({<%= pd.join(',') %>});
   exports.Set("eval", Napi::Function::New(env, signals::evalWrapped));
   exports.Set("finish", Napi::Function::New(env, signals::finishWrapped));
   exports.Set("init", Napi::Function::New(env, signals::initWrapped));
