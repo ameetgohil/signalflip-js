@@ -9,22 +9,22 @@ namespace signals {
   <% sigs.map(sig => { %>
       <% if(sig.dir == 'input') { %>
 	<% if(sig.width < 33) { %>
-  uint32_t <%= sig.name %>(uint32_t val);
+  void <%= sig.name %>Set(Napi::CallbackInfo& info);
 	<% } else if (sig.width < 65) {%>
-  uint64_t <%= sig.name %>(uint64_t val);
+  void <%= sig.name %>Set(Napi::CallbackInfo& info);
 	<% } else { %>
-  uint32_t* <%= sig.name %>(uint32_t* val);
+  void <%= sig.name %>Set(Napi::CallbackInfo& info);
 	<% } %>
-      <% } else { %>
+		  <% } %>
 	<% if(sig.width < 33) { %>
-  uint32_t <%= sig.name %>();
+Napi::Number <%= sig.name %>Get(Napi::CallbackInfo& info);
 	<% } else if (sig.width < 65) {%>
-  uint64_t <%= sig.name %>();
+Napi::Number <%= sig.name %>Get(Napi::CallbackInfo& info);
 	<% } else { %>
-  uint32_t* <%= sig.name %>();
+Napi::BigInt <%= sig.name %>Get(Napi::CallbackInfo& info);
 	<% } %>
-      <% } %>
-  <% }) %>
+
+	       <% }); %>
   int eval();
   int finish();
   

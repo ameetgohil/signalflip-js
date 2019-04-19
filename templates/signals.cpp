@@ -75,18 +75,23 @@ void signals::init_top(std::string name) {
 
   <% sigs.map(e => { %>
       <% if(e.dir == 'input') { %>
+void signals::<%= e.name %>Set(Napi::CallbackInfo& info) {
+    Napi::Env env = info.Env();
+    if(!info[0].IsNumber()) {
+	Napi::TypeError::New(env, "Number expected").ThrowAsJavaScriptException();
+    }
 	<% if(e.width < 33) { %>
-uint32_t signals::<%= e.name %>(uint32_t val) {
-  top-><%= e.name %> = val;
-  return top-><%= e.name %>;
-}
+ Napi::Number val = info[0].As<Napi::Number>();
+
+ top-><%= e.name %> = val.Int32Value();
+
 	<% } else if (e.width < 65) {%>
-uint64_t signals::<%= e.name %>(uint64_t val) {
-  top-><%= e.name %> = val;
-  return top-><%= e.name %>;
-}
+ Napi::Number val = info[0].As<Napi::Number>();
+
+ top-><%= e.name %> = val.Int64Value();
+
 	<% } else { %>
-uint32_t* signals::<%= e.name %>(uint32_t* val) {
+    
     //std::cout << "val: " << val[0] << ", " << val[1] << ", " << val[2] << ", " << val[3] << "\n";
     //top-><%= e.name %> = val;
     <% _.range(Math.ceil(e.width/32.0)).map( x => { %>
@@ -94,23 +99,26 @@ uint32_t* signals::<%= e.name %>(uint32_t* val) {
     <% }); %>
     //std::cout << "<%= e.name %>: " << top-><%= e.name %>[0] << ", " << top-><%= e.name %>[1] << ", " << top-><%= e.name %>[2] << "\n";
   return top-><%= e.name %>;
-}
 	<% } %>
-      <% } else { %>
+}
+      <% } %>
 	<% if(e.width < 33) { %>
-uint32_t signals::<%= e.name %>() {
-  return top-><%= e.name %>;
+Napi::Number signals::<%= e.name %>Get(Napi::CallbackInfo& info) {
+    Napi::Env env = info.Env();
+    return Napi::Number::New(env, top-><%= e.name %>);
 }
 	<% } else if (e.width < 65) {%>
-uint64_t signals::<%= e.name %>() {
-  return top-><%= e.name %>;
+Napi::Number signals::<%= e.name %>Get(Napi::CallbackInfo& info) {
+    Napi::Env env = info.Env();
+    return Napi::Number::New(env, top-><%= e.name %>);
 }
 	<% } else { %>
-uint32_t* signals::<%= e.name %>() {
-  return top-><%= e.name %>;
+Napi::BigInt signals::<%= e.name %>Get(Napi::CallbackInfo& info) {
+    Napi::Env env = info.Env();
+    return top-><%= e.name %>;
 }
 	<% } %>
-      <% } %>
+
   <% }) %>
 
 
@@ -146,9 +154,9 @@ Napi::Number signals::<%= e.name %>Wrapped(const Napi::CallbackInfo& info) {
   Napi::Number returnValue;
   if(info.Length() == 1) {
     Napi::Number val = info[0].As<Napi::Number>();
-    returnValue = Napi::Number::New(env, signals::<%= e.name %>(val.Int32Value()));
+    //returnValue = Napi::Number::New(env, signals::<%= e.name %>(val.Int32Value()));
   } else {
-    returnValue = Napi::Number::New(env, top-><%= e.name %>);
+      //returnValue = Napi::Number::New(env, top-><%= e.name %>);
   }
   return returnValue;
 }
@@ -162,9 +170,9 @@ Napi::Number signals::<%= e.name %>Wrapped(const Napi::CallbackInfo& info) {
   Napi::Number returnValue;
   if(info.Length() == 1) {
     Napi::Number val = info[0].As<Napi::Number>();
-    returnValue = Napi::Number::New(env, signals::<%= e.name %>(val.Int64Value()));
+    //returnValue = Napi::Number::New(env, signals::<%= e.name %>(val.Int64Value()));
   } else {
-    returnValue = Napi::Number::New(env, top-><%= e.name %>);
+      //returnValue = Napi::Number::New(env, top-><%= e.name %>);
   }
   return returnValue;
 }
@@ -188,11 +196,11 @@ Napi::BigInt signals::<%= e.name %>Wrapped(const Napi::CallbackInfo& info) {
     val.ToWords(&sign_bit, &size, bigint_ptr.sig64);
     //std::cout << bigint_ptr.sig64[0] << ", " << bigint_ptr.sig64[1] << "\n";
     WideSignal getVal;
-    getVal.sig32=signals::<%= e.name %>(bigint_ptr.sig32);
-    returnValue = Napi::BigInt::New(env, sign_bit, size, getVal.sig64);
+    //getVal.sig32=signals::<%= e.name %>(bigint_ptr.sig32);
+    //returnValue = Napi::BigInt::New(env, sign_bit, size, getVal.sig64);
   } else {
       *(bigint_ptr.sig32)=*(top-><%= e.name %>);
-      returnValue = Napi::BigInt::New(env, sign_bit, size, bigint_ptr.sig64);
+      //returnValue = Napi::BigInt::New(env, sign_bit, size, bigint_ptr.sig64);
   }
   return returnValue;
 }
@@ -280,7 +288,14 @@ Napi::Object signals::Init(Napi::Env env, Napi::Object exports) {
 
 <% sigs.map(e => { %>
 
-  exports.Set("<%= e.name %>", Napi::Function::New(env, signals::<%= e.name %>Wrapped));
+	Napi::PropertyDescriptor <%= e.name %>_pd =
+	    Napi::PropertyDescriptor::Accessor(env,
+					       exports,
+					       "<%= e.name %>",
+					       <%= e.name %>Get<% if(e.dir == 'input') { %>,
+					       <%= e.name %>Set);<% } else { %>
+					       );
+	                                       <% } %>
 
 <% }) %>
   exports.Set("eval", Napi::Function::New(env, signals::evalWrapped));
