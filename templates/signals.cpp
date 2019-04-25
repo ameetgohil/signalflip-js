@@ -289,4 +289,3 @@ Napi::Object signals::Init(Napi::Env env, Napi::Object exports) {
   return exports;
 
 }
-

@@ -87,3 +87,4 @@ function elastic(sim, type, clk, data, valid, ready, last = null) {
 }
 
 module.exports = elastic;
+

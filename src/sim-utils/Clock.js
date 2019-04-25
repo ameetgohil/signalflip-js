@@ -19,3 +19,4 @@ function Clock(sig, halfPeriod) {
 }
 
 module.exports = Clock;
+
