@@ -9,22 +9,22 @@ namespace signals {
   <% sigs.map(sig => { %>
       <% if(sig.dir == 'input') { %>
 	<% if(sig.width < 33) { %>
-  void <%= sig.name %>Set(Napi::CallbackInfo& info);
+  uint32_t <%= sig.name %>(uint32_t val);
 	<% } else if (sig.width < 65) {%>
-  void <%= sig.name %>Set(Napi::CallbackInfo& info);
+  uint64_t <%= sig.name %>(uint64_t val);
 	<% } else { %>
-  void <%= sig.name %>Set(Napi::CallbackInfo& info);
+  uint32_t* <%= sig.name %>(uint32_t* val);
 	<% } %>
-		  <% } %>
+      <% } else { %>
 	<% if(sig.width < 33) { %>
-Napi::Number <%= sig.name %>Get(Napi::CallbackInfo& info);
+  uint32_t <%= sig.name %>();
 	<% } else if (sig.width < 65) {%>
-Napi::Number <%= sig.name %>Get(Napi::CallbackInfo& info);
+  uint64_t <%= sig.name %>();
 	<% } else { %>
-Napi::BigInt <%= sig.name %>Get(Napi::CallbackInfo& info);
+  uint32_t* <%= sig.name %>();
 	<% } %>
-
-	       <% }); %>
+      <% } %>
+  <% }) %>
   int eval();
   int finish();
   
@@ -41,3 +41,4 @@ Napi::BigInt <%= sig.name %>Get(Napi::CallbackInfo& info);
   void initWrapped(const Napi::CallbackInfo& info);
   Napi::Object Init(Napi::Env env, Napi::Object exports);
 };
+
