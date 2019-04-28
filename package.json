@@ -1,6 +1,6 @@
 {
 			"name": "signalflip-js",
-			"version": "0.3.1",
+			"version": "0.4.0",
 			"main": "index.js",
 			"dependencies": {
 						"cmake-js": "^5.1.0",
