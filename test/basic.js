@@ -1,6 +1,6 @@
 const dut = require('../build/Release/dut.node');
 const {Sim, SimUtils, RisingEdge, FallingEdge, Interfaces} = require('../');
-const { Clock } = SimUtils;
+const { Clock, Intf } = SimUtils;
 const {Elastic} = Interfaces;
 const _ = require('lodash');
 //const chai = require('chai');
