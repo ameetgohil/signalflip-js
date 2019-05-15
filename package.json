@@ -3,10 +3,10 @@
 			"version": "0.4.0",
 			"main": "index.js",
 			"dependencies": {
-						"cmake-js": "^5.1.0",
-						"jsverify": "^0.8.4",
+						"cmake-js": "latest",
+						"jsverify": "latest",
 						"lodash": "latest",
-						"mocha": "^6.0.2",
+						"mocha": "latest",
 						"node-addon-api": "latest"
 			},
 			"scripts": {
@@ -19,10 +19,6 @@
 						"test": "node index.js",
 						"mocha": "mocha",
 						"gen": "node gensigs.js"
-			},
-			"gypfile": true,
-			"devDependencies": {
-						"node-gyp": "^3.8.0"
 			},
 			"repository": {
 						"type": "git",
