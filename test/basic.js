@@ -1,5 +1,5 @@
 const dut = require('../build/Release/dut.node');
-const {Sim, SimUtils, RisingEdge, FallingEdge, Interfaces} = require('../');
+const {Sim, SimUtils, RisingEdge, RisingEdges, FallingEdge, FallingEdges, Interfaces} = require('../');
 const { Clock, Intf } = SimUtils;
 const {Elastic} = Interfaces;
 const _ = require('lodash');
@@ -36,9 +36,7 @@ describe('Basic Group', () => {
 
 	function* reset() {
 	    dut.rstf(0);
-	    for(let i of _.range(5)) {
-		yield* RisingEdge(dut.clk);
-	    }
+	    yield* RisingEdges(dut.clk,5);
 	    dut.rstf(1);
 	}
 	sim.addTask(reset());

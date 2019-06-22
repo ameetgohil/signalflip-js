@@ -10,9 +10,22 @@ function* RisingEdge(sig) {
     yield () => { return sig() == 1 };
 }
 
+function* RisingEdges(sig, count) {
+    for(let i of _.range(count)) {
+	yield* RisingEdge(sig);
+    }
+}
+    
+
 function* FallingEdge(sig) {
     yield () => { return sig() == 1 };
     yield () => { return sig() == 0 };
+}
+
+function* FallingEdges(sig, count) {
+    for(let i of _.range(count)) {
+	yield* FallingEdge(sig);
+    }
 }
 
 function* Fork(tasks) {
@@ -104,4 +117,4 @@ function Sim(dut, eval) { //, clk = null) {
 };
 //util.inherits(Sim, EventEmitter);
 
-module.exports = {RisingEdge, FallingEdge, Sim};
+module.exports = {RisingEdge, RisingEdges, FallingEdge, FallingEdges, Sim};
