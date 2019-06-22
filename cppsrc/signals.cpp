@@ -15,11 +15,11 @@ VerilatedVcdC* tfp;
 //#endif
 
 // // Current simulation time (64-bit unsigned)
-// vluint64_t main_time = 0;
+ vluint64_t main_time = 0;
 // // Called by $time in Verilog
-// double sc_time_stamp() {
-//     return main_time;  // Note does conversion to real, to match SystemC
-// }
+ double sc_time_stamp() {
+     return main_time;  // Note does conversion to real, to match SystemC
+ }
 //
 
 union WideSignal {
@@ -139,7 +139,6 @@ uint32_t signals::i0_data() {
 
 
 int signals::eval() {
-  static vluint64_t main_time = 0;
   main_time++;
   top->eval();
   tfp->dump(main_time);
