@@ -56,6 +56,7 @@ function Sim(dut, eval) { //, clk = null) {
     this.taskreturn = [];
 
     this.finishTasks = [];
+
     
     this.taskmanager = () => {
 	this.tasks.forEach((task, i) => {
@@ -87,6 +88,8 @@ function Sim(dut, eval) { //, clk = null) {
 	this.finishTasks.push(task);
     }
     
+    this.time = 0;
+    
     this.run = (iter) => {
 	for(let i = 0; i < iter; i++) {
 	    //console.log(i,iter);
@@ -95,6 +98,7 @@ function Sim(dut, eval) { //, clk = null) {
 	    //this.emit('posedge');
 	    this.clockmanager();
 	    eval();
+	    this.time++;
 	    this.taskmanager();
 	    //this.tick();
 	    //this.emit('tickevent', 'clockevent');
