@@ -1,20 +1,15 @@
 module top_elastic
   (
-   input [31:0] t0_data,
-   input        t0_valid,
-   output       t0_ready,
-   output [31:0] i0_data,
-   output        i0_valid,
-   input        i0_ready,
-   input        clk,
-   input        rstf
+   input wire [31:0] t0_data,
+   input wire        t0_valid,
+   output wire       t0_ready,
+   output reg [31:0] i0_data,
+   output reg        i0_valid,
+   input wire        i0_ready,
+   input wire        clk,
+   input wire        rstf
    );
 
-   wire         t0_ready;
-   
-   reg [31:0]   i0_data;
-   
-   reg          i0_valid;
 
 `ifdef EB0
    assign t0_ready = rstf ? i0_ready:0;
