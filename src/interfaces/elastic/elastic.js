@@ -17,8 +17,8 @@ function elastic(sim, type, clk, data, valid, ready, last = null) {
     this.sim = sim;
     this.randomize = 0;
     this.print = false;
-    this.randomizeValid = ()=>{return Math.round(Math.random()*15) };
-    this.randomizeReady = ()=>{return Math.round(Math.random()) };
+    this.randomizeValid = ()=>{ return Math.round(Math.random()*15) };
+    this.randomizeReady = ()=>{ return Math.round(Math.random()) };
     
     this.driver = function* () {
 	///console.log('TYPE::: ', this.TYPE);
@@ -35,14 +35,15 @@ function elastic(sim, type, clk, data, valid, ready, last = null) {
 		let txn = this.txArray[0];
 		this.txArray.shift();
 		data(txn);
-		if(this.randomize ) {
+		if( this.randomize ) {
 		    while(this.randomizeValid() != 0)
 			yield* RisingEdge(clk);
 		}
 		valid(1);
-		if (last != null)
+		if ( last != null )
 		    last(this.txArray.length == 0 ? 1:0);
-		while(ready() != 1) {
+		yield* FallingEdge(clk);
+		while( ready() != 1 ) {
 		    yield* FallingEdge(clk);
 		}
 	    }
@@ -59,7 +60,7 @@ function elastic(sim, type, clk, data, valid, ready, last = null) {
 		} else {
 		    ready(1);
 		}
-		yield* FallingEdge(clk);
+		yield* RisingEdge(clk);
 		//console.log('ready: ', ready());
 	    }
 	}
@@ -67,10 +68,10 @@ function elastic(sim, type, clk, data, valid, ready, last = null) {
 
     this.monitor = function* () {
 	while(true) {
-	    yield* RisingEdge(clk);
+	    yield* FallingEdge(clk);
 	    if(valid() == 1 && ready() == 1) {
 		if(this.print) {
-		    console.log(data());
+		    console.log("Time: " + sim.time +  " Data: " + data());
 		}
 		this.rxArray.push(data());
 	    }

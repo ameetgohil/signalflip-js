@@ -15,7 +15,15 @@ module top_elastic
    reg [31:0]   i0_data;
    
    reg          i0_valid;
+
+`ifdef EB0
+   assign t0_ready = rstf ? i0_ready:0;
    
+   always @(*) begin
+      i0_data = rstf ? t0_data << 2 : 0;
+      i0_valid = rstf ? t0_valid : 0;
+   end
+`else
 
    logic      data_en;
    assign t0_ready = ~rstf ? 0:~i0_valid | i0_ready;
@@ -33,4 +41,5 @@ module top_elastic
          i0_valid <= ~t0_ready | t0_valid;
       end
    end
+`endif
 endmodule
