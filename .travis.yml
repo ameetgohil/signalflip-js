@@ -69,6 +69,7 @@ script:
  - nvm use || nvm install
  - npm i --ignore-scripts
  - make
+ - make VERILATOR_USER_ARGS=-DEB0
  - git clone https://github.com/ameetgohil/create-signalflip-js-tb.git newtb && rm -rf newtb/.git
  - cd newtb
  - nvm use || nvm install
