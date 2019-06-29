@@ -90,7 +90,7 @@ function Sim(dut, eval) { //, clk = null) {
     
     this.time = 0;
     
-    this.run = (iter) => {
+    this.run = (iter, finish = true) => {
 	for(let i = 0; i < iter; i++) {
 	    //console.log(i,iter);
 	    //this.tick();
@@ -106,12 +106,14 @@ function Sim(dut, eval) { //, clk = null) {
 	    //eval();
 	    //this.taskmanager();
 	}
-	//console.log("Runing finish tasks");
-	this.finishTasks.forEach((task) => {
-	    task();
-	});
-	//console.log("DUT finish");
-	dut.finish();
+	if(finish) {
+	    //console.log("Runing finish tasks");
+	    this.finishTasks.forEach((task) => {
+		task();
+	    });
+	    //console.log("DUT finish");
+	    dut.finish();
+	}
     };
 
     /*this.posedge = () => {
