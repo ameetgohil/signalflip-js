@@ -32,7 +32,9 @@ VERILATOR = $(VERILATOR_ROOT)/bin/verilator
 VERILATOR_COVERAGE = $(VERILATOR_ROOT)/bin/verilator_coverage
 endif
 
-VERILATOR_FLAGS =
+VERILATOR_USER_ARGS =
+
+VERILATOR_FLAGS = $(VERILATOR_USER_ARGS)
 # Generate C++ in executable form
 VERILATOR_FLAGS += -cc --exe
 # Generate makefile dependencies (not shown as complicates the Makefile)
