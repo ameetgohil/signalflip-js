@@ -33,7 +33,9 @@ function* Fork(tasks) {
 }
 
 
-function Sim(dut, eval) { 
+function Sim(dut, eval) {
+
+    this.phases = ["PRE_RUN", "RESET", "RUN", "POST_RUN"];
 
     this.clocks = [];
     
@@ -52,6 +54,9 @@ function Sim(dut, eval) {
 
     this.finishTasks = [];
 
+    this.preTasks = [];
+
+    this.postTasks = [];
     
     this.taskmanager = () => {
 	this.tasks.forEach((task, i) => {
@@ -71,9 +76,7 @@ function Sim(dut, eval) {
 	});
     };
 
-    this.addTask = (task) => {
-	//console.log(task);
-	//let t = task();
+    this.addTask = (task, phase = "RUN") => {
 	this.tasks.push(task);
 	this.taskreturn.push(task.next());
     }
