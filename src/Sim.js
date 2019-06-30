@@ -33,12 +33,7 @@ function* Fork(tasks) {
 }
 
 
-function Sim(dut, eval) { //, clk = null) {
-//    EventEmitter.call(this);
-//    this.setMaxListeners(Infinity);
-    //this.clk = (clk == null) ? (val) => { return val }:clk;
-    
-    this.tick  = () => { this.clk(this.clk() ? 0 : 1) };
+function Sim(dut, eval) { 
 
     this.clocks = [];
     
@@ -89,38 +84,34 @@ function Sim(dut, eval) { //, clk = null) {
     }
     
     this.time = 0;
+
+    this.tick = () => {
+	this.clockmanager();
+	eval();
+	this.time++;
+	this.taskmanager();
+    }
     
     this.run = (iter, finish = true) => {
 	for(let i = 0; i < iter; i++) {
-	    //console.log(i,iter);
-	    //this.tick();
-	    //this.emit('tickevent', 'clockevent');
-	    //this.emit('posedge');
-	    this.clockmanager();
-	    eval();
-	    this.time++;
-	    this.taskmanager();
-	    //this.tick();
-	    //this.emit('tickevent', 'clockevent');
-	    //this.emit('negedge');
-	    //eval();
-	    //this.taskmanager();
+	    this.tick();
 	}
-	if(finish) {
-	    //console.log("Runing finish tasks");
-	    this.finishTasks.forEach((task) => {
-		task();
-	    });
-	    //console.log("DUT finish");
-	    dut.finish();
-	}
+	this.finish();
     };
 
-    /*this.posedge = () => {
-	this.on('tickevent', () => {});
-    };*/
+    this.runUntil = (condition) => {
+	while(!condition()) {
+	    this.tick();
+	}
+    }
+
+    this.finish = () => {
+	this.finishTasks.forEach((task) => {
+	    task();
+	});
+	dut.finish();
+    };
 
 };
-//util.inherits(Sim, EventEmitter);
 
 module.exports = {RisingEdge, RisingEdges, FallingEdge, FallingEdges, Sim};
