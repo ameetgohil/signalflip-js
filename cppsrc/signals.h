@@ -9,6 +9,18 @@ namespace signals {
   
       
 	
+  uint32_t clk(uint32_t val);
+	
+      
+  
+      
+	
+  uint32_t rstf(uint32_t val);
+	
+      
+  
+      
+	
   uint32_t t0_valid(uint32_t val);
 	
       
@@ -33,18 +45,6 @@ namespace signals {
   
       
 	
-  uint32_t clk(uint32_t val);
-	
-      
-  
-      
-	
-  uint32_t rstf(uint32_t val);
-	
-      
-  
-      
-	
   uint32_t t0_data(uint32_t val);
 	
       
@@ -61,6 +61,14 @@ namespace signals {
   Napi::Number TickWrapped(const Napi::CallbackInfo& info);
   
       
+  Napi::Number clkWrapped(const Napi::CallbackInfo& info);
+      
+  
+      
+  Napi::Number rstfWrapped(const Napi::CallbackInfo& info);
+      
+  
+      
   Napi::Number t0_validWrapped(const Napi::CallbackInfo& info);
       
   
@@ -74,14 +82,6 @@ namespace signals {
   
       
   Napi::Number i0_readyWrapped(const Napi::CallbackInfo& info);
-      
-  
-      
-  Napi::Number clkWrapped(const Napi::CallbackInfo& info);
-      
-  
-      
-  Napi::Number rstfWrapped(const Napi::CallbackInfo& info);
       
   
       
