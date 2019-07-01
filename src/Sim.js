@@ -35,6 +35,8 @@ function* Fork(tasks) {
 
 function Sim(dut, eval) {
 
+    this.phase = null;
+
     this.phases = ["PRE_RUN", "RESET", "RUN", "POST_RUN"];
 
     this.clocks = [];
@@ -88,12 +90,33 @@ function Sim(dut, eval) {
     
     this.time = 0;
 
+    this.preTaskManager = () => {
+	this.phases.forEach((phase) => {
+	    if(phase.startsWith('PRE_')) {
+		this.phase = phase;
+		this.preTasks.forEach((task,i) => {
+		    if(preTasksPhase[i] == phase) {
+			task();
+		    }
+		});
+	    }
+	});
+	// Set phase to the first non 'PRE_' phase
+	for(let i of this.phases)
+	    if(!i.startsWith('PRE_'))
+		break;
+    };
+    
     this.tick = () => {
-	this.clockmanager();
-	eval();
-	this.time++;
-	this.taskmanager();
-    }
+	if(this.phase != null) {
+	    this.clockmanager();
+	    eval();
+	    this.time++;
+	    this.taskmanager();
+	} else {
+	    this.preTaskManager();
+	}
+    };
     
     this.run = (iter, finish = true) => {
 	for(let i = 0; i < iter; i++) {
