@@ -28,6 +28,17 @@ function* FallingEdges(sig, count) {
     }
 }
 
+function* Edge(sig) {
+    let val = sig();
+    yield () => { return sig() != val };
+}
+
+function* Edges(sig, count) {
+    for(let i of _.range(count)) {
+	yield* Edge(sig);
+    }
+}
+
 function* Fork(tasks) {
     
 }
@@ -35,7 +46,7 @@ function* Fork(tasks) {
 
 function Sim(dut, eval) {
 
-    this.phase = null;
+    this.phase = 0;
 
     this.phases = ["PRE_RUN", "RESET", "RUN", "POST_RUN"];
 
@@ -50,15 +61,18 @@ function Sim(dut, eval) {
 	    clock.next();
 	});
     };
-    
+
+    this.tasksPhase = [];
     this.tasks = [];
     this.taskreturn = [];
 
     this.finishTasks = [];
 
     this.preTasks = [];
+    this.preTasksPhase = [];
 
     this.postTasks = [];
+    this.postTasksPhase = [];
     
     this.taskmanager = () => {
 	this.tasks.forEach((task, i) => {
@@ -79,10 +93,25 @@ function Sim(dut, eval) {
     };
 
     this.addTask = (task, phase = "RUN") => {
-	this.tasks.push(task);
-	this.taskreturn.push(task.next());
+	if(phase.startsWith('PRE_')) {
+	    if(typeof task != 'function') {
+		throw "PRE_ task needs to be a function (NOT a generator). If it is a function, make sure the function is not already called passed into addTask with ()";
+	    }
+	    preTasks.push(task);
+	    preTasksPhase.push(this.phases.indexOf(phase));
+	} else if(phase.startsWith('POST_')) {
+	    if(typeof task != 'function') {
+		throw "POST_ task needs to be a function (NOT a generator). If it is a function, make sure the function is not already called passed into addTask with ()";
+	    }
+	    postTasks.push(task);
+	    postTasksPhase.push(this.phases.indexOf(phase));
+	} else {
+	    this.tasks.push(task);
+	    this.taskreturn.push({done: false, value: () => { return true }});//task.next());
+	    this.tasksPhase.push(this.phases.indexOf(phase));
+	}
     }
-
+    
     this.finishTask = (task) => {
 	//console.log(task);
 	this.finishTasks.push(task);
@@ -92,8 +121,8 @@ function Sim(dut, eval) {
 
     this.preTaskManager = () => {
 	this.phases.forEach((phase) => {
-	    if(phase.startsWith('PRE_')) {
-		this.phase = phase;
+	    if(this.phases[phase].startsWith('PRE_')) {
+		this.phase++;
 		this.preTasks.forEach((task,i) => {
 		    if(preTasksPhase[i] == phase) {
 			task();
@@ -101,10 +130,7 @@ function Sim(dut, eval) {
 		});
 	    }
 	});
-	// Set phase to the first non 'PRE_' phase
-	for(let i of this.phases)
-	    if(!i.startsWith('PRE_'))
-		break;
+	this.phase++;
     };
     
     this.tick = () => {
@@ -114,6 +140,7 @@ function Sim(dut, eval) {
 	    this.time++;
 	    this.taskmanager();
 	} else {
+	    this.phase = 0;
 	    this.preTaskManager();
 	}
     };
