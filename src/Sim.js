@@ -75,33 +75,40 @@ function Sim(dut, eval) {
     this.postTasksPhase = [];
     
     this.taskmanager = () => {
+	let phase_complete = true;
 	this.tasks.forEach((task, i) => {
 	    //	    console.log(task.next);
 //	    console.log(this.taskreturn[i].done);
 	    //	    console.log(this.taskreturn[i].value);
-	    while(!this.taskreturn[i].done && this.taskreturn[i].value()) {
-		if(!this.taskreturn[i].done && this.taskreturn[i].value()) {
-		    //console.log('----------------');
-		    //console.log(this.taskreturn[i].value());
-		    //console.log(this.taskreturn[i].value);
-		    //console.log(this.taskreturn[i].done);
-		    //console.log('----------------');
-		this.taskreturn[i] = task.next();
+	    if(!this.tasksPhase[i] == this.phase) {
+		while(!this.taskreturn[i].done && this.taskreturn[i].value()) {
+		    if(!this.taskreturn[i].done && this.taskreturn[i].value()) {
+			//console.log('----------------');
+			//console.log(this.taskreturn[i].value());
+			//console.log(this.taskreturn[i].value);
+			//console.log(this.taskreturn[i].done);
+			//console.log('----------------');
+			this.taskreturn[i] = task.next();
+		    }
+		}
+
+		if(!this.taskreturn[i].done) {
+		    phase_complete = false;
+		}
 	    }
-	}
 	});
     };
 
     this.addTask = (task, phase = "RUN") => {
 	if(phase.startsWith('PRE_')) {
 	    if(typeof task != 'function') {
-		throw "PRE_ task needs to be a function (NOT a generator). If it is a function, make sure the function is not already called passed into addTask with ()";
+		throw "PRE_ task needs to be a function (NOT a generator). If it is a function, make sure the function is not already called and passed into addTask with ()";
 	    }
 	    preTasks.push(task);
 	    preTasksPhase.push(this.phases.indexOf(phase));
 	} else if(phase.startsWith('POST_')) {
 	    if(typeof task != 'function') {
-		throw "POST_ task needs to be a function (NOT a generator). If it is a function, make sure the function is not already called passed into addTask with ()";
+		throw "POST_ task needs to be a function (NOT a generator). If it is a function, make sure the function is not already called and passed into addTask with ()";
 	    }
 	    postTasks.push(task);
 	    postTasksPhase.push(this.phases.indexOf(phase));
