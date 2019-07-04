@@ -108,14 +108,14 @@ function Sim(dut, eval) {
 	    if(typeof task != 'function') {
 		throw "PRE_ task needs to be a function (NOT a generator). If it is a function, make sure the function is not already called and passed into addTask with ()";
 	    }
-	    preTasks.push(task);
-	    preTasksPhase.push(this.phases.indexOf(phase));
+	    this.preTasks.push(task);
+	    this.preTasksPhase.push(this.phases.indexOf(phase));
 	} else if(phase.startsWith('POST_')) {
 	    if(typeof task != 'function') {
 		throw "POST_ task needs to be a function (NOT a generator). If it is a function, make sure the function is not already called and passed into addTask with ()";
 	    }
-	    postTasks.push(task);
-	    postTasksPhase.push(this.phases.indexOf(phase));
+	    this.postTasks.push(task);
+	    this.postTasksPhase.push(this.phases.indexOf(phase));
 	} else {
 	    this.tasks.push(task);
 	    this.taskreturn.push({done: false, value: () => { return true }});//task.next());
@@ -180,7 +180,8 @@ function Sim(dut, eval) {
 	});
 	while(this.phase < this.phases.length) {
 	    this.postTasks.forEach((task,i) => {
-		if(this.phase == this.postTasksPhases[i]) {
+		//console.log(this.postTasksPhases[i]
+		if(this.phase == this.postTasksPhase[i]) {
 		    task();
 		}
 	    });
