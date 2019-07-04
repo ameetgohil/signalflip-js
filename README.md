@@ -29,7 +29,7 @@ The code below shows how to initialize dut and import useful functions such as R
 ```javascript
 const dut = require('./build/Release/dut.node');
 const {Sim, simutils, Interfaces} = require('signalflip-js');
-const {Clock, RisingEdge, FallingEdge} = simu
+const {Clock, RisingEdge, FallingEdge, RisingEdges, FallingEdges, Edge, Edges} = sim
 const {Elastic} = Interfaces;
 const _ = require('lodash');
 

@@ -52,11 +52,11 @@ describe('Basic Group', () => {
 	//target.print = true;
 	let din = _.range(10).map(x => x);
 	target.txArray = din.slice();
-	sim.finishTask(() => {
+	sim.addTask(() => {
 	    let dout = model(din.slice());
 	    //		    assert(_.isEqual(dout, initiator.rxArray));
 	    
-	    
+	    //console.log('post task');
 	    dout.map((x,i) => {
 		if(x != initiator.rxArray[i])
 		    console.log('x: ', x, ' i: ', i, 'initiator[i]: ', initiator.rxArray[i]);
@@ -69,7 +69,7 @@ describe('Basic Group', () => {
 		dut.finish();
 		throw(e);
 	    }
-	});
+	},'POST_RUN');
 	
     });
     it('Constant valid - Constant ready', () => {
@@ -79,7 +79,7 @@ describe('Basic Group', () => {
 	target.init();
 	initiator.init();
 
-	sim.run(100);
+	sim.run(1000);
     });
     
     it('Randomized valid - Constant Ready', () => {
