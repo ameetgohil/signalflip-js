@@ -46,7 +46,7 @@ function* Fork(tasks) {
 
 function Sim(dut, eval) {
 
-    this.phase = 0;
+    this.phase = null;
 
     this.phases = ["PRE_RUN", "RESET", "RUN", "POST_RUN"];
 
@@ -80,7 +80,8 @@ function Sim(dut, eval) {
 	    //	    console.log(task.next);
 //	    console.log(this.taskreturn[i].done);
 	    //	    console.log(this.taskreturn[i].value);
-	    if(!this.tasksPhase[i] == this.phase) {
+	    if(this.tasksPhase[i] == this.phase) {
+		//console.log('here');
 		while(!this.taskreturn[i].done && this.taskreturn[i].value()) {
 		    if(!this.taskreturn[i].done && this.taskreturn[i].value()) {
 			//console.log('----------------');
@@ -102,7 +103,7 @@ function Sim(dut, eval) {
 	}
     };
 
-    this.addTask = (task, phase = "RUN") => {
+    this.addTask = (task, phase = 'RUN') => {
 	if(phase.startsWith('PRE_')) {
 	    if(typeof task != 'function') {
 		throw "PRE_ task needs to be a function (NOT a generator). If it is a function, make sure the function is not already called and passed into addTask with ()";
@@ -131,7 +132,8 @@ function Sim(dut, eval) {
 
     this.preTaskManager = () => {
 	this.phases.forEach((phase) => {
-	    if(this.phases[phase].startsWith('PRE_')) {
+	    //console.log(phase);
+	    if(phase.startsWith('PRE_')) {
 		this.phase++;
 		this.preTasks.forEach((task,i) => {
 		    if(preTasksPhase[i] == phase) {
@@ -140,7 +142,8 @@ function Sim(dut, eval) {
 		});
 	    }
 	});
-	this.phase++;
+	//this.phase++;
+	//console.log(this.phase);
     };
     
     this.tick = () => {
@@ -159,7 +162,10 @@ function Sim(dut, eval) {
 	for(let i = 0; i < iter; i++) {
 	    this.tick();
 	}
-	this.finish();
+	if(finish) {
+	    this.phase++;
+	    this.finish();
+	}
     };
 
     this.runUntil = (condition) => {
