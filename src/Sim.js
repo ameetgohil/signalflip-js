@@ -97,6 +97,9 @@ function Sim(dut, eval) {
 		}
 	    }
 	});
+	if(phase_complete) {
+	    this.phase++;
+	}
     };
 
     this.addTask = (task, phase = "RUN") => {
