@@ -178,6 +178,14 @@ function Sim(dut, eval) {
 	this.finishTasks.forEach((task) => {
 	    task();
 	});
+	while(this.phase < this.phases.length) {
+	    this.postTasks.forEach((task,i) => {
+		if(this.phase == this.postTasksPhases[i]) {
+		    task();
+		}
+	    });
+	    this.phase++;
+	}
 	dut.finish();
     };
 
