@@ -192,4 +192,4 @@ function Sim(dut, eval) {
 
 };
 
-module.exports = {RisingEdge, RisingEdges, FallingEdge, FallingEdges, Sim};
+module.exports = {RisingEdge, RisingEdges, FallingEdge, FallingEdges, Edge, Edges, Sim};
