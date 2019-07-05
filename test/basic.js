@@ -39,7 +39,7 @@ describe('Basic Group', () => {
 	    yield* RisingEdges(dut.clk,5);
 	    dut.rstf(1);
 	}
-	sim.addTask(reset());
+	sim.addTask(reset(),'RESET');
 
 	let clk = new Clock(dut.clk, 1);
 	sim.addClock(clk);
