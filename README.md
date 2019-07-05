@@ -78,13 +78,13 @@ sim.run(1000); // runs simulation for 1000 clock cycles
 ```
 
 ### Simulation phases
-The default simulation phases are: 
-	- PRE_RUN
-	- RESET
-	- RUN
-	- POST_RUN
+The default simulation phases are: __
+- PRE_RUN
+- RESET
+- RUN
+- POST_RUN
 
-The simulation phase advances if the tasks executing in the current phase all finish..
+The simulation phase advances if the tasks executing in the current phase all finish.
 
 When adding tasks to the simulatin using sim.addTask(task), and additional argument can get provided to specify in what simulation phase this task should run. PRE_RUN, POST_RUN, and all tasks with simulation phase prefix of PRE_ or POST_ should be functions and not generators. See examples below
 
