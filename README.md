@@ -78,7 +78,7 @@ sim.run(1000); // runs simulation for 1000 clock cycles
 ```
 
 ### Simulation phases
-The default simulation phases are: __
+	The default simulation phases are: 
 - PRE_RUN
 - RESET
 - RUN
