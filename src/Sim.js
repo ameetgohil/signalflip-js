@@ -39,8 +39,11 @@ function* Edges(sig, count) {
     }
 }
 
-function* Fork(tasks) {
-    
+function* Fork(tasks, join =  'JOIN') {
+    tasksReturn = [];
+    tasks.forEach((tasks) => { tasks(); });
+
+    //tasks
 }
 
 
