@@ -40,10 +40,39 @@ function* Edges(sig, count) {
 }
 
 function* Fork(tasks, join =  'JOIN') {
+    if(join != 'JOIN' && join != 'JOIN_ANY') {
+	throw "fork should have value of 'JOIN' OR 'JOIN_ANY'";
+    }
     tasksReturn = [];
-    tasks.forEach((tasks) => { tasks(); });
-
-    //tasks
+    tasks.forEach((tasks) => {
+	tasks();
+	tasksReturn.push({done: false, value: () => { return true }});
+    });
+    let done = false;
+    while(!done) {
+	if(join == 'JOIN') {
+	    done = true;
+	} else {
+	    done = false;
+	}
+	tasks.forEach((task, i) => {
+	    while(!tasksReturn[i].done && this.taskreturn[i].value()) {
+		taskReturn[i] = task.next();
+		if(taskReturn[i].done && join == 'JOIN_ANY') {
+		    break;
+		}
+	    }
+	});
+	taskReturn.forEach((tr) => {
+	    if(join == 'JOIN' && !tr.done) {
+		done = false;
+	    }
+	    if(join == 'JOIN_ANY' && tr.done) {
+		done = true;
+	    }
+	});
+	yield !done;
+    }
 }
 
 
