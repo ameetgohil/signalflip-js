@@ -27,12 +27,11 @@ verilator testbench w/ Javascript using N-API
 
 The code below shows how to initialize dut and import useful functions such as RisingEdge, FallingEdge, Sim, and interfaces.
 ```javascript
-const dut = require('./build/Release/dut.node');
-const {Sim, simutils, Interfaces} = require('signalflip-js');
-const {Clock, RisingEdge, FallingEdge, RisingEdges, FallingEdges, Edge, Edges} = sim
+const dut = require('../build/Release/dut.node');
+const {Sim, SimUtils, RisingEdge, RisingEdges, FallingEdge, FallingEdges, Interfaces} = require('../');
+const { Clock, Intf } = SimUtils;
 const {Elastic} = Interfaces;
 const _ = require('lodash');
-
 
 const sim = new Sim(dut, dut.eval); //dut.clk argument creates a clock on clk signal
 dut.init();
@@ -76,6 +75,44 @@ NOTE: function* means that it is a generator. yield* is used when you want to ca
 ### Run simulation
 ```javascript
 sim.run(1000); // runs simulation for 1000 clock cycles
+```
+
+### Simulation phases
+The default simulation phases are: 
+- PRE_RUN
+- RESET
+- RUN
+- POST_RUN
+
+The simulation phase advances if the tasks executing in the current phase all finish.
+
+When adding tasks to the simulatin using sim.addTask(task), and additional argument can get provided to specify in what simulation phase this task should run. PRE_RUN, POST_RUN, and all tasks with simulation phase prefix of PRE_ or POST_ should be functions and not generators. See examples below
+
+To add a task that sets dut.a to 7 and wait until dut.out is 10 during the RUN phase
+This snippet explicitly defines the phase as RUN. If no phase argument is provided, the phase will be RUN b/c it's the default phase.
+```javascript
+sim.addTask(function* {
+	    dut.a = 7;
+	    yield () => { return dut.out == 10 };
+	}, 'RUN');
+```
+
+To add task that sets dut.rstf to 0, wait for rising edge, and set dut.rstf to 1 at RESET phase.
+```javascript
+sim.addTask(function* {
+	    dut.rstf = 0;
+	    yield* RisingEdge(dut.clk);
+	    dut.rstf = 1;
+	}, 'RESET');
+```
+
+To verify data collected during the run phase is an array from 0 to 10. 
+Note that we use function instead of function* b/c PRE and POST tasks require functions and NOT generators
+```javascript
+sim.addTask(function {
+	    let expected_data = _.range(10);
+	    assert.deepEqual(collected_data, expected_data);
+	}, 'POST_RUN');
 ```
 
 ## Show graph
