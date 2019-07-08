@@ -88,7 +88,7 @@ The simulation phase advances if the tasks executing in the current phase all fi
 
 When adding tasks to the simulatin using sim.addTask(task), and additional argument can get provided to specify in what simulation phase this task should run. PRE_RUN, POST_RUN, and all tasks with simulation phase prefix of PRE_ or POST_ should be functions and not generators. See examples below
 
-To add a task that sets dut.a to 7 and wait until dut.out is 10 during the RUN phase
+- To add a task that sets dut.a to 7 and wait until dut.out is 10 during the RUN phase
 This snippet explicitly defines the phase as RUN. If no phase argument is provided, the phase will be RUN b/c it's the default phase.
 ```javascript
 sim.addTask(function* {
@@ -97,7 +97,7 @@ sim.addTask(function* {
 	}, 'RUN');
 ```
 
-To add task that sets dut.rstf to 0, wait for rising edge, and set dut.rstf to 1 at RESET phase.
+- To add task that sets dut.rstf to 0, wait for rising edge, and set dut.rstf to 1 at RESET phase.
 ```javascript
 sim.addTask(function* {
 	    dut.rstf = 0;
@@ -106,7 +106,7 @@ sim.addTask(function* {
 	}, 'RESET');
 ```
 
-To verify data collected during the run phase is an array from 0 to 10. 
+- To verify data collected during the run phase is an array from 0 to 10. 
 Note that we use function instead of function* b/c PRE and POST tasks require functions and NOT generators
 ```javascript
 sim.addTask(function {
