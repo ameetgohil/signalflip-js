@@ -31,17 +31,18 @@ function elastic(sim, type, clk, data, valid, ready, last = null) {
 		yield* RisingEdge(clk);
 		valid(0);//this.txArray.length > 0 ? 1:0);
 		yield () => { return this.txArray.length > 0; };
+//		console.log(this.txArray);
 		//console.log('here');
 		let txn = this.txArray[0];
 		this.txArray.shift();
-		data(txn);
+		data(txn.data);
 		if( this.randomize ) {
 		    while(this.randomizeValid() != 0)
 			yield* RisingEdge(clk);
 		}
 		valid(1);
 		if ( last != null )
-		    last(this.txArray.length == 0 ? 1:0);
+		    last(txn.isLast ? 1:0) //this.txArray.length == 0 ? 1:0);
 		yield* FallingEdge(clk);
 		while( ready() != 1 ) {
 		    yield* FallingEdge(clk);
@@ -73,7 +74,7 @@ function elastic(sim, type, clk, data, valid, ready, last = null) {
 		if(this.print) {
 		    console.log("Time: " + sim.time +  " Data: " + data());
 		}
-		this.rxArray.push(data());
+		this.rxArray.push({data: data(), isLast: last == null ? false:last() ? true:false});
 	    }
 	}
     }
