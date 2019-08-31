@@ -45,10 +45,10 @@ Point to the .sv file you want simulate and set dut name.
 Add the following to sim/basic.js import useful functions such as RisingEdge, FallingEdge, Sim, ...
 ```javascript
 //imports dut that was compiled with verilator wrapped with N-API. All top level signals are accessible via this import
-const dut = require('./build/Release/dut.node');
+const dut = require('../build/Release/dut.node');
 //Sim manages tasks and advances time
 //RisingEdge/FallingEdge - wait under rising/falling edge detect on a given signal
-const {Sim, SimUtils, RisingEdge, RisingEdges, FallingEdge, FallingEdges, Interfaces} = require('signalflip-js');
+const {Sim, SimUtils, RisingEdge, RisingEdges, FallingEdge, FallingEdges, Edge, Edges, Interfaces} = require('signalflip-js');
 const { Clock, Intf } = SimUtils;
 //A nice to have utililty to deal with arrays
 const _ = require('lodash');
@@ -66,13 +66,17 @@ describe('Test', () => {
 }
 ```
 
-Initialize input signals
+Initialize input signals and create clock
 ```javascript
 describe('Test', () => {
 	let setup = (name) => {
 		dut.init(name); // Init dut	
 		const sim = new Sim(dut); 
 	};
+	
+	//Create Clock
+	let clk = new Clockk(dut.clk, 1);
+	sim.addClock(clk);
 	
 	// Initialize input signals
 	dut.rstf(1); 
@@ -89,15 +93,19 @@ describe('Test', () => {
 		const sim = new Sim(dut); 
 	};
 	
+	//Create Clock
+	let clk = new Clockk(dut.clk, 1);
+	sim.addClock(clk);
+	
 	// Initialize input signals
 	dut.rstf(1); 
 	dut.en(0);
 
 	// RESET task -- assert reset for 5 clock cycles
 	sim.addTask(function* () {
-		dut.rstf(1);
-		yield* RisingEdges(dut.clk, 5);
 		dut.rstf(0);
+		yield* RisingEdges(dut.clk, 5);
+		dut.rstf(1);
 		yield* RisingEdge(dut.clk);
 	}(), 'RESET');
 	
@@ -111,20 +119,25 @@ describe('Test', () => {
 		dut.init(name); // Init dut	
 		const sim = new Sim(dut); 
 	};
-	
+
+	//Create Clock
+	let clk = new Clockk(dut.clk, 1);
+	sim.addClock(clk);
+
 	// Initialize input signals
 	dut.rstf(1); 
 	dut.en(0);
 
 	// RESET task -- assert reset for 5 clock cycles
 	sim.addTask(function* () {
-		dut.rstf(1);
-		yield* RisingEdges(dut.clk, 5);
 		dut.rstf(0);
+		yield* RisingEdges(dut.clk, 5);
+		dut.rstf(1);
 		yield* RisingEdge(dut.clk);
 	}(), 'RESET');
  	
 	it('Test 1', function () {
+		setup('top_test1');
 		function* drive() {
 			dut.en(1);
 			yield* RisingEdges(dut.clk, 10);
@@ -132,11 +145,10 @@ describe('Test', () => {
 		}
 		sim.addTask(drive());
 		// Run simulation for 100 ticks
-		sim.run(100);
+		sim.run(50);
 	});
 }
 ```
-
 
 ## Run the simulation
 To run through all the steps - generate wrapper, build N-API, and run test
@@ -157,7 +169,93 @@ make test
 ```
 To view the waveform
 ```
-gtkwave logs/vlt_dump.vcd
+gtkwave logs/top_test1.vcd
 ```
 
 NOTE: For this simulation we wrote a single test sim/basic.js using mocha. The next tutorial we will enable regression testing and randomization using jsverify.
+
+## Add a second test
+
+```javascript
+//imports dut that was compiled with verilator wrapped with N-API. All top level signals are accessible via this import
+const dut = require('../build/Release/dut.node');
+//Sim manages tasks and advances time
+//RisingEdge/FallingEdge - wait under rising/falling edge detect on a given signal
+const {Sim, SimUtils, RisingEdge, RisingEdges, FallingEdge, FallingEdges, Edge, Edges, Interfaces} = require('signalflip-js');
+const { Clock, Intf } = SimUtils;
+//A nice to have utililty to deal with arrays
+const _ = require('lodash');
+
+let sim;
+
+describe('Test', () => {
+  let setup = (name) => {
+    // set up the environment
+    dut.init(name); // Init dut
+    sim = new Sim(dut);
+
+    // TODO: Create clock
+    let clk = new Clock(dut.clk, 1)
+    sim.addClock(clk)
+
+    // Init input signals
+    dut.rstf(0);
+    dut.en(0);
+    
+    // RESET task -- assert reset for 5 clock cycles
+    sim.addTask(function* () {
+      dut.rstf(0);
+      yield* RisingEdges(dut.clk, 5);
+      dut.rstf(1);
+      yield* RisingEdge(dut.clk);
+    }(), 'RESET');
+
+    // TODO: Add post_run tasks (test checking)
+    // sim.addTask(() => { /* post_run function */}, 'POST_RUN'});
+
+  };
+  it('Test 1', function () {
+    this.timeout(10000); // Set timeout to expected run time of the test in ms
+    setup('top_test1');
+    function* drive() {
+      dut.en(1);
+      yield* RisingEdges(dut.clk, 10);
+      dut.en(0);
+    }
+    sim.addTask(drive());
+    // Run simulation for 50 ticks
+    sim.run(50); //run for 50 ticks
+  });
+
+  it('Test 2', function () {
+    this.timeout(10000);
+    setup('top_test2');
+    function* drive() {
+      dut.en(1);
+      yield* RisingEdges(dut.clk, 5);
+      dut.en(0);
+      yield* RisingEdges(dut.clk, 5);
+      dut.en(1);
+    }
+    sim.addTask(drive());
+    // Run simulaltion for 50 ticks
+    sim.run(50); //run for 50 ticks
+  });
+});
+
+```
+
+Run the simulation
+```bash
+make
+```
+
+Inspect waveform for Test 1
+```bash
+gtkwave logs/top_test1.vcd
+```
+
+Inspect waveform for Test 2
+```bash
+gtkwave logs/top_test2.vcd
+```
