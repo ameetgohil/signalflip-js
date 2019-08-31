@@ -82,7 +82,13 @@ function elastic(sim, type, clk, data, valid, ready, last = null) {
     this.init = () => {
 	//this.txArray = [];
 	//this.rxArray = [];
-	//console.log('init: ',this.txArray.length, this.rxArray);
+      //console.log('init: ',this.txArray.length, this.rxArray);
+      if(this.TYPE == this.TARGET) {
+	data(0);
+	valid(0);
+      } else {
+	ready(0);
+      }
 	sim.addTask(this.driver());
 	sim.addTask(this.monitor());
     }

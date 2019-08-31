@@ -76,7 +76,7 @@ function* Fork(tasks, join =  'JOIN') {
 }
 
 
-function Sim(dut, eval) {
+function Sim(dut) {
 
     this.phase = null;
 
@@ -181,7 +181,7 @@ function Sim(dut, eval) {
     this.tick = () => {
 	if(this.phase != null) {
 	    this.clockmanager();
-	    eval();
+	    dut.eval();
 	    this.time++;
 	    this.taskmanager();
 	} else {
