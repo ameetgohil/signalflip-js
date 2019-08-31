@@ -2,7 +2,7 @@
 [![Build Status](https://travis-ci.com/ameetgohil/signalflip-js.svg?branch=master)](https://travis-ci.com/ameetgohil/signalflip-js)
 
 # signalflip-js
-verilator testbench w/ Javascript using N-API
+signalflip-js is 
 
 ## Dependencies
 - [Verilator (version 4.0 or above)](https://www.veripool.org/projects/verilator/wiki/Installing)
@@ -12,10 +12,10 @@ verilator testbench w/ Javascript using N-API
 
 ## Instructions to run
 ```
-> git clone https://github.com/ameetgohil/create-signalflip-js-tb.git testbench_name && rm -rf testbench_name/.git
-> cd testbench_name
+> git clone https://github.com/ameetgohil/create-signalflip-js-tb.git <folder> && rm -rf <folder>/.git
+> cd <folder>
 > nvm use || nvm install
-> npm i --ignore-scripts
+> npm i
 > make
 
 ```
@@ -33,7 +33,7 @@ const { Clock, Intf } = SimUtils;
 const {Elastic} = Interfaces;
 const _ = require('lodash');
 
-const sim = new Sim(dut, dut.eval); //dut.clk argument creates a clock on clk signal
+const sim = new Sim(dut, dut.eval); 
 dut.init();
 ```
 
@@ -91,19 +91,19 @@ When adding tasks to the simulatin using sim.addTask(task), and additional argum
 - To add a task that sets dut.a to 7 and wait until dut.out is 10 during the RUN phase
 This snippet explicitly defines the phase as RUN. If no phase argument is provided, the phase will be RUN b/c it's the default phase.
 ```javascript
-sim.addTask(function* {
+sim.addTask(function* () {
 	    dut.a = 7;
 	    yield () => { return dut.out == 10 };
-	}, 'RUN');
+	}(), 'RUN');
 ```
 
 - To add task that sets dut.rstf to 0, wait for rising edge, and set dut.rstf to 1 at RESET phase.
 ```javascript
-sim.addTask(function* {
+sim.addTask(function* () {
 	    dut.rstf = 0;
 	    yield* RisingEdge(dut.clk);
 	    dut.rstf = 1;
-	}, 'RESET');
+	}(), 'RESET');
 ```
 
 - To verify data collected during the run phase is an array from 0 to 10. 
