@@ -16,7 +16,6 @@ signalflip-js is
 > cd <folder>
 > nvm use || nvm install
 > npm i
-> make
 
 ```
 ### Examples
@@ -28,12 +27,12 @@ signalflip-js is
 The code below shows how to initialize dut and import useful functions such as RisingEdge, FallingEdge, Sim, and interfaces.
 ```javascript
 const dut = require('../build/Release/dut.node');
-const {Sim, SimUtils, RisingEdge, RisingEdges, FallingEdge, FallingEdges, Interfaces} = require('../');
+const {Sim, SimUtils, RisingEdge, RisingEdges, FallingEdge, FallingEdges, Interfaces} = require('signalflip-js');
 const { Clock, Intf } = SimUtils;
 const {Elastic} = Interfaces;
 const _ = require('lodash');
 
-const sim = new Sim(dut, dut.eval); 
+const sim = new Sim(dut); 
 dut.init();
 ```
 
