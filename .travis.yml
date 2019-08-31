@@ -70,8 +70,13 @@ script:
  - npm i
  - make
  - make VERILATOR_USER_ARGS=-DEB0
- - git clone https://github.com/ameetgohil/elastic-signalflip-example.git newtb && rm -rf newtb/.git
- - cd newtb
+ - git clone https://github.com/ameetgohil/elastic-signalflip-example.git elastic && rm -rf elastic/.git
+ - cd elastic
+ - nvm use || nvm install
+ - npm i
+ - make
+ - git clone https://github.com/ameetgohil/basic-signalflip-example.git basic && rm -rf basic/.git
+ - cd basic
  - nvm use || nvm install
  - npm i
  - make
