@@ -39,6 +39,7 @@ dut.init();
 ### Create clock
 ```javascript
 let clk = new Clock(dut.clk, 1);
+sim.addClock(clk);
 ```
 
 ### Access and manipulate signals
