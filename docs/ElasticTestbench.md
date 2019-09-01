@@ -1,4 +1,4 @@
-# Mocha Testbench Tutorial
+# Elastic(valid-ready) Testbench Tutorial
 This tutorial goes over how to setup a signalflip testbench for a valid-ready design that shifts the input data by 2. <br />
 First you need to install the prerequisites <br />
 - [Verilator (4.0 or above)](https://www.veripool.org/projects/verilator/wiki/Installing) <br />
