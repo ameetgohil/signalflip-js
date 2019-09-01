@@ -5,10 +5,12 @@ First you need to install the prerequisites <br />
 - [nvm (node)](https://github.com/creationix/nvm) <br />
 - cmake
 - gtkwave (for viewing waveforms) <br />
+
+Implemented tutorial for reference https://github.com/ameetgohil/basic-signalflip-example
 	
 ## Setup a testbench template
 ```
-> git clone https://github.com/ameetgohil/create-signalflip-js-tb.git <folder> && rm -rf <folder>/.git
+> git clone https://github.com/ameetgohil/create-signalflip-js-tb.git counter-signalflip && rm -rf counter-signalflip/.git
 > cd <folder>
 > nvm use || nvm install
 > npm i
