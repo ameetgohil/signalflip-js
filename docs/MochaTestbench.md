@@ -66,7 +66,7 @@ Point to the .sv file you want simulate and set dut name.
 ## Create the test
 The index.js file in the template already contains code to run the top_elastic (valid-ready) test. We will empty out the file for this tutorial. <br />
 <br />
-Add the following to test.js import useful functions such as RisingEdge, FallingEdge, Sim
+Add the following to basic.js import useful functions such as RisingEdge, FallingEdge, Sim
 ```javascript
 //imports dut that was compiled with verilator wrapped with N-API. All top level signals are accessible via this import
 const dut = require('../build/Release/dut.node');
@@ -163,7 +163,7 @@ describe('Basic Group', () => {
 });
 ```
 
-Final test.js with 3 more tests with randomized valid-ready signals<br />
+Final basic.js with 3 more tests with randomized valid-ready signals<br />
 The randomized tests are wrapped with jsverify so that the tests run 100 times (the "test" param controls number of times the test runs)<br />
 If a randomized test fails, you can use th rngState value to recreate the failed test. See jsverify docs to more info
 ```javascript
