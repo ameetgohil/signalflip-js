@@ -2,7 +2,7 @@
 [![Build Status](https://travis-ci.com/ameetgohil/signalflip-js.svg?branch=master)](https://travis-ci.com/ameetgohil/signalflip-js)
 
 # signalflip-js
-signalflip-js is 
+signalflip-js is a verification environment for creating Verilator testbenches using nodejs (Javascript)
 
 ## Dependencies
 - [Verilator (version 4.0 or above)](https://www.veripool.org/projects/verilator/wiki/Installing)
