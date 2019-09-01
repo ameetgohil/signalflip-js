@@ -22,7 +22,7 @@ describe('Basic Group', () => {
   let setup = (name) => {
     // set up the environment
     dut.init(name); // Init dut
-    sim = new Sim(dut, dut.eval);
+    sim = new Sim(dut);
 
     // TODO: Create clock
     let clk = new Clock(dut.clk, 1)
