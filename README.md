@@ -19,8 +19,8 @@ signalflip-js is
 
 ```
 ### Examples
-[Basic testbench example](./docs/BasicTestbench.md)  
-[Mocha testbench example](./docs/MochaTestbench.md)
+[Counter testbench example](./docs/BasicTestbench.md)  
+[Elastic(valid-ready) testbench example with randomization](./docs/MochaTestbench.md)
 
 ### Example sim init
 
