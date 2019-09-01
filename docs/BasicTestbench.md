@@ -41,7 +41,6 @@ Point to the .sv file you want simulate and set dut name.
 ```
 
 ## Create the test
-<br />
 Add the following to sim/basic.js import useful functions such as RisingEdge, FallingEdge, Sim, ...
 ```javascript
 //imports dut that was compiled with verilator wrapped with N-API. All top level signals are accessible via this import
