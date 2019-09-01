@@ -91,17 +91,17 @@ When adding tasks to the simulatin using sim.addTask(task), and additional argum
 This snippet explicitly defines the phase as RUN. If no phase argument is provided, the phase will be RUN b/c it's the default phase.
 ```javascript
 sim.addTask(function* () {
-	    dut.a = 7;
-	    yield () => { return dut.out == 10 };
+	    dut.a(7);
+	    yield () => { return dut.out() == 10 };
 	}(), 'RUN');
 ```
 
 - To add task that sets dut.rstf to 0, wait for rising edge, and set dut.rstf to 1 at RESET phase.
 ```javascript
 sim.addTask(function* () {
-	    dut.rstf = 0;
+	    dut.rstf(0);
 	    yield* RisingEdge(dut.clk);
-	    dut.rstf = 1;
+	    dut.rstf(1);
 	}(), 'RESET');
 ```
 
