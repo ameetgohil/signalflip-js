@@ -59,12 +59,15 @@ Initialize the simulation
 //set up the environment
 let sim;
 
+//set up the environment
+let sim;
+
 describe('Test', () => {
 	let setup = (name) => {
-	dut.init(name); // Init dut	
-	const sim = new Sim(dut); 
+		dut.init(name); // Init dut	
+		const sim = new Sim(dut); 
 	};
-}
+});
 ```
 
 Initialize input signals and create clock
@@ -73,17 +76,16 @@ describe('Test', () => {
 	let setup = (name) => {
 		dut.init(name); // Init dut	
 		const sim = new Sim(dut); 
+		
+		//Create Clock
+		let clk = new Clockk(dut.clk, 1);
+		sim.addClock(clk);
+	
+		// Initialize input signals
+		dut.rstf(1); 
+		dut.en(0);
 	};
-	
-	//Create Clock
-	let clk = new Clockk(dut.clk, 1);
-	sim.addClock(clk);
-	
-	// Initialize input signals
-	dut.rstf(1); 
-	dut.en(0);
-	
-}
+});
 ```
 
 Add reset task
@@ -92,63 +94,67 @@ describe('Test', () => {
 	let setup = (name) => {
 		dut.init(name); // Init dut	
 		const sim = new Sim(dut); 
-	};
+		
+		//Create Clock
+		let clk = new Clockk(dut.clk, 1);
+		sim.addClock(clk);
 	
-	//Create Clock
-	let clk = new Clockk(dut.clk, 1);
-	sim.addClock(clk);
-	
-	// Initialize input signals
-	dut.rstf(1); 
-	dut.en(0);
+		// Initialize input signals
+		dut.rstf(1); 
+		dut.en(0);
 
-	// RESET task -- assert reset for 5 clock cycles
-	sim.addTask(function* () {
-		dut.rstf(0);
-		yield* RisingEdges(dut.clk, 5);
-		dut.rstf(1);
-		yield* RisingEdge(dut.clk);
-	}(), 'RESET');
-	
-}
+	    // RESET task -- assert reset for 5 clock cycles
+		sim.addTask(function* () {
+			dut.rstf(0);
+			yield* RisingEdges(dut.clk, 5);
+			dut.rstf(1);
+			yield* RisingEdge(dut.clk);
+			}(), 'RESET');
+	};
+});
 ```
 
 Create test wher en is enabled for 10 clock cycles and disabled after that
 ```javascript
 describe('Test', () => {
-	let setup = (name) => {
-		dut.init(name); // Init dut	
-		const sim = new Sim(dut); 
-	};
+  let setup = (name) => {
+    // set up the environment
+    dut.init(name); // Init dut
+    sim = new Sim(dut);
 
-	//Create Clock
-	let clk = new Clockk(dut.clk, 1);
-	sim.addClock(clk);
+    // TODO: Create clock
+    let clk = new Clock(dut.clk, 1)
+    sim.addClock(clk)
 
-	// Initialize input signals
-	dut.rstf(1); 
-	dut.en(0);
+    // Init input signals
+    dut.rstf(0);
+    dut.en(0);
+    
+    // RESET task -- assert reset for 5 clock cycles
+    sim.addTask(function* () {
+      dut.rstf(0);
+      yield* RisingEdges(dut.clk, 5);
+      dut.rstf(1);
+      yield* RisingEdge(dut.clk);
+    }(), 'RESET');
 
-	// RESET task -- assert reset for 5 clock cycles
-	sim.addTask(function* () {
-		dut.rstf(0);
-		yield* RisingEdges(dut.clk, 5);
-		dut.rstf(1);
-		yield* RisingEdge(dut.clk);
-	}(), 'RESET');
- 	
-	it('Test 1', function () {
-		setup('top_test1');
-		function* drive() {
-			dut.en(1);
-			yield* RisingEdges(dut.clk, 10);
-			dut.en(0);
-		}
-		sim.addTask(drive());
-		// Run simulation for 100 ticks
-		sim.run(50);
-	});
-}
+    // TODO: Add post_run tasks (test checking)
+    // sim.addTask(() => { /* post_run function */}, 'POST_RUN'});
+
+  };
+  it('Test 1', function () {
+    this.timeout(10000); // Set timeout to expected run time of the test in ms
+    setup('top_test1');
+    function* drive() {
+      dut.en(1);
+      yield* RisingEdges(dut.clk, 10);
+      dut.en(0);
+    }
+    sim.addTask(drive());
+    // Run simulation for 50 ticks
+    sim.run(50); //run for 50 ticks
+  });
+});
 ```
 
 ## Run the simulation
