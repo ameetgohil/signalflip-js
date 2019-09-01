@@ -11,7 +11,7 @@ Implemented tutorial for reference https://github.com/ameetgohil/basic-signalfli
 ## Setup a testbench template
 ```
 > git clone https://github.com/ameetgohil/create-signalflip-js-tb.git counter-signalflip && rm -rf counter-signalflip/.git
-> cd <folder>
+> cd counter-signalflip
 > nvm use || nvm install
 > npm i
 ```
