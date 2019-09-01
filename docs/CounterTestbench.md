@@ -1,4 +1,4 @@
-# Basic Testbench Tutorial
+# Counter Testbench Tutorial
 This tutorial goes over how to setup a signalflip testbench for a counter. <br />
 First you need to install the prerequisites <br />
 - [Verilator (4.0 or above)](https://www.veripool.org/projects/verilator/wiki/Installing) <br />
