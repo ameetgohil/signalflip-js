@@ -1,6 +1,7 @@
 function* Tick() {
-    yield () => { return false };
-    yield () => { return true };
+  let state = true;
+  yield () => { state = !state;
+		return state; };
 }
 
 module.exports = Tick;
