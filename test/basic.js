@@ -1,5 +1,5 @@
 const dut = require('../build/Release/dut.node');
-const {Sim, SimUtils, RisingEdge, RisingEdges, FallingEdge, FallingEdges, Interfaces} = require('../');
+const {Sim, SimUtils, RisingEdge, RisingEdges, FallingEdge, FallingEdges, Interfaces, Fork} = require('../');
 const { Clock, Intf } = SimUtils;
 const {Elastic} = Interfaces;
 const _ = require('lodash');
@@ -13,7 +13,7 @@ const model = (din_array) => {
     din_array.shift();
   }
   return dout;
-}
+};
 
 let sim;
 let target, initiator;
@@ -25,9 +25,10 @@ describe('Basic Group', () => {
     sim = new Sim(dut);
 
     // TODO: Create clock
-    let clk = new Clock(dut.clk, 1)
+    let clk = new Clock(dut.clk, 1);
     sim.addClock(clk);
 
+    
     // RESET
     sim.addTask(function* () {
       dut.rstf(0);
@@ -112,6 +113,6 @@ describe('Basic Group', () => {
     const props = {tests: 100};
     jsc.check(t, props);//.then( r => r === true ? done() : done(new Error(JSON.stringify(r))));
   });
-  
+
 });
 
