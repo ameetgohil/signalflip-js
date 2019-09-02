@@ -39,7 +39,7 @@ function* Edges(sig, count) {
     }
 }
 
-function* Fork(tasks, join =  'JOIN') {
+function* Fork(tasks, join =  'JOIN', sim = null) {
     if(join != 'JOIN' && join != 'JOIN_ANY') {
 	throw "fork should have value of 'JOIN' OR 'JOIN_ANY'";
     }
@@ -58,9 +58,9 @@ function* Fork(tasks, join =  'JOIN') {
 	tasks.forEach((task, i) => {
 	    while(!tasksReturn[i].done && this.taskreturn[i].value()) {
 		taskReturn[i] = task.next();
-		if(taskReturn[i].done && join == 'JOIN_ANY') {
+		/*if(taskReturn[i].done && join == 'JOIN_ANY') {
 		    break;
-		}
+		}*/
 	    }
 	});
 	taskReturn.forEach((tr) => {
@@ -73,6 +73,14 @@ function* Fork(tasks, join =  'JOIN') {
 	});
 	yield !done;
     }
+  if(join == 'JOIN_ANY') {
+    tasks.forEach((task, i) => {
+      if(!tasksReuturn[i].done) {
+	sim.forkTasks.push(task);
+	sim.forkTasksReturn.push(task);
+      }
+    });
+  }
 }
 
 
@@ -94,6 +102,9 @@ function Sim(dut) {
 	});
     };
 
+  this.forkTasks = [];
+  this.forkTasksReturn = [];
+  
     this.tasksPhase = [];
     this.tasks = [];
     this.taskreturn = [];
@@ -133,6 +144,14 @@ function Sim(dut) {
 	if(phase_complete) {
 	    this.phase++;
 	}
+      // append orphaned tasks from 'JOIN_ANY' fork
+      if(this.forkTasks.length > 0) {
+	this.forkTasks.forEach((task, i) => {
+	  this.tasks.push(task);
+	  this.taskreturn.push(this.forkTasksReturn[i]);
+	  this.tasksPhase.push(this.phase);
+	});
+      }
     };
 
     this.addTask = (task, phase = 'RUN') => {
