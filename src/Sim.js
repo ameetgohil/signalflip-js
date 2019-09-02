@@ -80,7 +80,7 @@ function Sim(dut) {
 
     this.phase = null;
 
-    this.phases = ["PRE_RUN", "RESET", "RUN", "POST_RUN"];
+    this.phases = ['PRE_RUN', 'RESET', 'RUN', 'POST_RUN'];
 
     this.clocks = [];
     
@@ -224,4 +224,4 @@ function Sim(dut) {
 
 };
 
-module.exports = {RisingEdge, RisingEdges, FallingEdge, FallingEdges, Edge, Edges, Sim};
+module.exports = {RisingEdge, RisingEdges, FallingEdge, FallingEdges, Edge, Edges, Fork, Sim};
