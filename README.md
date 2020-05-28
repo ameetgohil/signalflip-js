@@ -21,7 +21,9 @@ signalflip-js is a verification environment for creating Verilator testbenches u
 ### Examples
 [Counter testbench example](./docs/CounterTestbench.md)  
 [Elastic(valid-ready) testbench example with randomization](./docs/ElasticTestbench.md)  
-[APB3 peripheral](https://github.com/ameetgohil/APB3-config-regs)
+[APB3 peripheral](https://github.com/ameetgohil/APB3-config-regs)  
+[Leading zeros counter](https://github.com/ameetgohil/leading-zeroes-counter)  
+[Fixed-point Reciprocal](https://github.com/ameetgohil/reciprocal-sv)
 
 ### Example sim init
 
