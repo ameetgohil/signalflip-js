@@ -4,7 +4,7 @@ module.exports = {
   RisingEdge: require('./src/Sim').RisingEdge,
   RisingEdges: require('./src/Sim').RisingEdges,
   FallingEdge: require('./src/Sim').FallingEdge,
-  FallingEdgese: require('./src/Sim').FallingEdges,
+  FallingEdges: require('./src/Sim').FallingEdges,
   Fork: require('./src/Sim').Fork,
   Interfaces: require('./src/interfaces'),
   GenerateWrapper: require('./src/GenerateWrapper')
