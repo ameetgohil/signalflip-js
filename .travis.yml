@@ -83,19 +83,19 @@ script:
  - make
  - cd ..
  - git clone https://github.com/ameetgohil/APB3-config-regs.git
- - cd APB3-config-regs
+ - cd APB3-config-regs/sim
  - nvm use || nvm install
  - npm i
  - make
- - cd ..
+ - cd ../..
  - git clone https://github.com/ameetgohil/leading-zeroes-counter.git
- - cd leading-zeroes-counter
+ - cd leading-zeroes-counter/sim
  - nvm use || nvm install
  - npm i
  - make
- - cd ..
+ - cd ../..
  - git clone https://github.com/ameetgohil/reciprocal-sv.git
- - cd reciprocal-sv
+ - cd reciprocal-sv/sim
  - nvm use || nvm install
  - npm i
  - make
