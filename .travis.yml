@@ -75,11 +75,31 @@ script:
  - nvm use || nvm install
  - npm i
  - make
+ - cd ..
  - git clone https://github.com/ameetgohil/basic-signalflip-example.git basic && rm -rf basic/.git
  - cd basic
  - nvm use || nvm install
  - npm i
  - make
+ - cd ..
+ - git clone https://github.com/ameetgohil/APB3-config-regs.git
+ - cd APB3-config-regs
+ - nvm use || nvm install
+ - npm i
+ - make
+ - cd ..
+ - git clone https://github.com/ameetgohil/leading-zeroes-counter.git
+ - cd leading-zeroes-counter
+ - nvm use || nvm install
+ - npm i
+ - make
+ - cd ..
+ - git clone https://github.com/ameetgohil/reciprocal-sv.git
+ - cd reciprocal-sv
+ - nvm use || nvm install
+ - npm i
+ - make
+
 
 
 branches:
