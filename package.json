@@ -1,13 +1,13 @@
 {
 			"name": "signalflip-js",
-			"version": "0.9.1",
+			"version": "0.10.0",
 			"main": "index.js",
 			"dependencies": {
 						"cmake-js": "latest",
 						"jsverify": "latest",
-						"lodash": "latest",
-						"mocha": "latest",
-						"node-addon-api": "latest"
+						"lodash": "^4.17.20",
+						"mocha": "^8.1.3",
+						"node-addon-api": "^3.0.0"
 			},
 			"scripts": {
 						"create-tb": "node src/create-tb.js",
