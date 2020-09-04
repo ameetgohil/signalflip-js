@@ -1,5 +1,4 @@
 const {Sim, SimUtils, RisingEdge, RisingEdges, FallingEdge, FallingEdges, Edge, Edges, Interfaces} = require('../../../');
-const { Clock } = SimUtils;
 const _ = require('lodash');
 
 
