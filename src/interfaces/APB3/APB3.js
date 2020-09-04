@@ -1,4 +1,6 @@
-const {Sim, SimUtils, RisingEdge, RisingEdges, FallingEdge, FallingEdges, Edge, Edges, Interfaces} = require('../../../');
+const RisingEdge = require('../../Sim.js').RisingEdge;
+const RisingEdges = require('../../Sim.js').RisingEdges;
+const FallingEdge = require('../../Sim.js').FallingEdge;
 const _ = require('lodash');
 
 
