@@ -94,7 +94,7 @@ script:
  - npm i
  - make
  - cd ../..
- - git clone https://github.com/ameetgohil/reciprocal-sv.git
+ - git clone --recursive https://github.com/ameetgohil/reciprocal-sv.git
  - cd reciprocal-sv/sim
  - nvm use || nvm install
  - npm i
