@@ -45,6 +45,54 @@ namespace signals {
   
       
 	
+  uint32_t t1_valid(uint32_t val);
+	
+      
+  
+      
+	
+  uint32_t t1_ready();
+	
+      
+  
+      
+	
+  uint32_t i1_valid();
+	
+      
+  
+      
+	
+  uint32_t i1_ready(uint32_t val);
+	
+      
+  
+      
+	
+  uint32_t t2_valid(uint32_t val);
+	
+      
+  
+      
+	
+  uint32_t t2_ready();
+	
+      
+  
+      
+	
+  uint32_t i2_valid();
+	
+      
+  
+      
+	
+  uint32_t i2_ready(uint32_t val);
+	
+      
+  
+      
+	
   uint32_t t0_data(uint32_t val);
 	
       
@@ -52,6 +100,30 @@ namespace signals {
       
 	
   uint32_t i0_data();
+	
+      
+  
+      
+	
+  uint32_t* t2_data(uint32_t* val);
+	
+      
+  
+      
+	
+  uint32_t* i2_data();
+	
+      
+  
+      
+	
+  uint64_t t1_data(uint64_t val);
+	
+      
+  
+      
+	
+  uint64_t i1_data();
 	
       
   
@@ -85,11 +157,59 @@ namespace signals {
       
   
       
+  Napi::Number t1_validWrapped(const Napi::CallbackInfo& info);
+      
+  
+      
+  Napi::Number t1_readyWrapped(const Napi::CallbackInfo& info);
+      
+  
+      
+  Napi::Number i1_validWrapped(const Napi::CallbackInfo& info);
+      
+  
+      
+  Napi::Number i1_readyWrapped(const Napi::CallbackInfo& info);
+      
+  
+      
+  Napi::Number t2_validWrapped(const Napi::CallbackInfo& info);
+      
+  
+      
+  Napi::Number t2_readyWrapped(const Napi::CallbackInfo& info);
+      
+  
+      
+  Napi::Number i2_validWrapped(const Napi::CallbackInfo& info);
+      
+  
+      
+  Napi::Number i2_readyWrapped(const Napi::CallbackInfo& info);
+      
+  
+      
   Napi::Number t0_dataWrapped(const Napi::CallbackInfo& info);
       
   
       
   Napi::Number i0_dataWrapped(const Napi::CallbackInfo& info);
+      
+  
+      
+  Napi::BigInt t2_dataWrapped(const Napi::CallbackInfo& info);
+      
+  
+      
+  Napi::BigInt i2_dataWrapped(const Napi::CallbackInfo& info);
+      
+  
+      
+  Napi::BigInt t1_dataWrapped(const Napi::CallbackInfo& info);
+      
+  
+      
+  Napi::BigInt i1_dataWrapped(const Napi::CallbackInfo& info);
       
   
   void evalWrapped(const Napi::CallbackInfo& info);

@@ -152,18 +152,21 @@ Napi::Number signals::<%= e.name %>Wrapped(const Napi::CallbackInfo& info) {
   return returnValue;
 }
       <% } else if (e.width < 65) {%>
-Napi::Number signals::<%= e.name %>Wrapped(const Napi::CallbackInfo& info) {
+// Signals of width 33 to 64 use BigInt
+Napi::BigInt signals::<%= e.name %>Wrapped(const Napi::CallbackInfo& info) {
+  int sign_bit = 0;
+  bool lossless = false;
   Napi::Env env = info.Env();
-  if(info.Length() > 1 || (info.Length() == 1 && !info[0].IsNumber())) {
-    Napi::TypeError::New(env, "Number expected").ThrowAsJavaScriptException();
+  if(info.Length() > 1 || (info.Length() == 1 && !(info[0].IsBigInt()))) {
+    Napi::TypeError::New(env, "BigInt expected").ThrowAsJavaScriptException();
   }
     
-  Napi::Number returnValue;
+  Napi::BigInt returnValue;
   if(info.Length() == 1) {
-    Napi::Number val = info[0].As<Napi::Number>();
-    returnValue = Napi::Number::New(env, signals::<%= e.name %>(val.Int64Value()));
+    Napi::BigInt val = info[0].As<Napi::BigInt>();
+    returnValue = Napi::BigInt::New(env, signals::<%= e.name %>(val.Uint64Value(&lossless)));
   } else {
-    returnValue = Napi::Number::New(env, top-><%= e.name %>);
+    returnValue = Napi::BigInt::New(env, top-><%= e.name %>);
   }
   return returnValue;
 }
@@ -209,14 +212,14 @@ Napi::Number signals::<%= e.name %>Wrapped(const Napi::CallbackInfo& info) {
   return returnValue;
 }
       <% } else if (e.width < 65) {%>
-Napi::Number signals::<%= e.name %>Wrapped(const Napi::CallbackInfo& info) {
+Napi::BigInt signals::<%= e.name %>Wrapped(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
   if(info.Length() > 0) {
-    Napi::TypeError::New(env, "Number expected").ThrowAsJavaScriptException();
+    Napi::TypeError::New(env, "BigInt expected").ThrowAsJavaScriptException();
   }
     
-  Napi::Number returnValue;
-  returnValue = Napi::Number::New(env, top-><%= e.name %>);
+  Napi::BigInt returnValue;
+  returnValue = Napi::BigInt::New(env, top-><%= e.name %>);
   return returnValue;
 }
       <% } else { %>
