@@ -4,7 +4,7 @@ const TARGET = 0;
 const INITIATOR = 1;
 
 
-function elastic(sim, type, clk, data, valid, ready, last = null) {
+function elastic(sim, type, clk, data, valid, ready, last = null, bigint = false) {
     this.TARGET = 0;
     this.INITIATOR = 1;
 
@@ -83,8 +83,12 @@ function elastic(sim, type, clk, data, valid, ready, last = null) {
 	//this.txArray = [];
 	//this.rxArray = [];
       //console.log('init: ',this.txArray.length, this.rxArray);
-      if(this.TYPE == this.TARGET) {
-	data(0);
+        if(this.TYPE == this.TARGET) {
+            if(bigint) {
+	              data(0n);
+            } else {
+                data(0);
+            }
 	valid(0);
       } else {
 	ready(0);
