@@ -5,7 +5,7 @@
 			"dependencies": {
 						"cmake-js": "latest",
 						"jsverify": "latest",
-						"lodash": "^4.17.20",
+						"lodash": "^4.17.21",
 						"mocha": "^8.1.3",
 						"node-addon-api": "^3.0.0"
 			},
