@@ -114,8 +114,8 @@ uint32_t* signals::<%= e.name %>() {
   <% }) %>
 
 
-int signals::eval() {
-  main_time++;
+int signals::eval(uint64_t time) {
+  main_time = time;
   top->eval();
   tfp->dump(main_time);
   // Read outputs
@@ -249,7 +249,12 @@ Napi::BigInt signals::<%= e.name %>Wrapped(const Napi::CallbackInfo& info) {
 
 
 void signals::evalWrapped(const Napi::CallbackInfo& info) {
-    signals::eval();
+    Napi::Env env = info.Env();
+    if(info.Length() > 1 || (info.Length() == 1 && !info[0].IsNumber())) {
+	Napi::TypeError::New(env, "Number expected").ThrowAsJavaScriptException();
+    }
+    Napi::Number val = info[0].As<Napi::Number>();
+    signals::eval(val.Int64Value());
   // Napi::Env env = info.Env();
 
   // Napi::Number returnValue = Napi::Number::New(env, signals::eval());

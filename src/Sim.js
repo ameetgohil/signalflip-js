@@ -102,16 +102,38 @@ function Sim(dut) {
 
   this.phases = ['PRE_RUN', 'RESET', 'RUN', 'POST_RUN'];
 
+    this.time = 0;
+    this.deltaTime = 1;
+    this.nextDeltaTime = 1;
+    
+    
   this.clocks = [];
   
   this.addClock = (clock) => {
     this.clocks.push(clock.clk());
   };
 
-  this.clockmanager = () => {
-    this.clocks.forEach((clock, i) => {
-      clock.next();
-    });
+    this.clockmanager = () => {
+	/*let minTimeAdv = this.clocks[0].timeToToggle;
+	for(let clock of this.clocks) {
+	    if(minTimeAdv > this.clocks[0].timeToToggle)
+		minTimeAdv = clock.timeTopToggle;
+		}*/
+	let delta = 0;//this.clocks[0].timeToToggle;
+	this.clocks.forEach((clock, i) => {
+	    //console.log('Clock: ' + i);
+	    clockRetVal = clock.next(this.nextDeltaTime);
+	    if(i == 0) {
+		delta = clockRetVal.value;
+		//console.log('i == 0', delta);
+	    }
+	    
+	    //console.log(delta);
+	    delta = Math.min(clockRetVal.value, delta);
+	 
+	});
+	this.deltaTime = this.nextDeltaTime;
+	this.nextDeltaTime = delta;
   };
 
   this.forkTasks = [];
@@ -196,7 +218,6 @@ function Sim(dut) {
     this.finishTasks.push(task);
   };
   
-  this.time = 0;
 
   this.preTaskManager = () => {
     this.phases.forEach((phase) => {
@@ -217,8 +238,9 @@ function Sim(dut) {
   this.tick = () => {
     if(this.phase != null) {
       this.clockmanager();
-      dut.eval();
-      this.time++;
+	this.time += this.deltaTime;//++;
+	//console.log(this.deltaTime, this.time);
+      dut.eval(this.time);
       this.taskmanager();
     } else {
       this.phase = 0;
