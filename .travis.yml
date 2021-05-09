@@ -10,7 +10,7 @@
 sudo: false
 
 node_js:
-  - 12
+  - 16
 # Install the build requirements
 addons:
   apt:
