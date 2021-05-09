@@ -13,7 +13,7 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-#    container: verilator/verilator
+    container: verilator/verilator
     strategy:
       matrix:
         node-version: [12.x, 16.x]
