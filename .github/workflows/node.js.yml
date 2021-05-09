@@ -21,11 +21,16 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Setup cmake
+      uses: jwlawson/actions-setup-cmake@v1.9
+      with:
+        cmake-version: '3.16.x'
+    - name: Use cmake
+      run: cmake --version
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm i
-    - run: cmake --version
     - run: make
 
