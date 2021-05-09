@@ -18,7 +18,7 @@ VerilatedVcdC* tfp;
  vluint64_t main_time = 0;
 // // Called by $time in Verilog
  double sc_time_stamp() {
-     return main_time;  // Note does conversion to real, to match SystemC
+     return 0;//main_time;  // Note does conversion to real, to match SystemC
  }
 //
 
@@ -27,8 +27,8 @@ union WideSignal {
   uint64_t* sig64;
   };
 
-
-Vtop_elastic* top;
+const std::unique_ptr<VerilatedContext> contextp{new VerilatedContext};
+const std::unique_ptr<Vtop_elastic> top{new Vtop_elastic{contextp.get(), "TOP"}};
 void signals::init_top(std::string name) {
 
   //Verilated::debug(0);
@@ -38,7 +38,8 @@ void signals::init_top(std::string name) {
   Verilated::randReset(2);
 
   // Construct the Verilated model, from Vtop.h generated from Verilating "top.v"
-  top = new Vtop_elastic; // Or use a const unique_ptr, or the VL_UNIQUE_PTR wrapper
+  //const std::unique_ptr<Vtop_elastic> xtop{new Vtop_elastic{contextp.get(), "top_elastic"}};
+  //top = xtop;
 
   //#if VM_TRACE
   // If verilator was invoked with --trace argument,
@@ -337,9 +338,10 @@ uint64_t signals::i1_data() {
 
 
 int signals::eval(uint64_t time) {
+  contextp->timeInc(time-main_time);
   main_time = time;
   top->eval();
-  tfp->dump(main_time);
+  tfp->dump(contextp->time());
   // Read outputs
   /*  VL_PRINTF ("[%" VL_PRI64 "d] clk=%x rstl=%x iquad=%" VL_PRI64 "x"
 	     " -> oquad=%" VL_PRI64"x owide=%x_%08x_%08x\n",
