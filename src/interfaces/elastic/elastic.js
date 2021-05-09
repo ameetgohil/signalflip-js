@@ -27,7 +27,7 @@ function elastic(sim, type, clk, data, valid, ready, last = null) {
             console.log('TYPE:::', this.TYPE, 'RANDOMIZE::: ', this.randomize == 1 ? true:false);
         }
 	    while(true) {
-		//console.log('start');
+		//console.log(sim.time + ' start');
 		yield* RisingEdge(clk);
 		valid(0);//this.txArray.length > 0 ? 1:0);
 		yield () => { return this.txArray.length > 0; };
