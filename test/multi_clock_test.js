@@ -52,8 +52,8 @@ describe('Multi-Clock Group', () => {
 	target_0.randomizeValid = ()=>{ return jsc.random(0,5); };
 	initiator_0.randomizeReady = ()=>{ return jsc.random(0,5); };
 
-	target_1 = new Elastic(sim, 0, dut.clk2, dut.t1_data, dut.t1_valid, dut.t1_ready, null);
-	initiator_1 = new Elastic(sim, 1, dut.clk2, dut.i1_data, dut.i1_valid, dut.i1_ready, null);
+	target_1 = new Elastic(sim, 0, dut.clk2, dut.t3_data, dut.t3_valid, dut.t3_ready, null);
+	initiator_1 = new Elastic(sim, 1, dut.clk2, dut.i3_data, dut.i3_valid, dut.i3_ready, null);
 
 	target_1.randomizeValid = ()=>{ return jsc.random(0,5); };
 	initiator_1.randomizeReady = ()=>{ return jsc.random(0,5); };

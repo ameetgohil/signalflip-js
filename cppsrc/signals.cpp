@@ -164,6 +164,74 @@ uint32_t signals::i1_ready(uint32_t val) {
   
       
 	
+uint32_t signals::t2_valid(uint32_t val) {
+  top->t2_valid = val;
+  return top->t2_valid;
+}
+	
+      
+  
+      
+	
+uint32_t signals::t2_ready() {
+  return top->t2_ready;
+}
+	
+      
+  
+      
+	
+uint32_t signals::i2_valid() {
+  return top->i2_valid;
+}
+	
+      
+  
+      
+	
+uint32_t signals::i2_ready(uint32_t val) {
+  top->i2_ready = val;
+  return top->i2_ready;
+}
+	
+      
+  
+      
+	
+uint32_t signals::t3_valid(uint32_t val) {
+  top->t3_valid = val;
+  return top->t3_valid;
+}
+	
+      
+  
+      
+	
+uint32_t signals::t3_ready() {
+  return top->t3_ready;
+}
+	
+      
+  
+      
+	
+uint32_t signals::i3_valid() {
+  return top->i3_valid;
+}
+	
+      
+  
+      
+	
+uint32_t signals::i3_ready(uint32_t val) {
+  top->i3_ready = val;
+  return top->i3_ready;
+}
+	
+      
+  
+      
+	
 uint32_t signals::clk3(uint32_t val) {
   top->clk3 = val;
   return top->clk3;
@@ -208,7 +276,50 @@ uint32_t signals::i0_data() {
   
       
 	
-uint32_t signals::t1_data(uint32_t val) {
+uint32_t* signals::t2_data(uint32_t* val) {
+    //std::cout << "val: " << val[0] << ", " << val[1] << ", " << val[2] << ", " << val[3] << "\n";
+    //top->t2_data = val;
+    
+    top->t2_data[0] = val[0];
+    
+    top->t2_data[1] = val[1];
+    
+    top->t2_data[2] = val[2];
+    
+    //std::cout << "t2_data: " << top->t2_data[0] << ", " << top->t2_data[1] << ", " << top->t2_data[2] << "\n";
+  return top->t2_data;
+}
+	
+      
+  
+      
+	
+uint32_t* signals::i2_data() {
+  return top->i2_data;
+}
+	
+      
+  
+      
+	
+uint32_t signals::t3_data(uint32_t val) {
+  top->t3_data = val;
+  return top->t3_data;
+}
+	
+      
+  
+      
+	
+uint32_t signals::i3_data() {
+  return top->i3_data;
+}
+	
+      
+  
+      
+	
+uint64_t signals::t1_data(uint64_t val) {
   top->t1_data = val;
   return top->t1_data;
 }
@@ -217,7 +328,7 @@ uint32_t signals::t1_data(uint32_t val) {
   
       
 	
-uint32_t signals::i1_data() {
+uint64_t signals::i1_data() {
   return top->i1_data;
 }
 	
@@ -447,6 +558,146 @@ Napi::Number signals::i1_readyWrapped(const Napi::CallbackInfo& info) {
 
     
       
+Napi::Number signals::t2_validWrapped(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+  if(info.Length() > 1 || (info.Length() == 1 && !info[0].IsNumber())) {
+    Napi::TypeError::New(env, "Number expected").ThrowAsJavaScriptException();
+  }
+    
+  Napi::Number returnValue;
+  if(info.Length() == 1) {
+    Napi::Number val = info[0].As<Napi::Number>();
+    returnValue = Napi::Number::New(env, signals::t2_valid(val.Int32Value()));
+  } else {
+    returnValue = Napi::Number::New(env, top->t2_valid);
+  }
+  return returnValue;
+}
+      
+    
+
+    
+      
+Napi::Number signals::t2_readyWrapped(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+  if(info.Length() > 0) {
+    Napi::TypeError::New(env, "Number expected").ThrowAsJavaScriptException();
+  }
+    
+  Napi::Number returnValue;
+  returnValue = Napi::Number::New(env, top->t2_ready);
+  return returnValue;
+}
+      
+    
+
+    
+      
+Napi::Number signals::i2_validWrapped(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+  if(info.Length() > 0) {
+    Napi::TypeError::New(env, "Number expected").ThrowAsJavaScriptException();
+  }
+    
+  Napi::Number returnValue;
+  returnValue = Napi::Number::New(env, top->i2_valid);
+  return returnValue;
+}
+      
+    
+
+    
+      
+Napi::Number signals::i2_readyWrapped(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+  if(info.Length() > 1 || (info.Length() == 1 && !info[0].IsNumber())) {
+    Napi::TypeError::New(env, "Number expected").ThrowAsJavaScriptException();
+  }
+    
+  Napi::Number returnValue;
+  if(info.Length() == 1) {
+    Napi::Number val = info[0].As<Napi::Number>();
+    returnValue = Napi::Number::New(env, signals::i2_ready(val.Int32Value()));
+  } else {
+    returnValue = Napi::Number::New(env, top->i2_ready);
+  }
+  return returnValue;
+}
+      
+    
+
+    
+      
+Napi::Number signals::t3_validWrapped(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+  if(info.Length() > 1 || (info.Length() == 1 && !info[0].IsNumber())) {
+    Napi::TypeError::New(env, "Number expected").ThrowAsJavaScriptException();
+  }
+    
+  Napi::Number returnValue;
+  if(info.Length() == 1) {
+    Napi::Number val = info[0].As<Napi::Number>();
+    returnValue = Napi::Number::New(env, signals::t3_valid(val.Int32Value()));
+  } else {
+    returnValue = Napi::Number::New(env, top->t3_valid);
+  }
+  return returnValue;
+}
+      
+    
+
+    
+      
+Napi::Number signals::t3_readyWrapped(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+  if(info.Length() > 0) {
+    Napi::TypeError::New(env, "Number expected").ThrowAsJavaScriptException();
+  }
+    
+  Napi::Number returnValue;
+  returnValue = Napi::Number::New(env, top->t3_ready);
+  return returnValue;
+}
+      
+    
+
+    
+      
+Napi::Number signals::i3_validWrapped(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+  if(info.Length() > 0) {
+    Napi::TypeError::New(env, "Number expected").ThrowAsJavaScriptException();
+  }
+    
+  Napi::Number returnValue;
+  returnValue = Napi::Number::New(env, top->i3_valid);
+  return returnValue;
+}
+      
+    
+
+    
+      
+Napi::Number signals::i3_readyWrapped(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+  if(info.Length() > 1 || (info.Length() == 1 && !info[0].IsNumber())) {
+    Napi::TypeError::New(env, "Number expected").ThrowAsJavaScriptException();
+  }
+    
+  Napi::Number returnValue;
+  if(info.Length() == 1) {
+    Napi::Number val = info[0].As<Napi::Number>();
+    returnValue = Napi::Number::New(env, signals::i3_ready(val.Int32Value()));
+  } else {
+    returnValue = Napi::Number::New(env, top->i3_ready);
+  }
+  return returnValue;
+}
+      
+    
+
+    
+      
 Napi::Number signals::clk3Wrapped(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
   if(info.Length() > 1 || (info.Length() == 1 && !info[0].IsNumber())) {
@@ -542,18 +793,32 @@ Napi::Number signals::i0_dataWrapped(const Napi::CallbackInfo& info) {
 
     
       
-Napi::Number signals::t1_dataWrapped(const Napi::CallbackInfo& info) {
+Napi::BigInt signals::t2_dataWrapped(const Napi::CallbackInfo& info) {
+    int sign_bit = 0;
+    size_t size = 2;
+    WideSignal bigint_ptr;
+    bigint_ptr.sig64 = (uint64_t*)malloc(2 * sizeof(uint64_t));
+    
+	    bigint_ptr.sig64[0] = 0;
+    
+	    bigint_ptr.sig64[1] = 0;
+    
   Napi::Env env = info.Env();
-  if(info.Length() > 1 || (info.Length() == 1 && !info[0].IsNumber())) {
+  if(info.Length() > 1 || (info.Length() == 1 && !info[0].IsBigInt())) {
     Napi::TypeError::New(env, "Number expected").ThrowAsJavaScriptException();
   }
     
-  Napi::Number returnValue;
+  Napi::BigInt returnValue;
   if(info.Length() == 1) {
-    Napi::Number val = info[0].As<Napi::Number>();
-    returnValue = Napi::Number::New(env, signals::t1_data(val.Int32Value()));
+    Napi::BigInt val = info[0].As<Napi::BigInt>();
+    val.ToWords(&sign_bit, &size, bigint_ptr.sig64);
+    //std::cout << bigint_ptr.sig64[0] << ", " << bigint_ptr.sig64[1] << "\n";
+    WideSignal getVal;
+    getVal.sig32=signals::t2_data(bigint_ptr.sig32);
+    returnValue = Napi::BigInt::New(env, sign_bit, size, getVal.sig64);
   } else {
-    returnValue = Napi::Number::New(env, top->t1_data);
+      *(bigint_ptr.sig32)=*(top->t2_data);
+      returnValue = Napi::BigInt::New(env, sign_bit, size, bigint_ptr.sig64);
   }
   return returnValue;
 }
@@ -562,14 +827,98 @@ Napi::Number signals::t1_dataWrapped(const Napi::CallbackInfo& info) {
 
     
       
-Napi::Number signals::i1_dataWrapped(const Napi::CallbackInfo& info) {
+Napi::BigInt signals::i2_dataWrapped(const Napi::CallbackInfo& info) {
+    int sign_bit = 0;
+    int size = 2;
+    WideSignal bigint_ptr;
+    bigint_ptr.sig64 = (uint64_t*)malloc(2 * sizeof(uint64_t));
+    
+	    bigint_ptr.sig64[0] = 0;
+    
+	    bigint_ptr.sig64[1] = 0;
+    
+  Napi::Env env = info.Env();
+  if(info.Length() > 0) {
+    Napi::TypeError::New(env, "Number expected").ThrowAsJavaScriptException();
+  }
+    
+  Napi::BigInt returnValue;
+    *(bigint_ptr.sig32)=*(top->i2_data);
+    //std::cout << "get: " << bigint_ptr.sig32[0] << ", " << bigint_ptr.sig32[1] << ", " << bigint_ptr.sig32[2] << ", " << bigint_ptr.sig32[3] << ", " << bigint_ptr.sig32[4] << ", " << bigint_ptr.sig32[5] << "\n";
+  returnValue = Napi::BigInt::New(env, sign_bit, size, bigint_ptr.sig64);
+  return returnValue;
+  }
+      
+    
+
+    
+      
+Napi::Number signals::t3_dataWrapped(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+  if(info.Length() > 1 || (info.Length() == 1 && !info[0].IsNumber())) {
+    Napi::TypeError::New(env, "Number expected").ThrowAsJavaScriptException();
+  }
+    
+  Napi::Number returnValue;
+  if(info.Length() == 1) {
+    Napi::Number val = info[0].As<Napi::Number>();
+    returnValue = Napi::Number::New(env, signals::t3_data(val.Int32Value()));
+  } else {
+    returnValue = Napi::Number::New(env, top->t3_data);
+  }
+  return returnValue;
+}
+      
+    
+
+    
+      
+Napi::Number signals::i3_dataWrapped(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
   if(info.Length() > 0) {
     Napi::TypeError::New(env, "Number expected").ThrowAsJavaScriptException();
   }
     
   Napi::Number returnValue;
-  returnValue = Napi::Number::New(env, top->i1_data);
+  returnValue = Napi::Number::New(env, top->i3_data);
+  return returnValue;
+}
+      
+    
+
+    
+      
+// Signals of width 33 to 64 use BigInt
+Napi::BigInt signals::t1_dataWrapped(const Napi::CallbackInfo& info) {
+  int sign_bit = 0;
+  bool lossless = false;
+  Napi::Env env = info.Env();
+  if(info.Length() > 1 || (info.Length() == 1 && !(info[0].IsBigInt()))) {
+    Napi::TypeError::New(env, "BigInt expected").ThrowAsJavaScriptException();
+  }
+    
+  Napi::BigInt returnValue;
+  if(info.Length() == 1) {
+    Napi::BigInt val = info[0].As<Napi::BigInt>();
+    returnValue = Napi::BigInt::New(env, signals::t1_data(val.Uint64Value(&lossless)));
+  } else {
+    returnValue = Napi::BigInt::New(env, top->t1_data);
+  }
+  return returnValue;
+}
+      
+    
+
+    
+      
+Napi::BigInt signals::i1_dataWrapped(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+  if(info.Length() > 0) {
+    Napi::TypeError::New(env, "BigInt expected").ThrowAsJavaScriptException();
+  }
+    
+  Napi::BigInt returnValue;
+  returnValue = Napi::BigInt::New(env, top->i1_data);
   return returnValue;
 }
       
@@ -661,6 +1010,38 @@ Napi::Object signals::Init(Napi::Env env, Napi::Object exports) {
 
 
 
+  exports.Set("t2_valid", Napi::Function::New(env, signals::t2_validWrapped));
+
+
+
+  exports.Set("t2_ready", Napi::Function::New(env, signals::t2_readyWrapped));
+
+
+
+  exports.Set("i2_valid", Napi::Function::New(env, signals::i2_validWrapped));
+
+
+
+  exports.Set("i2_ready", Napi::Function::New(env, signals::i2_readyWrapped));
+
+
+
+  exports.Set("t3_valid", Napi::Function::New(env, signals::t3_validWrapped));
+
+
+
+  exports.Set("t3_ready", Napi::Function::New(env, signals::t3_readyWrapped));
+
+
+
+  exports.Set("i3_valid", Napi::Function::New(env, signals::i3_validWrapped));
+
+
+
+  exports.Set("i3_ready", Napi::Function::New(env, signals::i3_readyWrapped));
+
+
+
   exports.Set("clk3", Napi::Function::New(env, signals::clk3Wrapped));
 
 
@@ -678,6 +1059,22 @@ Napi::Object signals::Init(Napi::Env env, Napi::Object exports) {
 
 
   exports.Set("i0_data", Napi::Function::New(env, signals::i0_dataWrapped));
+
+
+
+  exports.Set("t2_data", Napi::Function::New(env, signals::t2_dataWrapped));
+
+
+
+  exports.Set("i2_data", Napi::Function::New(env, signals::i2_dataWrapped));
+
+
+
+  exports.Set("t3_data", Napi::Function::New(env, signals::t3_dataWrapped));
+
+
+
+  exports.Set("i3_data", Napi::Function::New(env, signals::i3_dataWrapped));
 
 
 

@@ -30,7 +30,7 @@ namespace signals {
   
   Napi::Number TickWrapped(const Napi::CallbackInfo& info);
   <% sigs.map(sig => { %>
-      <% if(sig.width < 65) { %>
+      <% if(sig.width < 33) { %>
   Napi::Number <%= sig.name %>Wrapped(const Napi::CallbackInfo& info);
       <% } else  {%>
   Napi::BigInt <%= sig.name %>Wrapped(const Napi::CallbackInfo& info);
