@@ -1,5 +1,7 @@
 [![npm version](https://badge.fury.io/js/signalflip-js.svg)](https://badge.fury.io/js/signalflip-js)
 [![Build Status](https://travis-ci.com/ameetgohil/signalflip-js.svg?branch=master)](https://travis-ci.com/ameetgohil/signalflip-js)
+[![GH Build Status](https://github.com/ameetgohil/signalflip-js/actions/workflows/node.js.yml/badge.svg)](https://github.com/ameetgohil/signalflip-js/actions/workflows/node.js.yml)
+
 
 # signalflip-js
 signalflip-js is a verification environment for creating Verilator testbenches using nodejs (Javascript)
