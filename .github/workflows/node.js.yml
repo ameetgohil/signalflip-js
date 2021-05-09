@@ -12,8 +12,8 @@ on:
 jobs:
   build:
 
-    runs-on: verilator/verilator
-
+    runs-on: ubuntu-latest
+    container: verilator/verilator
     strategy:
       matrix:
         node-version: [10.x, 12.x, 14.x, 15.x]
@@ -25,5 +25,5 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
-    - run: make
+    - run: sudo apt in
 
