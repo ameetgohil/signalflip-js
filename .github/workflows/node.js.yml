@@ -31,32 +31,19 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
+    - run: apt-get update && apt-get install --no-install-recommends -y zlib1g zlib1g-dev
     - run: npm i
     - run: make
     - run: make VERILATOR_USER_ARGS=-DEB0
     - run: git clone https://github.com/ameetgohil/elastic-signalflip-example.git elastic && rm -rf elastic/.git
-    - run: cd elastic
-    - run: npm i
-    - run: make
-    - run: cd ..
+    - run: cd elastic && npm i && make && cd ..
     - run: git clone https://github.com/ameetgohil/basic-signalflip-example.git basic && rm -rf basic/.git
-    - run: cd basic
-    - run: npm i
-    - run: make
-    - run: cd ..
+    - run: cd basic && npm i && make && cd ..
     - run: git clone https://github.com/ameetgohil/APB3-config-regs.git
-    - run: cd APB3-config-regs/sim
-    - run: npm i
-    - run: make
-    - run: cd ../..
+    - run: cd APB3-config-regs/sim && npm i make & cd ../..
     - run: git clone https://github.com/ameetgohil/leading-zeroes-counter.git
-    - run: cd leading-zeroes-counter/sim
-    - run: npm i
-    - run: make
-    - run: cd ../..
+    - run: cd leading-zeroes-counter/sim && npm i make && cd ../..
     - run: git clone --recursive https://github.com/ameetgohil/reciprocal-sv.git
-    - run: cd reciprocal-sv/sim
-    - run: npm i
-    - run: make
+    - run: cd reciprocal-sv/sim && npm i && make
     
 
