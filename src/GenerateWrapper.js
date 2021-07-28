@@ -10,7 +10,8 @@ const testString = `
 `;
 
 function getsignals(str) {
-    let sigs_re = /VL_([^\(]*)\(*\?*([^\,\)]*)\)*,([^\D]*),([^\D]*)/g;
+    //let sigs_re = /VL_([^\(]*)\(*\?*([^\,\)]*)\)*,([^\D]*),([^\D]*)/g;
+    let sigs_re = /VL_([a-zA-Z0-9]*)[\(]*\&?([a-zA-Z][_a-zA-Z0-9]*)\)*,([0-9]*),([0-9]*)/g;
     let sigs = [];
     let m;
     do {
@@ -18,9 +19,9 @@ function getsignals(str) {
 	if(m) {
 	    let obj = {};
 	    let isPort = true;
-      if(m[2].substring(0,1).localeCompare('?'))
+      /*if(m[2].substring(0,1).localeCompare('?') )
 	        obj['name'] = m[2].substring(1);
-      else
+      else*/
           obj['name'] = m[2];
 	    obj['width'] = parseInt(m[3])-parseInt(m[4])+1;
 	    if(m[1].includes('INOUT')) {
