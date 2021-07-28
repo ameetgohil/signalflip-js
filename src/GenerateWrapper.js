@@ -18,7 +18,10 @@ function getsignals(str) {
 	if(m) {
 	    let obj = {};
 	    let isPort = true;
-	    obj['name'] = m[2];
+      if(m[2].substring(0,1).localeCompare('?'))
+	        obj['name'] = m[2].substring(1);
+      else
+          obj['name'] = m[2];
 	    obj['width'] = parseInt(m[3])-parseInt(m[4])+1;
 	    if(m[1].includes('INOUT')) {
 		obj['dir'] = 'inout';
