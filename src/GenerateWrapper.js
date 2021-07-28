@@ -54,7 +54,8 @@ function GenerateWrapper(file, dut_name, waveform_format, isTest = false) {
     //let waveform_format = waveform_format;
     const val = {'sigs': sigs, //['in_quad', 'fastclk', 'clk', 'reset_l'],
 		 'dutName': dut_name,
-		 'waveform_format': waveform_format};
+		 'waveform_format': waveform_format,
+		 };
 
     const mkdirSync = function (dirPath) {
 	try {

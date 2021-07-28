@@ -1,12 +1,12 @@
 {
 			"name": "signalflip-js",
-			"version": "0.11.0",
+			"version": "1.0.0",
 			"main": "index.js",
 			"dependencies": {
 						"cmake-js": "latest",
 						"jsverify": "latest",
-						"lodash": "^4.17.20",
-						"mocha": "^8.1.3",
+						"lodash": "^4.17.21",
+						"mocha": "^8.4.0",
 						"node-addon-api": "^3.0.0"
 			},
 			"scripts": {

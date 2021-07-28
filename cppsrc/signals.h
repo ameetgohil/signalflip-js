@@ -15,6 +15,12 @@ namespace signals {
   
       
 	
+  uint32_t clk2(uint32_t val);
+	
+      
+  
+      
+	
   uint32_t rstf(uint32_t val);
 	
       
@@ -93,6 +99,48 @@ namespace signals {
   
       
 	
+  uint32_t t3_valid(uint32_t val);
+	
+      
+  
+      
+	
+  uint32_t t3_ready();
+	
+      
+  
+      
+	
+  uint32_t i3_valid();
+	
+      
+  
+      
+	
+  uint32_t i3_ready(uint32_t val);
+	
+      
+  
+      
+	
+  uint32_t clk3(uint32_t val);
+	
+      
+  
+      
+	
+  uint32_t clk4(uint32_t val);
+	
+      
+  
+      
+	
+  uint32_t clk5(uint32_t val);
+	
+      
+  
+      
+	
   uint32_t t0_data(uint32_t val);
 	
       
@@ -117,6 +165,18 @@ namespace signals {
   
       
 	
+  uint32_t t3_data(uint32_t val);
+	
+      
+  
+      
+	
+  uint32_t i3_data();
+	
+      
+  
+      
+	
   uint64_t t1_data(uint64_t val);
 	
       
@@ -127,13 +187,17 @@ namespace signals {
 	
       
   
-  int eval();
+  int eval(uint64_t time);
   int finish();
   
   Napi::Number TickWrapped(const Napi::CallbackInfo& info);
   
       
   Napi::Number clkWrapped(const Napi::CallbackInfo& info);
+      
+  
+      
+  Napi::Number clk2Wrapped(const Napi::CallbackInfo& info);
       
   
       
@@ -189,6 +253,34 @@ namespace signals {
       
   
       
+  Napi::Number t3_validWrapped(const Napi::CallbackInfo& info);
+      
+  
+      
+  Napi::Number t3_readyWrapped(const Napi::CallbackInfo& info);
+      
+  
+      
+  Napi::Number i3_validWrapped(const Napi::CallbackInfo& info);
+      
+  
+      
+  Napi::Number i3_readyWrapped(const Napi::CallbackInfo& info);
+      
+  
+      
+  Napi::Number clk3Wrapped(const Napi::CallbackInfo& info);
+      
+  
+      
+  Napi::Number clk4Wrapped(const Napi::CallbackInfo& info);
+      
+  
+      
+  Napi::Number clk5Wrapped(const Napi::CallbackInfo& info);
+      
+  
+      
   Napi::Number t0_dataWrapped(const Napi::CallbackInfo& info);
       
   
@@ -202,6 +294,14 @@ namespace signals {
   
       
   Napi::BigInt i2_dataWrapped(const Napi::CallbackInfo& info);
+      
+  
+      
+  Napi::Number t3_dataWrapped(const Napi::CallbackInfo& info);
+      
+  
+      
+  Napi::Number i3_dataWrapped(const Napi::CallbackInfo& info);
       
   
       
