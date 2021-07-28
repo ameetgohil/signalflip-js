@@ -10,7 +10,7 @@ const testString = `
 `;
 
 function getsignals(str) {
-    let sigs_re = /VL_([^\(]*)\(([^\,\)]*),([^\D]*),([^\D]*)/g;
+    let sigs_re = /VL_([^\(]*)\(*\?*([^\,\)]*)\)*,([^\D]*),([^\D]*)/g;
     let sigs = [];
     let m;
     do {
