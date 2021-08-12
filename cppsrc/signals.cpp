@@ -904,7 +904,7 @@ Napi::BigInt signals::t1_dataWrapped(const Napi::CallbackInfo& info) {
     Napi::BigInt val = info[0].As<Napi::BigInt>();
     returnValue = Napi::BigInt::New(env, signals::t1_data(val.Uint64Value(&lossless)));
   } else {
-    returnValue = Napi::BigInt::New(env, top->t1_data);
+      returnValue = Napi::BigInt::New(env, (uint64_t)(top->t1_data));
   }
   return returnValue;
 }

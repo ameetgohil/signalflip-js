@@ -168,7 +168,7 @@ Napi::BigInt signals::<%= e.name %>Wrapped(const Napi::CallbackInfo& info) {
     Napi::BigInt val = info[0].As<Napi::BigInt>();
     returnValue = Napi::BigInt::New(env, signals::<%= e.name %>(val.Uint64Value(&lossless)));
   } else {
-    returnValue = Napi::BigInt::New(env, top-><%= e.name %>);
+      returnValue = Napi::BigInt::New(env, (uint64_t)(top-><%= e.name %>));
   }
   return returnValue;
 }
