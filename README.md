@@ -56,7 +56,7 @@ dut.t0_data(30); //Writes the value 30 to t0_data
 ```javascript
 const rdata = dut.t0_data(); //Reads t0_data signal as BigInt 
 const.t0_data(235023423532523234n); //Sets t0_data signal to the BigInt value (denoted by n at the end of the literal)
-const.t0_data(BigInt()235023423532523234); //Sets t0_data signal to the BigInt value (alternate way to set valule. The result is the same as above)
+const.t0_data(BigInt(235023423532523234)); //Sets t0_data signal to the BigInt value (alternate way to set valule. The result is the same as above)
 ```
 
 ### Example Task
