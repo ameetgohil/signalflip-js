@@ -6,7 +6,7 @@
 						"cmake-js": "latest",
 						"jsverify": "latest",
 						"lodash": "^4.17.21",
-						"mocha": "^8.4.0",
+						"mocha": "^10.2.0",
 						"node-addon-api": "^3.0.0"
 			},
 			"scripts": {
