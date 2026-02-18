@@ -42,7 +42,7 @@ VERILATOR_FLAGS += -cc --exe
 # Optimize
 VERILATOR_FLAGS += -O3 -x-assign 0
 # Warn abount lint issues; may not want this on less solid designs
-VERILATOR_FLAGS += -Wall
+VERILATOR_FLAGS += -Wall -Wno-UNUSEDSIGNAL
 # Make waveforms
 TRACE = $(shell node -p "require('./config.json').waveform_format")
 ifeq ($(TRACE),fst)
@@ -69,7 +69,7 @@ VERILATE_TOP_FILE = V$(DUT_NAME).h
 default: all
 
 gen:
-	@node -e "require('./').GenerateWrapper('./obj_dir/$(VERILATE_TOP_FILE)','$(DUT_NAME)','$(TRACE)', true)"
+	@node -e "require('./').GenerateWrapper('./obj_dir/V$(DUT_NAME).tree.json','$(DUT_NAME)','$(TRACE)', true)"
 
 compile:
 	@echo "-- COMPILE -----------------"
@@ -103,6 +103,7 @@ verilate:
 #	@echo $(TRACE)
 #endif
 	$(VERILATOR) $(VERILATOR_FLAGS) -f input.vc $(TOP)
+	$(VERILATOR) --json-only --top-module $(DUT_NAME) -f input.vc $(TOP) -Wno-UNUSEDSIGNAL -Wno-DEPRECATED
 
 
 ######################################################################

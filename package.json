@@ -1,42 +1,42 @@
 {
-			"name": "signalflip-js",
-			"version": "1.2.2",
-			"main": "index.js",
-			"dependencies": {
-						"cmake-js": "latest",
-						"jsverify": "latest",
-						"lodash": "^4.17.21",
-						"mocha": "^8.4.0",
-						"node-addon-api": "^3.0.0"
-			},
-			"scripts": {
-						"create-tb": "node src/create-tb.js",
-						"compile": "make verilate && cd obj_dir && make -f ../Makefile_obj createlib",
-						"rebuild": "cmake-js rebuild",
-						"build": "cmake-js compile",
-						"clean": "cmake-js clean && make clean",
-						"all": "npm run compile && npm run build && npm run mocha",
-						"test": "node index.js",
-						"mocha": "mocha",
-						"gen": "node gensigs.js"
-			},
-			"repository": {
-						"type": "git",
-						"url": "git+https://github.com/ameetgohil/signalflip-js.git"
-			},
-			"keywords": [
-						"verilog",
-						"verilog-js",
-						"testbench",
-						"tb",
-						"hdl",
-						"simulator",
-						"verilator"
-			],
-			"bugs": {
-						"url": "https://github.com/ameetgohil/signalflip-js/issues"
-			},
-			"homepage": "https://github.com/ameetgohil/signalflip-js#readme",
-			"author": "Ameet Gohil",
-			"license": "MIT"
+	"name": "signalflip-js",
+	"version": "1.2.2",
+	"main": "index.js",
+	"dependencies": {
+		"cmake-js": "latest",
+		"jsverify": "latest",
+		"lodash": "^4.17.21",
+		"mocha": "^10.0.0",
+		"node-addon-api": "^8.3.0"
+	},
+	"scripts": {
+		"create-tb": "node src/create-tb.js",
+		"compile": "make verilate && cd obj_dir && make -f ../Makefile_obj createlib",
+		"rebuild": "cmake-js rebuild",
+		"build": "cmake-js compile",
+		"clean": "cmake-js clean && make clean",
+		"all": "npm run compile && npm run build && npm run mocha",
+		"test": "node index.js",
+		"mocha": "mocha",
+		"gen": "node gensigs.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/ameetgohil/signalflip-js.git"
+	},
+	"keywords": [
+		"verilog",
+		"verilog-js",
+		"testbench",
+		"tb",
+		"hdl",
+		"simulator",
+		"verilator"
+	],
+	"bugs": {
+		"url": "https://github.com/ameetgohil/signalflip-js/issues"
+	},
+	"homepage": "https://github.com/ameetgohil/signalflip-js#readme",
+	"author": "Ameet Gohil",
+	"license": "MIT"
 }
