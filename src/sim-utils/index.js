@@ -1,5 +1,6 @@
 module.exports = {
     Clock: require('./Clock'),
     Tick: require('./Tick'),
-    Intf: require('./Intf')
+    Intf: require('./Intf'),
+    createBundles: require('./Bundle').createBundles
 };
